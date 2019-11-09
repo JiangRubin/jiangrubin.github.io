@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://jrb1995.github.io</id>
+    <title>Rubin Jiang</title>
+    <updated>2019-11-09T13:57:48.259Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://jrb1995.github.io"/>
+    <link rel="self" href="https://jrb1995.github.io/atom.xml"/>
+    <subtitle>温故而知新</subtitle>
+    <logo>https://jrb1995.github.io/images/avatar.png</logo>
+    <icon>https://jrb1995.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2019, Rubin Jiang</rights>
+    <entry>
+        <title type="html"><![CDATA[React Native 知识点]]></title>
+        <id>https://jrb1995.github.io/post/react-native</id>
+        <link href="https://jrb1995.github.io/post/react-native">
+        </link>
+        <updated>2019-04-08T12:29:48.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="前言">前言</h2>
+<p>公司打算开发一个App项目。由于没有原生开发人员，组里都是纯前端开发人员，所以技术选型时采用相对成熟的 <code>react-native</code> 来开发。不得不说 <code>react-native</code> 确实很优秀，让前端开发人员能够迅速搭起一个应用运行。但开发过程中也遇到了不少问题，对前端开发来说也是一个不小的挑战。</p>
+<p>所以此篇文章用于记录开发中遇到的问题和知识点。</p>
+<h2 id="开发环境搭建">开发环境搭建</h2>
+<p>只要严格按照 <a href="https://reactnative.cn/docs/getting-started/">React Native</a> 官方文档搭建即可，当时项目使用 <code>react-native</code> 0.57 版本基础库。</p>
+<h2 id="应用设置">应用设置</h2>
+<p>应用名称、图标、启动屏相关设置</p>
+<h3 id="修改应用名称">修改应用名称</h3>
+<ul>
+<li>iOS</li>
+</ul>
+<p>编辑 <code>ios/项目名称/Info.plist</code> 文件：</p>
+<pre><code class="language-xml">&lt;key&gt;CFBundleDisplayName&lt;/key&gt;
+- &lt;string&gt;$(PRODUCT_NAME)&lt;/string&gt;
++ &lt;string&gt;应用名称&lt;/string&gt;
+</code></pre>
+<ul>
+<li>android</li>
+</ul>
+<p>编辑 <code>android/app/src/main/res/values/strings.xml</code> 文件：</p>
+<pre><code class="language-xml">&lt;resources&gt;
+- &lt;string name=&quot;app_name&quot;&gt;default&lt;/string&gt;
++ &lt;string name=&quot;app_name&quot;&gt;应用名称&lt;/string&gt;   
+&lt;/resources&gt;
+</code></pre>
+<h3 id="修改图标">修改图标</h3>
+<p>应用图标对尺寸有要求。比较简单地方式是准备一张 <code>1024*1024</code> 的图片，然后使用 <a href="https://icon.wuruihong.com/">图标工厂</a> 在线生成。</p>
+<p>生成文件如下：</p>
+<figure data-type="image" tabindex="1"><img src="https://jrb1995.github.io/post-images/1573218973706.jpg" alt=""></figure>
+<ul>
+<li>iOS</li>
+</ul>
+<p>替换 <code>ios/项目名称/Images.xcassets/AppIcon.appiconset</code> 中的内容。如果不需要全部尺寸可以用 <code>XCode</code> 打开项目 <code>Images.xcassets</code> &gt; <code>AppIcon</code> 拖入相应尺寸的图标。</p>
+<ul>
+<li>android</li>
+</ul>
+<p>替换 <code>android/app/src/main/res</code> 下对应的图标。</p>
+<h3 id="添加启动页">添加启动页</h3>
+<p>应用打开时会有短暂的白屏，为解决这一问题项目中使用 <a href="https://github.com/crazycodeboy/react-native-splash-screen">react-native-splash-screen</a> 库。文档写的很详细。</p>
+<p><a href="https://developer.apple.com/design/human-interface-guidelines/ios/icons-and-images/launch-screen/">Launch Screen苹果官方分辨率大全</a></p>
+<h2 id="功能组件">功能组件</h2>
+<h3 id="svg">svg</h3>
+<p>关于 <code>svg</code> 文件的优点就不必多说了。要想在应用中使用会有一些问题，不像在 web 中直接 img 标签引入就可以用了。比如安卓不支持 svg 静态文件的 require 😂。也为了避免每次打开应用请求多个 svg 浪费资源。</p>
+<p>所以可以将多个 svg 文件通过脚本转换成一个 js 对象或者一个 json 文件，其格式如下：</p>
+<pre><code class="language-js">export default {
+  &quot;arrow-left&quot;: &quot;&lt;svg&gt;...&lt;/svg&gt;&quot;
+}
+</code></pre>
+<p>上面的转换脚本可以参考 <a href="https://github.com/HuJiaoHJ/svg2json">svg2json</a></p>
+<p>安装</p>
+<pre><code>npm install react-native-svg2json --save-dev
+</code></pre>
+<p>在项目根目录输入命令如下：</p>
+<pre><code>// svg2json -i ${inDir} -o ${outFile}
+./node_modules/.bin/svg2json -i ./src/assets/svgs -o ./src/assets/svgs.js
+</code></pre>
+<p>或者写入 <code>package.json</code> scripts 中，直接运行 <code>npm run svg2json</code></p>
+<pre><code class="language-js">&quot;scripts&quot;: {
+    &quot;start&quot;: &quot;node node_modules/react-native/local-cli/cli.js start&quot;,
+    &quot;test&quot;: &quot;jest&quot;,
+    &quot;svg2json&quot;: &quot;node node_modules/.bin/svg2json -i ./src/assets/svgs -o ./src/assets/svgs.js&quot;
+}
+</code></pre>
+<p>之后如何使用，就需要 <a href="https://github.com/vault-development/react-native-svg-uri">react-native-svg-uri</a> 库，支持传入 svg 字符串来渲染 svg。但还需做好组件封装。</p>
+<pre><code class="language-js">import React, { Component } from 'react';
+import SvgUri from 'react-native-svg-uri';
+import svgs from '@/assets/svgs.js'; // 生成的 svg 字符串对象
+export default class Svg extends Component {
+  render() {
+    const { name, color, size, style } = this.props;
+    let svgXmlData = svgs[name]
+    if (!svgXmlData) {
+      let err_msg = `没有&quot;${name}&quot;这个icon文件`;
+      throw new Error(err_msg);
+    }
+    return (
+      &lt;SvgUri width={size} height={size} svgXmlData={svgXmlData} fill={color} style={style} /&gt;
+    )
+  }
+}
+</code></pre>
+<p>使用</p>
+<pre><code class="language-js">&lt;Svg name=&quot;ac_unit&quot; size=&quot;40&quot; color=&quot;#ccc&quot;/&gt;
+</code></pre>
+<h2 id="打包和发布">打包和发布</h2>
+<p>应用开发完就该考虑上架了😘，由于没有经验上网查询了很多资料。</p>
+<p>链接：<a href="https://my.oschina.net/KJhulinhua/blog/1585628">react native ios打包流程</a>、打包<a href="https://www.pgyer.com/doc/view/build_ipa">iOS的ipa文件</a>、<a href="https://www.jianshu.com/p/431ed0536754">iOS生成证书 描述文件 打包上架Appstore详细流程</a></p>
+<h2 id="其他问题">其他问题</h2>
+<p>android 图片不显示，图片名称不能是中文（开发时碰到这个问题😓）。</p>
+<h2 id="其他知识资源">其他知识资源</h2>
+<p><a href="https://juejin.im/post/5c5402f8f265da2dbd7fd084">https://juejin.im/post/5c5402f8f265da2dbd7fd084</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hello Gridea]]></title>
+        <id>https://jrb1995.github.io/post/hello-gridea</id>
+        <link href="https://jrb1995.github.io/post/hello-gridea">
+        </link>
+        <updated>2018-12-11T16:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
+✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
+✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
+<!-- more -->
+<p><a href="https://github.com/getgridea/gridea">Github</a><br>
+<a href="https://gridea.dev/">Gridea 主页</a><br>
+<a href="http://fehey.com/">示例网站</a></p>
+<h2 id="特性">特性👇</h2>
+<p>📝  你可以使用最酷的 <strong>Markdown</strong> 语法，进行快速创作</p>
+<p>🌉  你可以给文章配上精美的封面图和在文章任意位置插入图片</p>
+<p>🏷️  你可以对文章进行标签分组</p>
+<p>📋  你可以自定义菜单，甚至可以创建外部链接菜单</p>
+<p>💻  你可以在 <strong>Windows</strong>，<strong>MacOS</strong> 或 <strong>Linux</strong> 设备上使用此客户端</p>
+<p>🌎  你可以使用 <strong>𝖦𝗂𝗍𝗁𝗎𝖻 𝖯𝖺𝗀𝖾𝗌</strong> 或 <strong>Coding Pages</strong> 向世界展示，未来将支持更多平台</p>
+<p>💬  你可以进行简单的配置，接入 <a href="https://github.com/gitalk/gitalk">Gitalk</a> 或 <a href="https://github.com/SukkaW/DisqusJS">DisqusJS</a> 评论系统</p>
+<p>🇬🇧  你可以使用<strong>中文简体</strong>或<strong>英语</strong></p>
+<p>🌁  你可以任意使用应用内默认主题或任意第三方主题，强大的主题自定义能力</p>
+<p>🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步</p>
+<p>🌱 当然 <strong>Gridea</strong> 还很年轻，有很多不足，但请相信，它会不停向前 🏃</p>
+<p>未来，它一定会成为你离不开的伙伴</p>
+<p>尽情发挥你的才华吧！</p>
+<p>😘 Enjoy~</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[关于]]></title>
+        <id>https://jrb1995.github.io/post/about</id>
+        <link href="https://jrb1995.github.io/post/about">
+        </link>
+        <updated>2018-12-11T11:09:00.000Z</updated>
+        <content type="html"><![CDATA[<blockquote>
+<p>欢迎来到我的小站呀，很高兴遇见你！🤝</p>
+</blockquote>
+<h2 id="关于本站">🏠 关于本站</h2>
+<h2 id="博主是谁">👨‍💻 博主是谁</h2>
+<h2 id="兴趣爱好">⛹ 兴趣爱好</h2>
+<h2 id="联系我呀">📬 联系我呀</h2>
+]]></content>
+    </entry>
+</feed>
