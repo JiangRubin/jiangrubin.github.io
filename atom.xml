@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jrb1995.github.io</id>
     <title>Rubin Jiang</title>
-    <updated>2019-11-28T02:28:18.894Z</updated>
+    <updated>2019-11-28T02:51:18.802Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jrb1995.github.io"/>
     <link rel="self" href="https://jrb1995.github.io/atom.xml"/>
@@ -154,6 +154,30 @@ export default class Icon extends Component {
 </code></pre>
 <p>使用</p>
 <pre><code class="language-js">&lt;Icon name=&quot;ac_unit&quot; size=&quot;40&quot; color=&quot;#ccc&quot;/&gt;
+</code></pre>
+<h2 id="配置相对路径">配置相对路径</h2>
+<p>在开发过程中通常使用 ../../../ 的方式引入组件，这种方式路径过深且不够优雅。</p>
+<p>插件安装</p>
+<pre><code>npm install babel-plugin-root-import --save-dev
+或者
+yarn add babel-plugin-root-import --dev
+</code></pre>
+<p>配置在项目根目录中新增文件 <code>.babelrc</code></p>
+<pre><code>{
+  &quot;plugins&quot;: [
+    [&quot;babel-plugin-root-import&quot;, {
+      &quot;rootPathPrefix&quot;: &quot;~&quot;,
+      &quot;rootPathSuffix&quot;: &quot;src&quot;
+    }]
+  ]
+}
+</code></pre>
+<blockquote>
+<p>注意： 当 rootPathPrefix 设置为 @ 可能会导致一些以 @ 开头的 npm 包引入错误，如 <code>@ant-design/react-native</code></p>
+</blockquote>
+<p>之后使用</p>
+<pre><code>import foo from '~/foo';
+const bar = require('~/bar');
 </code></pre>
 <h2 id="打包和发布">打包和发布</h2>
 <p>应用开发完就该考虑上架了😘，由于没有经验上网查询了很多资料。</p>

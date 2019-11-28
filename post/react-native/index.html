@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Rubin Jiang</title>
 <meta name="description" content="温故而知新" />
-<link rel="shortcut icon" href="https://jrb1995.github.io/favicon.ico?v=1574908085242">
+<link rel="shortcut icon" href="https://jrb1995.github.io/favicon.ico?v=1574909443036">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.remixicon.com/releases/v1.3.1/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -24,7 +24,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="remixicon-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://jrb1995.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://jrb1995.github.io/images/avatar.png?v=1574908085242" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://jrb1995.github.io/images/avatar.png?v=1574909443036" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">Rubin Jiang</h1>
       </div>
@@ -51,6 +51,7 @@
 <li><a href="#icon-%E7%BB%84%E4%BB%B6">Icon 组件</a></li>
 </ul>
 </li>
+<li><a href="#%E9%85%8D%E7%BD%AE%E7%9B%B8%E5%AF%B9%E8%B7%AF%E5%BE%84">配置相对路径</a></li>
 <li><a href="#%E6%89%93%E5%8C%85%E5%92%8C%E5%8F%91%E5%B8%83">打包和发布</a></li>
 <li><a href="#%E5%85%B6%E4%BB%96%E9%97%AE%E9%A2%98">其他问题</a></li>
 <li><a href="#%E5%85%B6%E4%BB%96%E7%9F%A5%E8%AF%86%E8%B5%84%E6%BA%90">其他知识资源</a></li>
@@ -104,7 +105,7 @@
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
         <h1 class="text-3xl font-bold lg:mt-16">React Native 知识点小记</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2019-04-08 / 4 min read
+          2019-04-08 / 5 min read
         </div>
         
           <img class="post-feature-image rounded-lg mx-auto my-4" src="https://jrb1995.github.io/post-images/react-native.jpg" alt="">
@@ -194,6 +195,30 @@ export default class Icon extends Component {
 </code></pre>
 <p>使用</p>
 <pre><code class="language-js">&lt;Icon name=&quot;ac_unit&quot; size=&quot;40&quot; color=&quot;#ccc&quot;/&gt;
+</code></pre>
+<h2 id="配置相对路径">配置相对路径</h2>
+<p>在开发过程中通常使用 ../../../ 的方式引入组件，这种方式路径过深且不够优雅。</p>
+<p>插件安装</p>
+<pre><code>npm install babel-plugin-root-import --save-dev
+或者
+yarn add babel-plugin-root-import --dev
+</code></pre>
+<p>配置在项目根目录中新增文件 <code>.babelrc</code></p>
+<pre><code>{
+  &quot;plugins&quot;: [
+    [&quot;babel-plugin-root-import&quot;, {
+      &quot;rootPathPrefix&quot;: &quot;~&quot;,
+      &quot;rootPathSuffix&quot;: &quot;src&quot;
+    }]
+  ]
+}
+</code></pre>
+<blockquote>
+<p>注意： 当 rootPathPrefix 设置为 @ 可能会导致一些以 @ 开头的 npm 包引入错误，如 <code>@ant-design/react-native</code></p>
+</blockquote>
+<p>之后使用</p>
+<pre><code>import foo from '~/foo';
+const bar = require('~/bar');
 </code></pre>
 <h2 id="打包和发布">打包和发布</h2>
 <p>应用开发完就该考虑上架了😘，由于没有经验上网查询了很多资料。</p>
