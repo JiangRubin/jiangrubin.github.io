@@ -37,10 +37,14 @@
             <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li><a href="#%E5%85%B3%E4%BA%8E%E6%9C%AC%E7%AB%99">🏠 关于本站</a></li>
-<li><a href="#%E5%8D%9A%E4%B8%BB%E6%98%AF%E8%B0%81">👨‍💻 博主是谁</a></li>
-<li><a href="#%E5%85%B4%E8%B6%A3%E7%88%B1%E5%A5%BD">⛹ 兴趣爱好</a></li>
-<li><a href="#%E8%81%94%E7%B3%BB%E6%88%91%E5%91%80">📬 联系我呀</a></li>
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#%E6%A6%82%E5%BF%B5">概念</a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0">代码实现</a>
+<ul>
+<li><a href="#%E9%98%B2%E6%8A%96-debounce">防抖 debounce</a></li>
+<li><a href="#%E8%8A%82%E6%B5%81-throttle">节流 throttle</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -89,28 +93,145 @@
 <div class="mask" onclick="closeMenu()">
 </div>
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
-        <h1 class="text-3xl font-bold lg:mt-16">关于</h1>
+        <h1 class="text-3xl font-bold lg:mt-16">函数的防抖和节流</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2018-12-11 / 1 min read
+          2019-11-28 / 4 min read
         </div>
         
         <div class="post-content yue">
-          <blockquote>
-<p>欢迎来到我的小站呀，很高兴遇见你！🤝</p>
+          <h2 id="前言">前言</h2>
+<p>开发中经常会遇到通过鼠标和输入框等连续触发目标函数，如果其中与后端进行交互，比如 <code>ajax</code> 请求。就会频繁请求对后台造成一些压力。</p>
+<h2 id="概念">概念</h2>
+<p><strong>函数防抖</strong>：指触发事件后，在 n 秒内函数只能执行一次，如果触发事件后在 n 秒内又触发了事件，则会重新计算函数延执行时间。</p>
+<blockquote>
+<p>举个栗子，坐电梯的时候，如果电梯检测到有人进来（触发事件），就会多等待 10 秒，此时如果又有人进来（10秒之内重复触发事件），那么电梯就会再多等待 10 秒。在上述例子中，电梯在检测到有人进入 10 秒钟之后，才会关闭电梯门开始运行，因此，“函数防抖”的关键在于，在 一个事件 发生 一定时间 之后，才执行 特定动作。</p>
 </blockquote>
-<h2 id="关于本站">🏠 关于本站</h2>
-<h2 id="博主是谁">👨‍💻 博主是谁</h2>
-<h2 id="兴趣爱好">⛹ 兴趣爱好</h2>
-<h2 id="联系我呀">📬 联系我呀</h2>
+<p><strong>函数节流</strong>：限制一个函数在一定时间内只能执行一次。</p>
+<blockquote>
+<p>举个栗子，坐火车或地铁，过安检的时候，在一定时间（例如10秒）内，只允许一个乘客通过安检入口，以配合安检人员完成安检工作。上例中，每10秒内，仅允许一位乘客通过，分析可知，“函数节流”的要点在于，在 一定时间 之内，限制 一个动作 只 执行一次 。</p>
+</blockquote>
+<h2 id="代码实现">代码实现</h2>
+<h3 id="防抖-debounce">防抖 debounce</h3>
+<pre><code class="language-js">// 函数防抖（连续事件触发结束后只触发一次）
+// sample 1: _.debounce(function(){}, 1000)
+// 连续事件结束后的 1000ms 后触发
+// sample 1: _.debounce(function(){}, 1000, true)
+// 连续事件触发后立即触发（此时会忽略第二个参数）
+function debounce(func, wait, immediate) {
+  var timeout, args, context, timestamp, result
+
+  var later = function () {
+    var last = Date.now() - timestamp
+    if (last &lt; wait &amp;&amp; last &gt;= 0) {
+      timeout = setTimeout(later, wait - last)
+    } else {
+      timeout = null
+      if (!immediate) {
+        result = func.apply(context, args)
+        if (!timeout) { context = args = null }
+      }
+    }
+  }
+
+  return function () {
+    context = this
+    args = arguments
+    timestamp = Date.now()
+    var callNow = immediate &amp;&amp; !timeout
+
+    if (!timeout) {
+      timeout = setTimeout(later, wait)
+    }
+
+    if (callNow) {
+      result = func.apply(context, args)
+      context = args = null
+    }
+
+    return result
+  }
+}
+</code></pre>
+<h3 id="节流-throttle">节流 throttle</h3>
+<pre><code class="language-js">// 函数节流（如果有连续事件响应，则每间隔一定时间段触发）
+// 每间隔 wait(Number) milliseconds 触发一次 func 方法
+// 如果 options 参数传入 {leading: false}
+// 那么不会马上触发（等待 wait milliseconds 后第一次触发 func）
+// 如果 options 参数传入 {trailing: false}
+// 那么最后一次回调不会被触发
+// **Notice: options 不能同时设置 leading 和 trailing 为 false**
+// 示例：
+// var throttled = _.throttle(updatePosition, 100);
+// $(window).scroll(throttled);
+// 调用方式（注意看 A 和 B console.log 打印的位置）：
+// _.throttle(function, wait, [options])
+// sample 1: _.throttle(function(){}, 1000)
+// print: A, B, B, B ...
+// sample 2: _.throttle(function(){}, 1000, {leading: false})
+// print: B, B, B, B ...
+// sample 3: _.throttle(function(){}, 1000, {trailing: false})
+// print: A, A, A, A ...
+// ----------------------------------------- //
+function throttle(func, wait, options) {
+  var context, args, result
+  var timeout = null
+  var previous = 0
+
+  if (!options) { options = {} }
+
+  var later = function () {
+    previous = options.leading === false ? 0 : Date.now()
+    timeout = null
+    result = func.apply(context, args)
+    if (!timeout) { context = args = null }
+  }
+
+  return function () {
+    var now = Date.now()
+    if (!previous &amp;&amp; options.leading === false) { previous = now }
+
+    var remaining = wait - (now - previous)
+    context = this
+    args = arguments
+
+    if (remaining &lt;= 0 || remaining &gt; wait) {
+      if (timeout) {
+        clearTimeout(timeout)
+        timeout = null
+      }
+      previous = now
+      result = func.apply(context, args)
+      if (!timeout) { context = args = null }
+    } else if (!timeout &amp;&amp; options.trailing !== false) {
+      timeout = setTimeout(later, remaining)
+    }
+
+    return result
+  }
+}
+</code></pre>
 
         </div>
 
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://jrb1995.github.io/tag/pGvoCX5tk">
+            <span class="flex-auto">js</span>
+          </a>
         
 
 
         <div class="flex justify-between py-8">
           
 
+          
+            <div class="next-post">
+              <a href="https://jrb1995.github.io/post/5dc8a231f268da4d40712f8a">
+                <h3 class="post-title">
+                  CSS开发技巧整理
+                  <i class="remixicon-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
           
         </div>
 
