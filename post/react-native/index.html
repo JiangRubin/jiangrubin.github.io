@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Rubin Jiang</title>
 <meta name="description" content="温故而知新" />
-<link rel="shortcut icon" href="https://jrb1995.github.io/favicon.ico?v=1573647553618">
+<link rel="shortcut icon" href="https://jrb1995.github.io/favicon.ico?v=1574908085242">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.remixicon.com/releases/v1.3.1/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -24,7 +24,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="remixicon-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://jrb1995.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://jrb1995.github.io/images/avatar.png?v=1573647553618" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://jrb1995.github.io/images/avatar.png?v=1574908085242" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">Rubin Jiang</h1>
       </div>
@@ -48,7 +48,7 @@
 </li>
 <li><a href="#%E5%8A%9F%E8%83%BD%E7%BB%84%E4%BB%B6">功能组件</a>
 <ul>
-<li><a href="#svg">svg</a></li>
+<li><a href="#icon-%E7%BB%84%E4%BB%B6">Icon 组件</a></li>
 </ul>
 </li>
 <li><a href="#%E6%89%93%E5%8C%85%E5%92%8C%E5%8F%91%E5%B8%83">打包和发布</a></li>
@@ -102,7 +102,7 @@
 <div class="mask" onclick="closeMenu()">
 </div>
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
-        <h1 class="text-3xl font-bold lg:mt-16">React Native 知识点</h1>
+        <h1 class="text-3xl font-bold lg:mt-16">React Native 知识点小记</h1>
         <div class="text-sm text-gray-700 lg:my-8">
           2019-04-08 / 4 min read
         </div>
@@ -110,9 +110,10 @@
           <img class="post-feature-image rounded-lg mx-auto my-4" src="https://jrb1995.github.io/post-images/react-native.jpg" alt="">
         
         <div class="post-content yue">
-          <h2 id="前言">前言</h2>
+          <p>此篇文章用于记录开发中遇到的问题和知识点...</p>
+<!-- more -->
+<h2 id="前言">前言</h2>
 <p>公司打算开发一个App项目。由于没有原生开发人员，组里都是纯前端开发人员，所以技术选型时采用相对成熟的 <code>react-native</code> 来开发。不得不说 <code>react-native</code> 确实很优秀，让前端开发人员能够迅速搭起一个应用运行。但开发过程中也遇到了不少问题，对前端开发来说也是一个不小的挑战。</p>
-<p>所以此篇文章用于记录开发中遇到的问题和知识点。</p>
 <h2 id="开发环境搭建">开发环境搭建</h2>
 <p>只要严格按照 <a href="https://reactnative.cn/docs/getting-started/">React Native</a> 官方文档搭建即可，当时项目使用 <code>react-native</code> 0.57 版本基础库。</p>
 <h2 id="应用设置">应用设置</h2>
@@ -151,7 +152,7 @@
 <p>应用打开时会有短暂的白屏，为解决这一问题项目中使用 <a href="https://github.com/crazycodeboy/react-native-splash-screen">react-native-splash-screen</a> 库。文档写的很详细。</p>
 <p><a href="https://developer.apple.com/design/human-interface-guidelines/ios/icons-and-images/launch-screen/">Launch Screen苹果官方分辨率大全</a></p>
 <h2 id="功能组件">功能组件</h2>
-<h3 id="svg">svg</h3>
+<h3 id="icon-组件">Icon 组件</h3>
 <p>关于 <code>svg</code> 文件的优点就不必多说了。要想在应用中使用会有一些问题，不像在 web 中直接 img 标签引入就可以用了。比如安卓不支持 svg 静态文件的 require 😂。也为了避免每次打开应用请求多个 svg 浪费资源。</p>
 <p>所以可以将多个 svg 文件通过脚本转换成一个 js 对象或者一个 json 文件，其格式如下：</p>
 <pre><code class="language-js">export default {
@@ -177,7 +178,7 @@
 <pre><code class="language-js">import React, { Component } from 'react';
 import SvgUri from 'react-native-svg-uri';
 import svgs from '@/assets/svgs.js'; // 生成的 svg 字符串对象
-export default class Svg extends Component {
+export default class Icon extends Component {
   render() {
     const { name, color, size, style } = this.props;
     let svgXmlData = svgs[name]
@@ -192,11 +193,11 @@ export default class Svg extends Component {
 }
 </code></pre>
 <p>使用</p>
-<pre><code class="language-js">&lt;Svg name=&quot;ac_unit&quot; size=&quot;40&quot; color=&quot;#ccc&quot;/&gt;
+<pre><code class="language-js">&lt;Icon name=&quot;ac_unit&quot; size=&quot;40&quot; color=&quot;#ccc&quot;/&gt;
 </code></pre>
 <h2 id="打包和发布">打包和发布</h2>
 <p>应用开发完就该考虑上架了😘，由于没有经验上网查询了很多资料。</p>
-<p>链接：<a href="https://my.oschina.net/KJhulinhua/blog/1585628">react native ios打包流程</a>、打包<a href="https://www.pgyer.com/doc/view/build_ipa">iOS的ipa文件</a>、<a href="https://www.jianshu.com/p/431ed0536754">iOS生成证书 描述文件 打包上架Appstore详细流程</a></p>
+<p>链接：<a href="https://my.oschina.net/KJhulinhua/blog/1585628">react native ios打包流程</a>、<a href="https://www.pgyer.com/doc/view/build_ipa">打包iOS的ipa文件</a>、<a href="https://www.jianshu.com/p/431ed0536754">iOS生成证书 描述文件 打包上架Appstore详细流程</a></p>
 <h2 id="其他问题">其他问题</h2>
 <p>android 图片不显示，图片名称不能是中文（开发时碰到这个问题😓）。</p>
 <h2 id="其他知识资源">其他知识资源</h2>
