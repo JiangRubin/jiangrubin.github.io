@@ -6117,6 +6117,7 @@ pre[data-line] {
   max-width: 100%;
   margin: 0 auto;
   box-sizing: border-box;
+  cursor: zoom-in;
 }
 .yue figcaption {
   width: 100%;
@@ -6413,6 +6414,30 @@ pre[data-line] {
   bottom: 0;
   left: 0;
   right: 0;
+}
+.image-viewer-box .image-viewer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000;
+}
+.image-viewer-box .image-box {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  line-height: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  overflow: auto;
+}
+.image-viewer-box .image-box .image {
+  position: absolute;
+  transition: all 0.2s;
+  cursor: zoom-out;
+  max-width: 100%;
 }
 body {
   font: 400 18px/1.42 "Droid Serif", "PingFang SC", "Hiragino Sans GB", "Droid Sans Fallback", "Microsoft YaHei", sans-serif;
