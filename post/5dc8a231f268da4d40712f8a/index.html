@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Rubin Jiang</title>
 <meta name="description" content="温故而知新" />
-<link rel="shortcut icon" href="https://jrb1995.github.io/favicon.ico?v=1575012696677">
+<link rel="shortcut icon" href="https://jrb1995.github.io/favicon.ico?v=1575013338960">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.remixicon.com/releases/v1.3.1/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -24,7 +24,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="remixicon-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://jrb1995.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://jrb1995.github.io/images/avatar.png?v=1575012696677" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://jrb1995.github.io/images/avatar.png?v=1575013338960" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">Rubin Jiang</h1>
       </div>
@@ -206,14 +206,7 @@
 
           
         
-        
-        <div id="image-viewer-box" class="image-viewer-box">
-          <!-- <div class="image-viewer">
-            <div class="image-box">
-              <img src="" alt="">
-            </div>
-          </div> -->
-        </div>
+
       </div>
     </div>
 
@@ -314,45 +307,6 @@ const closeMenu = () => {
   mask.classList.remove('open')
   contentWrapper.classList.remove('is-second')
 }
-
-const postImgList = document.querySelectorAll(".yue figure img") || []
-const imageViewerBox = document.querySelector("#image-viewer-box")
-
-for (let i = 0; i < postImgList.length; i++) {
-  postImgList[i].onclick = function () {
-    const imageSrc = postImgList[i].src
-    const imageHeight = postImgList[i].offsetHeight
-    const imageWidth = postImgList[i].offsetWidth
-    const imageViewer = document.createElement('div')
-    const imageBox = document.createElement('div')
-    const image = document.createElement('img')
-    imageViewer.setAttribute('class', 'image-viewer')
-    imageBox.setAttribute('class', 'image-box')
-    image.setAttribute('class', 'image')
-    image.setAttribute('src', imageSrc)
-    image.style.top = '0'
-    image.style.left = '0'
-    image.style.right = '0'
-    image.style.bottom = '0'
-    image.style.margin = 'auto'
-    image.style.width = imageWidth * 1.5 + 'px'
-    // image.style.height = '420px'
-    imageBox.appendChild(image)
-    imageViewer.appendChild(imageBox)
-    imageViewerBox.appendChild(imageViewer)
-
-    imageViewer.onclick = function () {
-      closeImageViewer()
-    }
-    image.onclick = function () {
-      closeImageViewer()
-    }
-  }
-}
-
-function closeImageViewer () {
-  imageViewerBox.innerHTML = ""
-} 
 </script>
   
   </body>
