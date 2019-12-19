@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jrb1995.github.io</id>
     <title>Rubin Jiang</title>
-    <updated>2019-12-19T05:57:33.766Z</updated>
+    <updated>2019-12-19T09:55:05.049Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jrb1995.github.io"/>
     <link rel="self" href="https://jrb1995.github.io/atom.xml"/>
@@ -19,25 +19,26 @@
         <content type="html"><![CDATA[<h2 id="前言">前言</h2>
 <p>在开发中可能同时进行多个项目，而不同的项目所使用的 node 版本又不一样，会导致对现有项目的一些依赖造成环境不兼容等问题。或者要用最新的 node 版本进行学习。所以就需要使用 <a href="https://github.com/nvm-sh/nvm">nvm</a> 来解决这个问题，对多个 node 版本进行管理和切换。</p>
 <h2 id="安装">安装</h2>
-<p>使用 <a href="https://brew.sh/">Homebrew</a> 安装 nvm，Homebrew 是 Mac OS 平台下的软件包管理工具。</p>
-<p>执行命令</p>
+<p>首先打开终端，进入当前用户的home目录中</p>
+<pre><code class="language-shell">cd ~
+</code></pre>
+<p>使用 <code>ls -a</code> 查看有没有 <code>.bash_profile</code> 这个文件</p>
+<pre><code class="language-shell">ls -a
+</code></pre>
+<p>没有则新建一个</p>
+<pre><code class="language-shell">touch ~/.bash_profile
+</code></pre>
+<p>通过官方的说明在终端中运行下面命令中的一种进行安装</p>
+<pre><code class="language-shell">curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+</code></pre>
+<pre><code class="language-shell">wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+</code></pre>
+<p>或者使用 <a href="https://brew.sh/">Homebrew</a> 安装 nvm，Homebrew 是 Mac OS 平台下的软件包管理工具。</p>
+<p>Homebrew 安装完后，执行命令</p>
 <pre><code class="language-shell">brew install nvm 
 </code></pre>
-<p>其他安装方式详见 <a href="https://github.com/nvm-sh/nvm">nvm 文档</a></p>
-<h2 id="配置环境变量">配置环境变量</h2>
-<p>编辑 <code>.bash_profile</code> 文件</p>
-<pre><code class="language-shell">vim .bash_profile 
-</code></pre>
-<p>切换到输入模式，添加以下命令</p>
-<pre><code class="language-shell">export NVM_DIR=&quot;$HOME/.nvm&quot;
-[ -s &quot;$NVM_DIR/nvm.sh&quot; ] &amp;&amp; \. &quot;$NVM_DIR/nvm.sh&quot;  # This loads nvm
-[ -s &quot;$NVM_DIR/bash_completion&quot; ] &amp;&amp; \. &quot;$NVM_DIR/bash_completion&quot;  # This loads nvm bash_completion
-</code></pre>
-<p>退出保存，执行命令使配置生效</p>
-<pre><code class="language-shell">source .bash_profile
-</code></pre>
 <h2 id="验证安装成功">验证安装成功</h2>
-<p>执行 <code>nvm -v</code> 命令</p>
+<p>重启终端，执行 <code>nvm -v</code> 命令</p>
 <figure data-type="image" tabindex="1"><img src="https://jrb1995.github.io/post-images/1576726689482.jpeg" alt=""></figure>
 <h2 id="常用的-nvm-命令">常用的 nvm 命令</h2>
 <p><code>nvm ls-remote</code> 列出所有可安装的版本</p>
