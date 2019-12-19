@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jrb1995.github.io</id>
     <title>Rubin Jiang</title>
-    <updated>2019-12-19T05:15:24.103Z</updated>
+    <updated>2019-12-19T05:19:44.044Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jrb1995.github.io"/>
     <link rel="self" href="https://jrb1995.github.io/atom.xml"/>
@@ -17,9 +17,9 @@
         </link>
         <updated>2019-12-18T02:48:28.000Z</updated>
         <content type="html"><![CDATA[<h2 id="前言">前言</h2>
-<p>在开发中可能同时进行多个项目，而不同的项目所使用的 <code>node</code> 版本又不一样，会导致对现有项目的一些依赖造成环境不兼容等问题。或者要用最新的 node 版本进行学习。所以就需要使用 <a href="https://github.com/nvm-sh/nvm">nvm</a> 来解决这个问题，对多个 node 版本进行管理和切换。</p>
+<p>在开发中可能同时进行多个项目，而不同的项目所使用的 node 版本又不一样，会导致对现有项目的一些依赖造成环境不兼容等问题。或者要用最新的 node 版本进行学习。所以就需要使用 <a href="https://github.com/nvm-sh/nvm">nvm</a> 来解决这个问题，对多个 node 版本进行管理和切换。</p>
 <h2 id="安装">安装</h2>
-<p>使用 <a href="https://brew.sh/">Homebrew</a> 安装 <code>nvm</code>，Homebrew 是 Mac OS 平台下的软件包管理工具。</p>
+<p>使用 <a href="https://brew.sh/">Homebrew</a> 安装 nvm，Homebrew 是 Mac OS 平台下的软件包管理工具。</p>
 <p>执行命令</p>
 <pre><code class="language-shell">brew install nvm 
 </code></pre>
