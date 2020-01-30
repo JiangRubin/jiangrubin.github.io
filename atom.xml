@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jrb1995.github.io</id>
-    <title>Rubin Jiang</title>
-    <updated>2020-01-30T10:18:55.431Z</updated>
+    <title>Rubin&apos;s Blog</title>
+    <updated>2020-01-30T10:33:43.634Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jrb1995.github.io"/>
     <link rel="self" href="https://jrb1995.github.io/atom.xml"/>
     <subtitle>温故而知新</subtitle>
     <logo>https://jrb1995.github.io/images/avatar.png</logo>
     <icon>https://jrb1995.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2020, Rubin Jiang</rights>
+    <rights>All rights reserved 2020, Rubin&apos;s Blog</rights>
     <entry>
         <title type="html"><![CDATA[scrollIntoView 实现页面锚点]]></title>
         <id>https://jrb1995.github.io/post/scrollintoview-shi-xian-ye-mian-mao-dian</id>
