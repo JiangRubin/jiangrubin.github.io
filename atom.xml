@@ -2,14 +2,65 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jrb1995.github.io</id>
     <title>Rubin Jiang</title>
-    <updated>2019-12-21T13:11:29.095Z</updated>
+    <updated>2020-01-30T03:49:07.686Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jrb1995.github.io"/>
     <link rel="self" href="https://jrb1995.github.io/atom.xml"/>
     <subtitle>温故而知新</subtitle>
     <logo>https://jrb1995.github.io/images/avatar.png</logo>
     <icon>https://jrb1995.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2019, Rubin Jiang</rights>
+    <rights>All rights reserved 2020, Rubin Jiang</rights>
+    <entry>
+        <title type="html"><![CDATA[scrollIntoView 实现页面锚点]]></title>
+        <id>https://jrb1995.github.io/post/scrollintoview-shi-xian-ye-mian-mao-dian</id>
+        <link href="https://jrb1995.github.io/post/scrollintoview-shi-xian-ye-mian-mao-dian">
+        </link>
+        <updated>2020-01-30T03:12:12.000Z</updated>
+        <summary type="html"><![CDATA[<p>锚点即指html中的链接，在页面中适当的添加锚点可以大大提高阅读或查找效率</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>锚点即指html中的链接，在页面中适当的添加锚点可以大大提高阅读或查找效率</p>
+<!-- more -->
+<h2 id="前言">前言</h2>
+<p>锚点是网站中常用的功能。前端简单实现锚点的方法，使用 a 标签把 href 属性写成要跳转到的元素 id，比如以下代码：</p>
+<pre><code class="language-html">&lt;a href=&quot;#anchor&quot;&gt;&lt;/a&gt;
+
+&lt;div id=&quot;anchor&quot;&gt;&lt;/div&gt;
+</code></pre>
+<p>点击 a 标签页面就会跳转到指定 id 元素的位置。并改变链接地址比如：<code>http://www.xxxx.com#anchor</code>。</p>
+<p>虽然不会有什么问题，直接跳转过去立马完成产品的需求，但是当网页中存在多个锚点时，就会出现点击浏览器后退按钮并不会返回之前浏览的网页，而是返回上一个带有锚点的链接。</p>
+<blockquote>
+<p>举个例子，当前网站链接是 <code>http://www.xxxx.com#anchor2</code>， 当用户想返回之前的页面，点击后退按钮后，链接变成了 <code>http://www.xxxx.com#anchor1</code>。但还是在同一个页面中，会使用户感到迷惑，降低用户体验。</p>
+</blockquote>
+<h2 id="解决问题">解决问题</h2>
+<p><code>scrollIntoView()</code> 方法让当前的元素滚动到浏览器窗口的可视区域内，详见 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Element/scrollIntoView">MDN</a> 对此方法介绍。</p>
+<p>简单代码实现：</p>
+<pre><code class="language-html">&lt;!-- HTML --&gt;
+&lt;div onclick='getAnchor('anchor_1')'&gt;定位到锚点一&lt;/div&gt;
+&lt;div onclick='getAnchor('anchor_2')'&gt;定位到锚点二&lt;/div&gt;
+
+&lt;div id='anchor_1'&gt;锚点位置一&lt;/div&gt;
+&lt;div id='anchor_2'&gt;锚点位置二&lt;/div&gt;
+</code></pre>
+<pre><code class="language-js">&lt;!-- JS --&gt;
+function getAnchor (id) {
+    // 跳转到锚点
+    document.getElementById(id).scrollIntoView()
+}
+</code></pre>
+<p>如果需要让页面平滑滚动到指定位置，则需要增加参数 <code>behavior</code> 设置其值为 <code>smooth</code></p>
+<pre><code class="language-js">document.documentElement.scrollIntoView({
+    behavior: &quot;smooth&quot;,
+    block: &quot;start&quot;,
+    inline: &quot;nearest&quot;
+});
+</code></pre>
+<h2 id="其他使用场景">其他使用场景</h2>
+<p><strong>回到顶部</strong> 也是网页中常用功能。</p>
+<p>简单代码实现  <code>document.querySelector('html').scrollIntoView()</code></p>
+<h2 id="结语">结语</h2>
+<p>本文只是简单介绍了使用方法，想要详细了解的话，可以参考张鑫旭的这篇文章：<a target="_blank" href="https://www.zhangxinxu.com/wordpress/2018/10/scroll-behavior-scrollintoview-%E5%B9%B3%E6%BB%91%E6%BB%9A%E5%8A%A8/">CSS scroll-behavior 和 JS scrollIntoView 让页面滚动平滑</a></p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Mac 下 nvm 的安装和使用]]></title>
         <id>https://jrb1995.github.io/post/mac-xia-nvm-de-an-zhuang-he-shi-yong</id>
@@ -39,7 +90,7 @@
 </code></pre>
 <h2 id="验证安装成功">验证安装成功</h2>
 <p>重启终端，执行 <code>nvm -v</code> 命令</p>
-<figure data-type="image" tabindex="1"><img src="https://jrb1995.github.io/post-images/1576726689482.jpeg" alt=""></figure>
+<figure data-type="image" tabindex="1"><img src="https://jrb1995.github.io/post-images/1576726689482.jpeg" alt="" loading="lazy"></figure>
 <h2 id="常用的-nvm-命令">常用的 nvm 命令</h2>
 <p><code>nvm ls-remote</code> 列出所有可安装的版本</p>
 <p><code>nvm install &lt;version&gt;</code> 安装指定的版本，如 nvm install v8.12.0</p>
@@ -217,7 +268,7 @@ function throttle(func, wait, options) {
 <p>显示图片的时候会遇到这种问题，对面返回的图片宽高比例是不一样的。但是设置的容器大小是一样的，这个时候需要让图片保持比例最大填充容器。</p>
 <pre><code>object-fit： cover | contain | fill | scale-down | none
 </code></pre>
-<figure data-type="image" tabindex="1"><img src="https://jrb1995.github.io/post-images/1573479048374.png" alt=""></figure>
+<figure data-type="image" tabindex="1"><img src="https://jrb1995.github.io/post-images/1573479048374.png" alt="" loading="lazy"></figure>
 ]]></content>
     </entry>
     <entry>
@@ -257,7 +308,7 @@ function throttle(func, wait, options) {
 <h3 id="修改图标">修改图标</h3>
 <p>应用图标对尺寸有要求。比较简单地方式是准备一张 <code>1024*1024</code> 的图片，然后使用 <a href="https://icon.wuruihong.com/">图标工厂</a> 在线生成。</p>
 <p>生成文件如下：</p>
-<figure data-type="image" tabindex="1"><img src="https://jrb1995.github.io/post-images/1573218973706.jpg" alt=""></figure>
+<figure data-type="image" tabindex="1"><img src="https://jrb1995.github.io/post-images/1573218973706.jpg" alt="" loading="lazy"></figure>
 <ul>
 <li>iOS</li>
 </ul>
