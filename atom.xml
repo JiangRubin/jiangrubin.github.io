@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jrb1995.github.io</id>
     <title>Rubin&apos;s Blog</title>
-    <updated>2020-01-30T10:33:43.634Z</updated>
+    <updated>2020-02-06T06:07:41.441Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jrb1995.github.io"/>
     <link rel="self" href="https://jrb1995.github.io/atom.xml"/>
@@ -10,6 +10,96 @@
     <logo>https://jrb1995.github.io/images/avatar.png</logo>
     <icon>https://jrb1995.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Rubin&apos;s Blog</rights>
+    <entry>
+        <title type="html"><![CDATA[Git Commit Message 规范化实践]]></title>
+        <id>https://jrb1995.github.io/post/git-commit-message-gui-fan-hua-shi-jian</id>
+        <link href="https://jrb1995.github.io/post/git-commit-message-gui-fan-hua-shi-jian">
+        </link>
+        <updated>2020-02-06T03:21:31.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="前言">前言</h2>
+<p>在多人协作开发项目时，如果没有规范约束 git commit message，造成各种提交风格五花八门。规范的提交信息能让他人快速了解此次提交的目的，还可以有效的输出 CHANGELOG，对项目的管理至关重要。</p>
+<h2 id="commit-message-的格式">Commit message 的格式</h2>
+<p>目前应用比较广泛的是 <a href="https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines" target="_blank">Angular 团队的规范</a>，它的 message 格式如下：</p>
+<pre><code class="language-xml">&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;
+&lt;BLANK LINE&gt;
+&lt;body&gt;
+&lt;BLANK LINE&gt;
+&lt;footer&gt;
+</code></pre>
+<p><code>type</code> 用于说明 commit 的类别，可以使用如下：</p>
+<ul>
+<li>feat：新功能</li>
+<li>fix：修复 bug</li>
+<li>docs：文档修改</li>
+<li>style：格式（不影响代码运行的变动）</li>
+<li>refactor：代码重构（即不是新增功能，也不是修改 bug 的代码变动）</li>
+<li>perf：优化相关，比如提升性能、体验</li>
+<li>test：增加测试</li>
+<li>revert：回滚</li>
+<li>chore：其他修改，比如构建流程、依赖管理</li>
+<li>...</li>
+</ul>
+<p><code>scope</code> 用于说明 commit 影响的范围，比如数据层、控制层、视图层等等，视项目不同而不同</p>
+<p><code>subject</code> 是 commit 目的的简短描述</p>
+<p><code>body</code> 是对本次 commit 的详细描述，可以分成多行</p>
+<p><code>footer</code> 一些备注，通常是 BREAKING CHANGE 或修复的 bug 的链接</p>
+<h2 id="commitizen">Commitizen</h2>
+<p>了解规范格式后，就需要通过 <a href="https://github.com/commitizen/cz-cli" target="_blank">Commitizen</a> 借助它提供的 git cz 命令替代我们的 git commit 命令，帮助我们生成符合规范的 commit message</p>
+<h3 id="安装">安装</h3>
+<p>推荐在本地安装的方式</p>
+<pre><code>npm install commitizen --save-dev
+</code></pre>
+<p>接着为 commitizen 初始化 Adapter</p>
+<p>在 npm 5.2+ 你可以使用 <a href="http://www.ruanyifeng.com/blog/2019/02/npx.html" target="_blank">npx</a> 来初始化 Adapter</p>
+<pre><code>npx commitizen init cz-conventional-changelog --save-dev --save-exact
+</code></pre>
+<blockquote>
+<p>npm &lt; 5.2 可以执行 <code>./node_modules/.bin/commitizen or ./node_modules/.bin/git-cz</code></p>
+</blockquote>
+<p>并在 package.json 中添加 npm scripts 运行脚本</p>
+<p>package.json 会新增如下配置：</p>
+<pre><code class="language-json">&quot;scripts&quot;: {
+    &quot;commit&quot;: &quot;git-cz&quot;
+},
+&quot;devDependencies&quot;: {
+    &quot;commitizen&quot;: &quot;^4.0.3&quot;,
+    &quot;cz-conventional-changelog&quot;: &quot;^3.1.0&quot;,
+},
+&quot;config&quot;: {
+    &quot;commitizen&quot;: {
+      &quot;path&quot;: &quot;./node_modules/cz-conventional-changelog&quot;
+    }
+}
+</code></pre>
+<p>之后就可以在项目中执行 <code>npm run commit</code> 或者 <code>npx git cz</code>，效果如下：</p>
+<figure data-type="image" tabindex="1"><img src="https://jrb1995.github.io/post-images/1580967235373.jpeg" alt="" loading="lazy"></figure>
+<h2 id="standard-version-自动生成-changelog">standard-version: 自动生成 CHANGELOG</h2>
+<p>使用工具后我们的工程 commit message 应该是符合 Angular 团队那套，这样也便于我们借助 <a href="https://github.com/conventional-changelog/standard-version">standard-version</a> 这样的工具, 自动生成 CHANGELOG</p>
+<p>本地安装</p>
+<pre><code class="language-shell">npm install standard-version --save-dev
+</code></pre>
+<p>在 package.json 添加运行脚本</p>
+<pre><code class="language-json">{
+  &quot;scripts&quot;: {
+    &quot;release&quot;: &quot;standard-version&quot;
+  }
+}
+</code></pre>
+<p>更多使用特性详见其文档</p>
+<h2 id="结语">结语</h2>
+<p>查看完整的 <a href="https://github.com/jrb1995/standard-commit" target="_blank">demo</a></p>
+<p>此文是适合自己的一个简单通用配置，如使用 commitlint 更严格的校验 message 以及其他自定义配置，可见以下参考资料中的链接</p>
+<h2 id="参考资料">参考资料</h2>
+<ul>
+<li>
+<p><a href="https://juejin.im/post/5afc5242f265da0b7f44bee4" target="_blank">优雅的提交你的 Git Commit Message</a></p>
+</li>
+<li>
+<p><a href="http://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html" target="_blank">Commit message 和 Change log 编写指南</a></p>
+</li>
+</ul>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[scrollIntoView 实现页面锚点]]></title>
         <id>https://jrb1995.github.io/post/scrollintoview-shi-xian-ye-mian-mao-dian</id>

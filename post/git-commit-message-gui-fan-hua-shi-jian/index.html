@@ -2,7 +2,7 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>关于 - Rubin&#39;s Blog</title>
+<title>Git Commit Message 规范化实践 - Rubin&#39;s Blog</title>
 <meta name="description" content="温故而知新" />
 <link rel="shortcut icon" href="https://jrb1995.github.io/favicon.ico?v=1580969224390">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
 
 <link rel="stylesheet" href="https://jrb1995.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="关于 - Rubin&#39;s Blog - Atom Feed" href="https://jrb1995.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="Git Commit Message 规范化实践 - Rubin&#39;s Blog - Atom Feed" href="https://jrb1995.github.io/atom.xml">
 
 
 
@@ -37,10 +37,16 @@
             <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li><a href="#%E5%85%B3%E4%BA%8E%E6%9C%AC%E7%AB%99">🏠 关于本站</a></li>
-<li><a href="#%E5%8D%9A%E4%B8%BB%E6%98%AF%E8%B0%81">👨‍💻 博主是谁</a></li>
-<li><a href="#%E5%85%B4%E8%B6%A3%E7%88%B1%E5%A5%BD">⛹ 兴趣爱好</a></li>
-<li><a href="#%E8%81%94%E7%B3%BB%E6%88%91%E5%91%80">📬 联系我呀</a></li>
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#commit-message-%E7%9A%84%E6%A0%BC%E5%BC%8F">Commit message 的格式</a></li>
+<li><a href="#commitizen">Commitizen</a>
+<ul>
+<li><a href="#%E5%AE%89%E8%A3%85">安装</a></li>
+</ul>
+</li>
+<li><a href="#standard-version-%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90-changelog">standard-version: 自动生成 CHANGELOG</a></li>
+<li><a href="#%E7%BB%93%E8%AF%AD">结语</a></li>
+<li><a href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">参考资料</a></li>
 </ul>
 </li>
 </ul>
@@ -89,28 +95,116 @@
 <div class="mask" onclick="closeMenu()">
 </div>
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
-        <h1 class="text-3xl font-bold lg:mt-16">关于</h1>
+        <h1 class="text-3xl font-bold lg:mt-16">Git Commit Message 规范化实践</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2018-12-11 / 1 min read
+          2020-02-06 / 3 min read
         </div>
         
         <div class="post-content yue">
-          <blockquote>
-<p>欢迎来到我的小站呀，很高兴遇见你！🤝</p>
+          <h2 id="前言">前言</h2>
+<p>在多人协作开发项目时，如果没有规范约束 git commit message，造成各种提交风格五花八门。规范的提交信息能让他人快速了解此次提交的目的，还可以有效的输出 CHANGELOG，对项目的管理至关重要。</p>
+<h2 id="commit-message-的格式">Commit message 的格式</h2>
+<p>目前应用比较广泛的是 <a href="https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines" target="_blank">Angular 团队的规范</a>，它的 message 格式如下：</p>
+<pre><code class="language-xml">&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;
+&lt;BLANK LINE&gt;
+&lt;body&gt;
+&lt;BLANK LINE&gt;
+&lt;footer&gt;
+</code></pre>
+<p><code>type</code> 用于说明 commit 的类别，可以使用如下：</p>
+<ul>
+<li>feat：新功能</li>
+<li>fix：修复 bug</li>
+<li>docs：文档修改</li>
+<li>style：格式（不影响代码运行的变动）</li>
+<li>refactor：代码重构（即不是新增功能，也不是修改 bug 的代码变动）</li>
+<li>perf：优化相关，比如提升性能、体验</li>
+<li>test：增加测试</li>
+<li>revert：回滚</li>
+<li>chore：其他修改，比如构建流程、依赖管理</li>
+<li>...</li>
+</ul>
+<p><code>scope</code> 用于说明 commit 影响的范围，比如数据层、控制层、视图层等等，视项目不同而不同</p>
+<p><code>subject</code> 是 commit 目的的简短描述</p>
+<p><code>body</code> 是对本次 commit 的详细描述，可以分成多行</p>
+<p><code>footer</code> 一些备注，通常是 BREAKING CHANGE 或修复的 bug 的链接</p>
+<h2 id="commitizen">Commitizen</h2>
+<p>了解规范格式后，就需要通过 <a href="https://github.com/commitizen/cz-cli" target="_blank">Commitizen</a> 借助它提供的 git cz 命令替代我们的 git commit 命令，帮助我们生成符合规范的 commit message</p>
+<h3 id="安装">安装</h3>
+<p>推荐在本地安装的方式</p>
+<pre><code>npm install commitizen --save-dev
+</code></pre>
+<p>接着为 commitizen 初始化 Adapter</p>
+<p>在 npm 5.2+ 你可以使用 <a href="http://www.ruanyifeng.com/blog/2019/02/npx.html" target="_blank">npx</a> 来初始化 Adapter</p>
+<pre><code>npx commitizen init cz-conventional-changelog --save-dev --save-exact
+</code></pre>
+<blockquote>
+<p>npm &lt; 5.2 可以执行 <code>./node_modules/.bin/commitizen or ./node_modules/.bin/git-cz</code></p>
 </blockquote>
-<h2 id="关于本站">🏠 关于本站</h2>
-<h2 id="博主是谁">👨‍💻 博主是谁</h2>
-<h2 id="兴趣爱好">⛹ 兴趣爱好</h2>
-<h2 id="联系我呀">📬 联系我呀</h2>
+<p>并在 package.json 中添加 npm scripts 运行脚本</p>
+<p>package.json 会新增如下配置：</p>
+<pre><code class="language-json">&quot;scripts&quot;: {
+    &quot;commit&quot;: &quot;git-cz&quot;
+},
+&quot;devDependencies&quot;: {
+    &quot;commitizen&quot;: &quot;^4.0.3&quot;,
+    &quot;cz-conventional-changelog&quot;: &quot;^3.1.0&quot;,
+},
+&quot;config&quot;: {
+    &quot;commitizen&quot;: {
+      &quot;path&quot;: &quot;./node_modules/cz-conventional-changelog&quot;
+    }
+}
+</code></pre>
+<p>之后就可以在项目中执行 <code>npm run commit</code> 或者 <code>npx git cz</code>，效果如下：</p>
+<figure data-type="image" tabindex="1"><img src="https://jrb1995.github.io/post-images/1580967235373.jpeg" alt="" loading="lazy"></figure>
+<h2 id="standard-version-自动生成-changelog">standard-version: 自动生成 CHANGELOG</h2>
+<p>使用工具后我们的工程 commit message 应该是符合 Angular 团队那套，这样也便于我们借助 <a href="https://github.com/conventional-changelog/standard-version">standard-version</a> 这样的工具, 自动生成 CHANGELOG</p>
+<p>本地安装</p>
+<pre><code class="language-shell">npm install standard-version --save-dev
+</code></pre>
+<p>在 package.json 添加运行脚本</p>
+<pre><code class="language-json">{
+  &quot;scripts&quot;: {
+    &quot;release&quot;: &quot;standard-version&quot;
+  }
+}
+</code></pre>
+<p>更多使用特性详见其文档</p>
+<h2 id="结语">结语</h2>
+<p>查看完整的 <a href="https://github.com/jrb1995/standard-commit" target="_blank">demo</a></p>
+<p>此文是适合自己的一个简单通用配置，如使用 commitlint 更严格的校验 message 以及其他自定义配置，可见以下参考资料中的链接</p>
+<h2 id="参考资料">参考资料</h2>
+<ul>
+<li>
+<p><a href="https://juejin.im/post/5afc5242f265da0b7f44bee4" target="_blank">优雅的提交你的 Git Commit Message</a></p>
+</li>
+<li>
+<p><a href="http://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html" target="_blank">Commit message 和 Change log 编写指南</a></p>
+</li>
+</ul>
 
         </div>
 
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://jrb1995.github.io/tag/FtY66XQIw">
+            <span class="flex-auto">git</span>
+          </a>
         
 
 
         <div class="flex justify-between py-8">
           
 
+          
+            <div class="next-post">
+              <a href="https://jrb1995.github.io/post/scrollintoview-shi-xian-ye-mian-mao-dian">
+                <h3 class="post-title">
+                  scrollIntoView 实现页面锚点
+                  <i class="remixicon-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
           
         </div>
 
