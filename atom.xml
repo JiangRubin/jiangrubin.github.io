@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jrb1995.github.io</id>
     <title>Rubin&apos;s Blog</title>
-    <updated>2020-02-06T06:21:36.592Z</updated>
+    <updated>2020-02-06T06:29:07.119Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jrb1995.github.io"/>
     <link rel="self" href="https://jrb1995.github.io/atom.xml"/>
@@ -85,6 +85,8 @@
   }
 }
 </code></pre>
+<p>运行脚本后，效果大致如下：</p>
+<figure data-type="image" tabindex="2"><img src="https://jrb1995.github.io/post-images/1580970514212.jpeg" alt="" loading="lazy"></figure>
 <p>更多使用特性详见其文档</p>
 <h2 id="结语">结语</h2>
 <p>查看完整的 <a href="https://github.com/jrb1995/standard-commit" target="_blank">demo</a></p>
