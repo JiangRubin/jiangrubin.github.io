@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Git Commit Message 规范化实践 - Rubin&#39;s Blog</title>
 <meta name="description" content="温故而知新" />
-<link rel="shortcut icon" href="https://jrb1995.github.io/favicon.ico?v=1580970526571">
+<link rel="shortcut icon" href="https://jrb1995.github.io/favicon.ico?v=1581143141900">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.remixicon.com/releases/v1.3.1/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -24,7 +24,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="remixicon-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://jrb1995.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://jrb1995.github.io/images/avatar.png?v=1580970526571" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://jrb1995.github.io/images/avatar.png?v=1581143141900" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">Rubin&#39;s Blog</h1>
       </div>
@@ -39,11 +39,7 @@
 <ul>
 <li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
 <li><a href="#commit-message-%E7%9A%84%E6%A0%BC%E5%BC%8F">Commit message 的格式</a></li>
-<li><a href="#commitizen">Commitizen</a>
-<ul>
-<li><a href="#%E5%AE%89%E8%A3%85">安装</a></li>
-</ul>
-</li>
+<li><a href="#commitizen">Commitizen</a></li>
 <li><a href="#standard-version-%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90-changelog">standard-version: 自动生成 CHANGELOG</a></li>
 <li><a href="#%E7%BB%93%E8%AF%AD">结语</a></li>
 <li><a href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">参考资料</a></li>
@@ -129,8 +125,7 @@
 <p><code>body</code> 是对本次 commit 的详细描述，可以分成多行</p>
 <p><code>footer</code> 一些备注，通常是 BREAKING CHANGE 或修复的 bug 的链接</p>
 <h2 id="commitizen">Commitizen</h2>
-<p>了解规范格式后，就需要通过 <a href="https://github.com/commitizen/cz-cli" target="_blank">Commitizen</a> 借助它提供的 git cz 命令替代我们的 git commit 命令，帮助我们生成符合规范的 commit message</p>
-<h3 id="安装">安装</h3>
+<p>了解规范格式后，就需要通过 <a href="https://github.com/commitizen/cz-cli" target="_blank">Commitizen</a> 借助它提供的 git cz 命令替代我们的 git commit 命令，帮助我们生成符合规范的 commit message。</p>
 <p>推荐在本地安装的方式</p>
 <pre><code>npm install commitizen --save-dev
 </code></pre>
@@ -159,7 +154,7 @@
 <p>之后就可以在项目中执行 <code>npm run commit</code> 或者 <code>npx git cz</code>，效果如下：</p>
 <figure data-type="image" tabindex="1"><img src="https://jrb1995.github.io/post-images/1580967235373.jpeg" alt="" loading="lazy"></figure>
 <h2 id="standard-version-自动生成-changelog">standard-version: 自动生成 CHANGELOG</h2>
-<p>使用工具后我们的工程 commit message 应该是符合 Angular 团队那套，这样也便于我们借助 <a href="https://github.com/conventional-changelog/standard-version" target="_blank">standard-version</a> 这样的工具，自动生成 CHANGELOG</p>
+<p>使用工具后我们的工程 commit message 应该是符合 Angular 团队那套，这样也便于我们借助 <a href="https://github.com/conventional-changelog/standard-version" target="_blank">standard-version</a> 这样的工具，自动生成 CHANGELOG。</p>
 <p>本地安装</p>
 <pre><code class="language-shell">npm install standard-version --save-dev
 </code></pre>

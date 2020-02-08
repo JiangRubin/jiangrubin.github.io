@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jrb1995.github.io</id>
     <title>Rubin&apos;s Blog</title>
-    <updated>2020-02-06T06:29:07.119Z</updated>
+    <updated>2020-02-08T06:25:44.863Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jrb1995.github.io"/>
     <link rel="self" href="https://jrb1995.github.io/atom.xml"/>
@@ -44,8 +44,7 @@
 <p><code>body</code> 是对本次 commit 的详细描述，可以分成多行</p>
 <p><code>footer</code> 一些备注，通常是 BREAKING CHANGE 或修复的 bug 的链接</p>
 <h2 id="commitizen">Commitizen</h2>
-<p>了解规范格式后，就需要通过 <a href="https://github.com/commitizen/cz-cli" target="_blank">Commitizen</a> 借助它提供的 git cz 命令替代我们的 git commit 命令，帮助我们生成符合规范的 commit message</p>
-<h3 id="安装">安装</h3>
+<p>了解规范格式后，就需要通过 <a href="https://github.com/commitizen/cz-cli" target="_blank">Commitizen</a> 借助它提供的 git cz 命令替代我们的 git commit 命令，帮助我们生成符合规范的 commit message。</p>
 <p>推荐在本地安装的方式</p>
 <pre><code>npm install commitizen --save-dev
 </code></pre>
@@ -74,7 +73,7 @@
 <p>之后就可以在项目中执行 <code>npm run commit</code> 或者 <code>npx git cz</code>，效果如下：</p>
 <figure data-type="image" tabindex="1"><img src="https://jrb1995.github.io/post-images/1580967235373.jpeg" alt="" loading="lazy"></figure>
 <h2 id="standard-version-自动生成-changelog">standard-version: 自动生成 CHANGELOG</h2>
-<p>使用工具后我们的工程 commit message 应该是符合 Angular 团队那套，这样也便于我们借助 <a href="https://github.com/conventional-changelog/standard-version" target="_blank">standard-version</a> 这样的工具，自动生成 CHANGELOG</p>
+<p>使用工具后我们的工程 commit message 应该是符合 Angular 团队那套，这样也便于我们借助 <a href="https://github.com/conventional-changelog/standard-version" target="_blank">standard-version</a> 这样的工具，自动生成 CHANGELOG。</p>
 <p>本地安装</p>
 <pre><code class="language-shell">npm install standard-version --save-dev
 </code></pre>
