@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jrb1995.github.io</id>
     <title>Rubin&apos;s Blog</title>
-    <updated>2020-02-13T13:36:00.291Z</updated>
+    <updated>2020-02-14T02:09:16.433Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jrb1995.github.io"/>
     <link rel="self" href="https://jrb1995.github.io/atom.xml"/>
@@ -54,7 +54,7 @@
 on:
   push:
     branches:
-      - master
+      - master # 整个流程在master分支发生push事件时触发
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -76,7 +76,10 @@ jobs:
 <figure data-type="image" tabindex="3"><img src="https://jrb1995.github.io/post-images/1581599890441.jpeg" alt="" loading="lazy"></figure>
 <p>等 workflow 运行结束，访问 <a href="https://jrb1995.github.io/github-actions-demo/#/" target="_blank">GitHub Page</a> 就可以看到页面了。</p>
 <figure data-type="image" tabindex="4"><img src="https://jrb1995.github.io/post-images/1581600153643.png" alt="" loading="lazy"></figure>
+<p>以后，每次修改后推送源码，GitHub Actions 都会自动运行，将构建产物发布到网页。</p>
+<blockquote>
 <p>GitHub Page 会有生效时间，在 Settings 中 GitHub Pages 看到配置如下时就可以正常访问了。</p>
+</blockquote>
 <figure data-type="image" tabindex="5"><img src="https://jrb1995.github.io/post-images/1581600456035.png" alt="" loading="lazy"></figure>
 ]]></content>
     </entry>
