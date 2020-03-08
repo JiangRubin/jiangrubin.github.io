@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jrb1995.github.io</id>
     <title>Rubin&apos;s Blog</title>
-    <updated>2020-02-22T03:04:53.412Z</updated>
+    <updated>2020-03-08T05:26:38.953Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jrb1995.github.io"/>
     <link rel="self" href="https://jrb1995.github.io/atom.xml"/>
@@ -12,8 +12,8 @@
     <rights>All rights reserved 2020, Rubin&apos;s Blog</rights>
     <entry>
         <title type="html"><![CDATA[GitHub Actions 自动部署实践]]></title>
-        <id>https://jrb1995.github.io/post/github-actions-zi-dong-bu-shu-shi-jian</id>
-        <link href="https://jrb1995.github.io/post/github-actions-zi-dong-bu-shu-shi-jian">
+        <id>https://jrb1995.github.io/post/github-actions-zi-dong-bu-shu-shi-jian/</id>
+        <link href="https://jrb1995.github.io/post/github-actions-zi-dong-bu-shu-shi-jian/">
         </link>
         <updated>2020-02-13T11:16:59.000Z</updated>
         <content type="html"><![CDATA[<h2 id="前言">前言</h2>
@@ -85,8 +85,8 @@ jobs:
     </entry>
     <entry>
         <title type="html"><![CDATA[Git Commit Message 规范化实践]]></title>
-        <id>https://jrb1995.github.io/post/git-commit-message-gui-fan-hua-shi-jian</id>
-        <link href="https://jrb1995.github.io/post/git-commit-message-gui-fan-hua-shi-jian">
+        <id>https://jrb1995.github.io/post/git-commit-message-gui-fan-hua-shi-jian/</id>
+        <link href="https://jrb1995.github.io/post/git-commit-message-gui-fan-hua-shi-jian/">
         </link>
         <updated>2020-02-06T03:21:31.000Z</updated>
         <content type="html"><![CDATA[<h2 id="前言">前言</h2>
@@ -176,8 +176,8 @@ jobs:
     </entry>
     <entry>
         <title type="html"><![CDATA[scrollIntoView 实现页面锚点]]></title>
-        <id>https://jrb1995.github.io/post/scrollintoview-shi-xian-ye-mian-mao-dian</id>
-        <link href="https://jrb1995.github.io/post/scrollintoview-shi-xian-ye-mian-mao-dian">
+        <id>https://jrb1995.github.io/post/scrollintoview-shi-xian-ye-mian-mao-dian/</id>
+        <link href="https://jrb1995.github.io/post/scrollintoview-shi-xian-ye-mian-mao-dian/">
         </link>
         <updated>2020-01-30T03:12:12.000Z</updated>
         <summary type="html"><![CDATA[<p>锚点即指 html 中的链接，在页面中适当的添加锚点可以大大提高阅读或查找效率</p>
@@ -227,8 +227,8 @@ function getAnchor (id) {
     </entry>
     <entry>
         <title type="html"><![CDATA[Mac 下 nvm 的安装和使用]]></title>
-        <id>https://jrb1995.github.io/post/mac-xia-nvm-de-an-zhuang-he-shi-yong</id>
-        <link href="https://jrb1995.github.io/post/mac-xia-nvm-de-an-zhuang-he-shi-yong">
+        <id>https://jrb1995.github.io/post/mac-xia-nvm-de-an-zhuang-he-shi-yong/</id>
+        <link href="https://jrb1995.github.io/post/mac-xia-nvm-de-an-zhuang-he-shi-yong/">
         </link>
         <updated>2019-12-18T02:48:28.000Z</updated>
         <content type="html"><![CDATA[<h2 id="前言">前言</h2>
@@ -267,8 +267,8 @@ function getAnchor (id) {
     </entry>
     <entry>
         <title type="html"><![CDATA[函数的防抖和节流]]></title>
-        <id>https://jrb1995.github.io/post/han-shu-de-fang-dou-he-jie-liu</id>
-        <link href="https://jrb1995.github.io/post/han-shu-de-fang-dou-he-jie-liu">
+        <id>https://jrb1995.github.io/post/han-shu-de-fang-dou-he-jie-liu/</id>
+        <link href="https://jrb1995.github.io/post/han-shu-de-fang-dou-he-jie-liu/">
         </link>
         <updated>2019-11-28T03:01:12.000Z</updated>
         <content type="html"><![CDATA[<h2 id="概念">概念</h2>
@@ -385,8 +385,8 @@ function throttle(func, wait, options) {
     </entry>
     <entry>
         <title type="html"><![CDATA[CSS开发技巧整理]]></title>
-        <id>https://jrb1995.github.io/post/5dc8a231f268da4d40712f8a</id>
-        <link href="https://jrb1995.github.io/post/5dc8a231f268da4d40712f8a">
+        <id>https://jrb1995.github.io/post/5dc8a231f268da4d40712f8a/</id>
+        <link href="https://jrb1995.github.io/post/5dc8a231f268da4d40712f8a/">
         </link>
         <updated>2019-11-11T13:15:39.000Z</updated>
         <content type="html"><![CDATA[<h3 id="快速重置表单元素">快速重置表单元素</h3>
@@ -437,8 +437,8 @@ function throttle(func, wait, options) {
     </entry>
     <entry>
         <title type="html"><![CDATA[React Native 知识点小记]]></title>
-        <id>https://jrb1995.github.io/post/react-native</id>
-        <link href="https://jrb1995.github.io/post/react-native">
+        <id>https://jrb1995.github.io/post/react-native/</id>
+        <link href="https://jrb1995.github.io/post/react-native/">
         </link>
         <updated>2019-04-08T12:29:48.000Z</updated>
         <summary type="html"><![CDATA[<p>此篇文章用于记录开发中遇到的问题和知识点...</p>
