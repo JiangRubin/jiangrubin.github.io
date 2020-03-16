@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jrb1995.github.io</id>
     <title>Rubin&apos;s Blog</title>
-    <updated>2020-03-14T14:06:03.232Z</updated>
+    <updated>2020-03-16T05:55:36.509Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jrb1995.github.io"/>
     <link rel="self" href="https://jrb1995.github.io/atom.xml"/>
@@ -10,6 +10,192 @@
     <logo>https://jrb1995.github.io/images/avatar.png</logo>
     <icon>https://jrb1995.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Rubin&apos;s Blog</rights>
+    <entry>
+        <title type="html"><![CDATA[Vue 源码分析 — 数据侦测]]></title>
+        <id>https://jrb1995.github.io/post/vue-yuan-ma-fen-xi-shu-ju-zhen-ce/</id>
+        <link href="https://jrb1995.github.io/post/vue-yuan-ma-fen-xi-shu-ju-zhen-ce/">
+        </link>
+        <updated>2020-03-15T11:50:48.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="前言">前言</h2>
+<p>Vue 是目前流行前端框架，其独特的特性是其非侵入性的响应式系统。当侦测到数据的变化来更新视图，原理核心是使用 <code>Object.defineProperty</code> 方法。本文对响应式原理进行分析，参照 vue 源码实现简易版的数据响应式。</p>
+<figure data-type="image" tabindex="1"><img src="https://jrb1995.github.io/post-images/1584274877854.png" alt="" loading="lazy"></figure>
+<h2 id="代码实现">代码实现</h2>
+<p>本文完整代码点击<a href="https://github.com/jrb1995/vue-mine" target="_blank">这里</a></p>
+<pre><code class="language-js">import { def, isObject } from '../util/index'
+
+class Observer {
+  constructor (value) {
+    this.value = value
+    // 通过 defineProperty 为对象添加 __ob__ 属性，并且配置为不可枚举
+    // 这样做的意义是对象遍历时不会遍历到 __ob__ 属性
+    def(value, '__ob__', this)
+    this.walk(value)
+  }
+
+  walk (obj) {
+    const keys = Object.keys(obj)
+    for (let i = 0; i &lt; keys.length; i++) {
+      defineReactive(obj, keys[i], obj[keys[i]])
+    }
+  }
+}
+
+function defineReactive (obj, key, val) {
+  // 如果 val 是对象的话递归监听
+  observe(val)
+  Object.defineProperty(obj, key, {
+    enumerable: true, // 可枚举
+    configurable: true, // 可配置
+    get: function reactiveGetter () {
+      return val
+    },
+    set: function reactiveSetter (newVal) {
+      if (newVal === val || (newVal !== newVal &amp;&amp; val !== val)) {
+        return
+      }
+      val = newVal
+      // 如果赋值是对象的话也要递归监听
+      observe(newVal)
+      console.log('侦测到数据变化', newVal);
+    }
+  })
+}
+
+export function observe (value) {
+  // 类型判断，不是对象类型直接返回
+  if (!isObject(value)) {
+    return
+  }
+  let ob = new Observer(value)
+  return ob
+}
+</code></pre>
+<p>上面这段代码主要作用在于：<code>observe</code> 函数传入一个 <code>value</code> (需要被追踪变化的对象)，作为 <code>Observer</code> 类的参数实例化，遍历所有属性对该对象的每一个属性都通过 <code>defineReactive</code> 处理， 在 <code>defineReactive</code> 方法内 <code>observe</code> 会进行递归调用，以此来达到实现侦测对象变化。</p>
+<p>接下来实现 <code>Vue</code> 类，对 options 中的 data 传入 observe 开发进行初始化数据侦测。</p>
+<pre><code class="language-js">import { observe } from '../observer/index'
+
+const sharedPropertyDefinition = {
+  enumerable: true,
+  configurable: true,
+  get: function () {},
+  set: function () {}
+}
+
+function proxy (target, sourceKey, key) {
+  sharedPropertyDefinition.get = function proxyGetter () {
+    return this[sourceKey][key]
+  }
+  sharedPropertyDefinition.set = function proxySetter (val) {
+    this[sourceKey][key] = val
+  }
+  Object.defineProperty(target, key, sharedPropertyDefinition)
+}
+
+function Vue (options) {
+  let vm = this
+  let data = options.data
+  vm._data = data
+
+  const keys = Object.keys(data)
+  let i = keys.length
+  while (i--) {
+    const key = keys[i]
+    // 可以让 vm._data.x 通过 vm.x 访问
+    proxy(vm, `_data`, key)
+  }
+
+  observe(data)
+}
+
+export default Vue
+</code></pre>
+<p>实例化 Vue 类，查看控制台的输出 vm。</p>
+<pre><code class="language-js">import Vue from './instance/index'
+
+const vm = new Vue({
+  data: {
+    message: 'hello',
+    location: { x: 100, y: 100 },
+    arr: [1]
+  }
+})
+
+window.vm = vm
+
+// 在控制台输入： vm.location = { x: 10, y: 10 } 
+// 输出：侦测到数据变化 {__ob__: Observer}
+// 输入：vm.location.z = 10
+// 输出：10
+// 输入：vm.arr.push(2)
+// 输出：2
+</code></pre>
+<p>从中可以看到几个问题：</p>
+<ul>
+<li>无法检测到对象属性的添加或删除</li>
+</ul>
+<p>通过 <code>Object.defineProperty</code> 来将对象的key转换成 <code>getter/setter</code> 的形式来追踪变化，但 <code>getter/setter</code> 只能追踪一个数据是否被修改，无法追踪新增属性和删除属性。</p>
+<p>实现 Vue 提供的 <code>set</code> 和 <code>delete</code> 方法向嵌套对象添加/删除响应式属性。</p>
+<ul>
+<li>不能监听数组的变化，需要进行数组方法的重写</li>
+</ul>
+<p>解决以上问题，具体代码如下：</p>
+<pre><code class="language-js">// array.js
+// 获得数组原型
+const arrayProto = Array.prototype
+export const arrayMethods = Object.create(arrayProto)
+// 创建一个自己的原型 并且重写 methods 这些方法
+const methodsToPatch = [
+  'push',
+  'pop',
+  'shift',
+  'unshift',
+  'splice',
+  'sort',
+  'reverse'
+]
+
+methodsToPatch.forEach(function (method) {
+  const original = arrayProto[method]
+  arrayMethods[method] = function (...args) {
+    const result = original.apply(this, args)
+    return result
+  }
+})
+</code></pre>
+<p>在 <code>observer/index.js</code> 中导入 <code>arrayMethods</code> 重写的原型对象。</p>
+<pre><code class="language-js">import { arrayMethods } from './array'
+import { def, isObject } from '../util/index'
+
+class Observer {
+  constructor (value) {
+    this.value = value
+    def(value, '__ob__', this)
+    if (Array.isArray(value)) {
+      value.__proto__ = arrayMethods
+      this.observeArray(value)
+    } else {
+      this.walk(value)
+    }
+  }
+
+  walk (obj) {
+    const keys = Object.keys(obj)
+    for (let i = 0; i &lt; keys.length; i++) {
+      defineReactive(obj, keys[i], obj[keys[i]])
+    }
+  }
+
+  observeArray (items) {
+    for (let i = 0, l = items.length; i &lt; l; i++) {
+      observe(items[i])
+    }
+  }
+}
+</code></pre>
+<h2 id="总结">总结</h2>
+<p>以上代码只涉及了如何把对象转换为可侦测的数据。此外还有其他的知识点，比如如何才能知道哪些地方依赖我的数据，以及数据更新时派发更新。也就是关于订阅者 Dep 和观察者 Watcher。自己还需要再继续研究一下 vue 关于这个部分的源码——惭愧😓。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[GitHub Actions 自动部署实践]]></title>
         <id>https://jrb1995.github.io/post/github-actions-zi-dong-bu-shu-shi-jian/</id>

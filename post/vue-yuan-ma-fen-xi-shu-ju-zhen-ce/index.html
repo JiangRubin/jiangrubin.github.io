@@ -2,7 +2,7 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Git Commit Message 规范化实践 - Rubin&#39;s Blog</title>
+<title>Vue 源码分析 — 数据侦测 - Rubin&#39;s Blog</title>
 <meta name="description" content="温故而知新" />
 <link rel="shortcut icon" href="https://jrb1995.github.io/favicon.ico?v=1584338133740">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
 
 <link rel="stylesheet" href="https://jrb1995.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="Git Commit Message 规范化实践 - Rubin&#39;s Blog - Atom Feed" href="https://jrb1995.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="Vue 源码分析 — 数据侦测 - Rubin&#39;s Blog - Atom Feed" href="https://jrb1995.github.io/atom.xml">
 
 
 
@@ -38,11 +38,8 @@
 <li>
 <ul>
 <li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
-<li><a href="#commit-message-%E7%9A%84%E6%A0%BC%E5%BC%8F">Commit message 的格式</a></li>
-<li><a href="#commitizen">Commitizen</a></li>
-<li><a href="#standard-version-%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90-changelog">standard-version: 自动生成 CHANGELOG</a></li>
-<li><a href="#%E7%BB%93%E8%AF%AD">结语</a></li>
-<li><a href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">参考资料</a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0">代码实现</a></li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
 </ul>
 </li>
 </ul>
@@ -91,122 +88,212 @@
 <div class="mask" onclick="closeMenu()">
 </div>
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
-        <h1 class="text-3xl font-bold lg:mt-16">Git Commit Message 规范化实践</h1>
+        <h1 class="text-3xl font-bold lg:mt-16">Vue 源码分析 — 数据侦测</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2020-02-06 / 3 min read
+          2020-03-15 / 5 min read
         </div>
         
         <div class="post-content yue">
           <h2 id="前言">前言</h2>
-<p>在多人协作开发项目时，如果没有规范约束 git commit message，容易造成各种提交的风格五花八门。而规范的提交信息能让他人快速了解此次提交的目的，还可以有效的输出 CHANGELOG，对项目的管理至关重要。</p>
-<h2 id="commit-message-的格式">Commit message 的格式</h2>
-<p>目前应用比较广泛的是 <a href="https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines" target="_blank">Angular 团队的规范</a>，它的 message 格式如下：</p>
-<pre><code class="language-xml">&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;
-&lt;BLANK LINE&gt;
-&lt;body&gt;
-&lt;BLANK LINE&gt;
-&lt;footer&gt;
-</code></pre>
-<p><code>type</code> 用于说明 commit 的类别，可以使用如下：</p>
-<ul>
-<li>feat：新功能</li>
-<li>fix：修复 bug</li>
-<li>docs：文档修改</li>
-<li>style：格式（不影响代码运行的变动）</li>
-<li>refactor：代码重构（即不是新增功能，也不是修改 bug 的代码变动）</li>
-<li>perf：优化相关，比如提升性能、体验</li>
-<li>test：增加测试</li>
-<li>revert：回滚</li>
-<li>chore：其他修改，比如构建流程、依赖管理</li>
-<li>...</li>
-</ul>
-<p><code>scope</code> 用于说明 commit 影响的范围，比如数据层、控制层、视图层等等，视项目不同而不同</p>
-<p><code>subject</code> 是 commit 目的的简短描述</p>
-<p><code>body</code> 是对本次 commit 的详细描述，可以分成多行</p>
-<p><code>footer</code> 一些备注，通常是 BREAKING CHANGE 或修复的 bug 的链接</p>
-<h2 id="commitizen">Commitizen</h2>
-<p>了解规范格式后，就需要通过 <a href="https://github.com/commitizen/cz-cli" target="_blank">Commitizen</a> 借助它提供的 git cz 命令替代我们的 git commit 命令，帮助我们生成符合规范的 commit message。</p>
-<p>推荐在本地安装的方式</p>
-<pre><code>npm install commitizen --save-dev
-</code></pre>
-<p>接着为 commitizen 初始化 Adapter</p>
-<p>在 npm 5.2+ 你可以使用 <a href="http://www.ruanyifeng.com/blog/2019/02/npx.html" target="_blank">npx</a> 来初始化 Adapter</p>
-<pre><code>npx commitizen init cz-conventional-changelog --save-dev --save-exact
-</code></pre>
-<blockquote>
-<p>npm &lt; 5.2 可以执行 <code>./node_modules/.bin/commitizen or ./node_modules/.bin/git-cz</code></p>
-</blockquote>
-<p>并在 package.json 中添加 npm scripts 运行脚本</p>
-<p>package.json 会新增如下配置：</p>
-<pre><code class="language-json">&quot;scripts&quot;: {
-    &quot;commit&quot;: &quot;git-cz&quot;
-},
-&quot;devDependencies&quot;: {
-    &quot;commitizen&quot;: &quot;^4.0.3&quot;,
-    &quot;cz-conventional-changelog&quot;: &quot;^3.1.0&quot;,
-},
-&quot;config&quot;: {
-    &quot;commitizen&quot;: {
-      &quot;path&quot;: &quot;./node_modules/cz-conventional-changelog&quot;
+<p>Vue 是目前流行前端框架，其独特的特性是其非侵入性的响应式系统。当侦测到数据的变化来更新视图，原理核心是使用 <code>Object.defineProperty</code> 方法。本文对响应式原理进行分析，参照 vue 源码实现简易版的数据响应式。</p>
+<figure data-type="image" tabindex="1"><img src="https://jrb1995.github.io/post-images/1584274877854.png" alt="" loading="lazy"></figure>
+<h2 id="代码实现">代码实现</h2>
+<p>本文完整代码点击<a href="https://github.com/jrb1995/vue-mine" target="_blank">这里</a></p>
+<pre><code class="language-js">import { def, isObject } from '../util/index'
+
+class Observer {
+  constructor (value) {
+    this.value = value
+    // 通过 defineProperty 为对象添加 __ob__ 属性，并且配置为不可枚举
+    // 这样做的意义是对象遍历时不会遍历到 __ob__ 属性
+    def(value, '__ob__', this)
+    this.walk(value)
+  }
+
+  walk (obj) {
+    const keys = Object.keys(obj)
+    for (let i = 0; i &lt; keys.length; i++) {
+      defineReactive(obj, keys[i], obj[keys[i]])
     }
+  }
+}
+
+function defineReactive (obj, key, val) {
+  // 如果 val 是对象的话递归监听
+  observe(val)
+  Object.defineProperty(obj, key, {
+    enumerable: true, // 可枚举
+    configurable: true, // 可配置
+    get: function reactiveGetter () {
+      return val
+    },
+    set: function reactiveSetter (newVal) {
+      if (newVal === val || (newVal !== newVal &amp;&amp; val !== val)) {
+        return
+      }
+      val = newVal
+      // 如果赋值是对象的话也要递归监听
+      observe(newVal)
+      console.log('侦测到数据变化', newVal);
+    }
+  })
+}
+
+export function observe (value) {
+  // 类型判断，不是对象类型直接返回
+  if (!isObject(value)) {
+    return
+  }
+  let ob = new Observer(value)
+  return ob
 }
 </code></pre>
-<p>之后就可以在项目中执行 <code>npm run commit</code> 或者 <code>npx git cz</code>，效果如下：</p>
-<figure data-type="image" tabindex="1"><img src="https://jrb1995.github.io/post-images/1580967235373.jpeg" alt="" loading="lazy"></figure>
-<h2 id="standard-version-自动生成-changelog">standard-version: 自动生成 CHANGELOG</h2>
-<p>使用工具后我们的工程 commit message 应该是符合 Angular 团队那套，这样也便于我们借助 <a href="https://github.com/conventional-changelog/standard-version" target="_blank">standard-version</a> 这样的工具，自动生成 CHANGELOG。</p>
-<p>本地安装</p>
-<pre><code class="language-shell">npm install standard-version --save-dev
+<p>上面这段代码主要作用在于：<code>observe</code> 函数传入一个 <code>value</code> (需要被追踪变化的对象)，作为 <code>Observer</code> 类的参数实例化，遍历所有属性对该对象的每一个属性都通过 <code>defineReactive</code> 处理， 在 <code>defineReactive</code> 方法内 <code>observe</code> 会进行递归调用，以此来达到实现侦测对象变化。</p>
+<p>接下来实现 <code>Vue</code> 类，对 options 中的 data 传入 observe 开发进行初始化数据侦测。</p>
+<pre><code class="language-js">import { observe } from '../observer/index'
+
+const sharedPropertyDefinition = {
+  enumerable: true,
+  configurable: true,
+  get: function () {},
+  set: function () {}
+}
+
+function proxy (target, sourceKey, key) {
+  sharedPropertyDefinition.get = function proxyGetter () {
+    return this[sourceKey][key]
+  }
+  sharedPropertyDefinition.set = function proxySetter (val) {
+    this[sourceKey][key] = val
+  }
+  Object.defineProperty(target, key, sharedPropertyDefinition)
+}
+
+function Vue (options) {
+  let vm = this
+  let data = options.data
+  vm._data = data
+
+  const keys = Object.keys(data)
+  let i = keys.length
+  while (i--) {
+    const key = keys[i]
+    // 可以让 vm._data.x 通过 vm.x 访问
+    proxy(vm, `_data`, key)
+  }
+
+  observe(data)
+}
+
+export default Vue
 </code></pre>
-<p>在 package.json 添加运行脚本</p>
-<pre><code class="language-json">{
-  &quot;scripts&quot;: {
-    &quot;release&quot;: &quot;standard-version&quot;
+<p>实例化 Vue 类，查看控制台的输出 vm。</p>
+<pre><code class="language-js">import Vue from './instance/index'
+
+const vm = new Vue({
+  data: {
+    message: 'hello',
+    location: { x: 100, y: 100 },
+    arr: [1]
+  }
+})
+
+window.vm = vm
+
+// 在控制台输入： vm.location = { x: 10, y: 10 } 
+// 输出：侦测到数据变化 {__ob__: Observer}
+// 输入：vm.location.z = 10
+// 输出：10
+// 输入：vm.arr.push(2)
+// 输出：2
+</code></pre>
+<p>从中可以看到几个问题：</p>
+<ul>
+<li>无法检测到对象属性的添加或删除</li>
+</ul>
+<p>通过 <code>Object.defineProperty</code> 来将对象的key转换成 <code>getter/setter</code> 的形式来追踪变化，但 <code>getter/setter</code> 只能追踪一个数据是否被修改，无法追踪新增属性和删除属性。</p>
+<p>实现 Vue 提供的 <code>set</code> 和 <code>delete</code> 方法向嵌套对象添加/删除响应式属性。</p>
+<ul>
+<li>不能监听数组的变化，需要进行数组方法的重写</li>
+</ul>
+<p>解决以上问题，具体代码如下：</p>
+<pre><code class="language-js">// array.js
+// 获得数组原型
+const arrayProto = Array.prototype
+export const arrayMethods = Object.create(arrayProto)
+// 创建一个自己的原型 并且重写 methods 这些方法
+const methodsToPatch = [
+  'push',
+  'pop',
+  'shift',
+  'unshift',
+  'splice',
+  'sort',
+  'reverse'
+]
+
+methodsToPatch.forEach(function (method) {
+  const original = arrayProto[method]
+  arrayMethods[method] = function (...args) {
+    const result = original.apply(this, args)
+    return result
+  }
+})
+</code></pre>
+<p>在 <code>observer/index.js</code> 中导入 <code>arrayMethods</code> 重写的原型对象。</p>
+<pre><code class="language-js">import { arrayMethods } from './array'
+import { def, isObject } from '../util/index'
+
+class Observer {
+  constructor (value) {
+    this.value = value
+    def(value, '__ob__', this)
+    if (Array.isArray(value)) {
+      value.__proto__ = arrayMethods
+      this.observeArray(value)
+    } else {
+      this.walk(value)
+    }
+  }
+
+  walk (obj) {
+    const keys = Object.keys(obj)
+    for (let i = 0; i &lt; keys.length; i++) {
+      defineReactive(obj, keys[i], obj[keys[i]])
+    }
+  }
+
+  observeArray (items) {
+    for (let i = 0, l = items.length; i &lt; l; i++) {
+      observe(items[i])
+    }
   }
 }
 </code></pre>
-<p>运行脚本后，效果大致如下：</p>
-<figure data-type="image" tabindex="2"><img src="https://jrb1995.github.io/post-images/1580970514212.jpeg" alt="" loading="lazy"></figure>
-<p>更多使用特性详见其文档</p>
-<h2 id="结语">结语</h2>
-<p>查看完整的 <a href="https://github.com/jrb1995/standard-commit" target="_blank">demo</a></p>
-<p>此文是适合自己的一个简单通用配置，如使用 commitlint 更严格的校验 message 以及其他自定义配置，可见以下参考资料中的链接</p>
-<h2 id="参考资料">参考资料</h2>
-<ul>
-<li>
-<p><a href="https://juejin.im/post/5afc5242f265da0b7f44bee4" target="_blank">优雅的提交你的 Git Commit Message</a></p>
-</li>
-<li>
-<p><a href="http://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html" target="_blank">Commit message 和 Change log 编写指南</a></p>
-</li>
-</ul>
+<h2 id="总结">总结</h2>
+<p>以上代码只涉及了如何把对象转换为可侦测的数据。此外还有其他的知识点，比如如何才能知道哪些地方依赖我的数据，以及数据更新时派发更新。也就是关于订阅者 Dep 和观察者 Watcher。自己还需要再继续研究一下 vue 关于这个部分的源码——惭愧😓。</p>
 
         </div>
 
         
-          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://jrb1995.github.io/tag/FtY66XQIw/">
-            <span class="flex-auto">git</span>
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://jrb1995.github.io/tag/UzM9m2bP0/">
+            <span class="flex-auto">vue</span>
+          </a>
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://jrb1995.github.io/tag/pGvoCX5tk/">
+            <span class="flex-auto">js</span>
           </a>
         
 
 
         <div class="flex justify-between py-8">
           
-            <div class="prev-post">
-              <a href="https://jrb1995.github.io/post/github-actions-zi-dong-bu-shu-shi-jian/">
-                <h3 class="post-title">
-                  <i class="remixicon-arrow-left-line"></i>
-                  GitHub Actions 自动部署实践
-                </h3>
-              </a>
-            </div>
-          
 
           
             <div class="next-post">
-              <a href="https://jrb1995.github.io/post/scrollintoview-shi-xian-ye-mian-mao-dian/">
+              <a href="https://jrb1995.github.io/post/github-actions-zi-dong-bu-shu-shi-jian/">
                 <h3 class="post-title">
-                  scrollIntoView 实现页面锚点
+                  GitHub Actions 自动部署实践
                   <i class="remixicon-arrow-right-line"></i>
                 </h3>
               </a>
