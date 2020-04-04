@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jrb1995.github.io</id>
     <title>Rubin&apos;s Blog</title>
-    <updated>2020-04-04T10:08:11.153Z</updated>
+    <updated>2020-04-04T10:09:46.496Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jrb1995.github.io"/>
     <link rel="self" href="https://jrb1995.github.io/atom.xml"/>
@@ -302,7 +302,7 @@ export default class Watcher {
 </code></pre>
 <p>当 render function 被渲染的时候，读取所需对象的值，会触发 reactiveGetter 函数把当前的 Watcher 对象（存放在 Dep.target 中）收集到 Dep 类中去。之后如果修改对象的值，则会触发 reactiveSetter 方法，通知 Dep 类调用 notify 来触发所有 Watcher 对象的 update 方法更新对应视图。</p>
 <h2 id="总结">总结</h2>
-<p>本文在阅读 Vue 源码后，根据自己的理解编写的一个精简代码实现。其中代码实现并不严谨以及自身的理解不到位，在此深表惭愧。</p>
+<p>本文在阅读 Vue 源码后，根据自己的理解加上参考其他文章，编写的一个精简代码实现。其中代码实现并不严谨以及自身的理解不到位，在此深表惭愧。</p>
 ]]></content>
     </entry>
     <entry>
