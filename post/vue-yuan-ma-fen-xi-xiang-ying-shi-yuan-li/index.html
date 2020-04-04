@@ -1,0 +1,544 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Vue 源码分析 — 响应式原理 - Rubin&#39;s Blog</title>
+<meta name="description" content="温故而知新" />
+<link rel="shortcut icon" href="https://jrb1995.github.io/favicon.ico?v=1585994886764">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@1.3.1/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://jrb1995.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Vue 源码分析 — 响应式原理 - Rubin&#39;s Blog - Atom Feed" href="https://jrb1995.github.io/atom.xml">
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="remixicon-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://jrb1995.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://jrb1995.github.io/images/avatar.png?v=1585994886764" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">Rubin&#39;s Blog</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0">代码实现</a></li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="remixicon-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu" style="animation-delay: 0.6000000000000001s">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://jrb1995.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">Vue 源码分析 — 响应式原理</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2020-03-15 / 7 min read
+        </div>
+        
+        <div class="post-content yue">
+          <h2 id="前言">前言</h2>
+<p>Vue 是目前流行前端框架，其独特的特性是其非侵入性的响应式系统。当侦测到数据的变化来更新视图，原理核心是使用 <code>Object.defineProperty</code> 方法。本文对响应式原理进行分析，参照 vue 源码实现简易版的数据响应式。</p>
+<figure data-type="image" tabindex="1"><img src="https://jrb1995.github.io/post-images/1584274877854.png" alt="" loading="lazy"></figure>
+<h2 id="代码实现">代码实现</h2>
+<p>本文完整代码点击<a href="https://github.com/jrb1995/vue-mine" target="_blank">这里</a></p>
+<pre><code class="language-js">import { def, isObject } from '../util/index'
+
+class Observer {
+  constructor (value) {
+    this.value = value
+    // 通过 defineProperty 为对象添加 __ob__ 属性，并且配置为不可枚举
+    // 这样做的意义是对象遍历时不会遍历到 __ob__ 属性
+    def(value, '__ob__', this)
+    this.walk(value)
+  }
+
+  walk (obj) {
+    const keys = Object.keys(obj)
+    for (let i = 0; i &lt; keys.length; i++) {
+      defineReactive(obj, keys[i], obj[keys[i]])
+    }
+  }
+}
+
+function defineReactive (obj, key, val) {
+  // 如果 val 是对象的话递归监听
+  observe(val)
+  Object.defineProperty(obj, key, {
+    enumerable: true, // 可枚举
+    configurable: true, // 可配置
+    get: function reactiveGetter () {
+      return val
+    },
+    set: function reactiveSetter (newVal) {
+      if (newVal === val || (newVal !== newVal &amp;&amp; val !== val)) {
+        return
+      }
+      val = newVal
+      // 如果赋值是对象的话也要递归监听
+      observe(newVal)
+      console.log('侦测到数据变化', newVal);
+    }
+  })
+}
+
+export function observe (value) {
+  // 类型判断，不是对象类型直接返回
+  if (!isObject(value)) {
+    return
+  }
+  let ob = new Observer(value)
+  return ob
+}
+</code></pre>
+<p>上面这段代码主要作用在于：<code>observe</code> 函数传入一个 <code>value</code> (需要被追踪变化的对象)，作为 <code>Observer</code> 类的参数实例化，遍历所有属性对该对象的每一个属性都通过 <code>defineReactive</code> 处理， 在 <code>defineReactive</code> 方法内 <code>observe</code> 会进行递归调用，以此来达到实现侦测对象变化。</p>
+<p>接下来实现 <code>Vue</code> 类，对 options 中的 data 传入 observe 开发进行初始化数据侦测。</p>
+<pre><code class="language-js">import { observe } from '../observer/index'
+
+const sharedPropertyDefinition = {
+  enumerable: true,
+  configurable: true,
+  get: function () {},
+  set: function () {}
+}
+
+function proxy (target, sourceKey, key) {
+  sharedPropertyDefinition.get = function proxyGetter () {
+    return this[sourceKey][key]
+  }
+  sharedPropertyDefinition.set = function proxySetter (val) {
+    this[sourceKey][key] = val
+  }
+  Object.defineProperty(target, key, sharedPropertyDefinition)
+}
+
+function Vue (options) {
+  let vm = this
+  let data = options.data
+  vm._data = data
+
+  const keys = Object.keys(data)
+  let i = keys.length
+  while (i--) {
+    const key = keys[i]
+    // 可以让 vm._data.x 通过 vm.x 访问
+    proxy(vm, `_data`, key)
+  }
+
+  observe(data)
+}
+
+export default Vue
+</code></pre>
+<p>实例化 Vue 类，查看控制台的输出 vm。</p>
+<pre><code class="language-js">import Vue from './instance/index'
+
+const vm = new Vue({
+  data: {
+    message: 'hello',
+    location: { x: 100, y: 100 },
+    arr: [1]
+  }
+})
+
+window.vm = vm
+
+// 在控制台输入： vm.location = { x: 10, y: 10 } 
+// 输出：侦测到数据变化 {__ob__: Observer}
+// 输入：vm.location.z = 10
+// 输出：10
+// 输入：vm.arr.push(2)
+// 输出：2
+</code></pre>
+<p>从中可以看到几个问题：</p>
+<ul>
+<li>无法检测到对象属性的添加或删除</li>
+</ul>
+<p>通过 <code>Object.defineProperty</code> 来将对象的key转换成 <code>getter/setter</code> 的形式来追踪变化，但 <code>getter/setter</code> 只能追踪一个数据是否被修改，无法追踪新增属性和删除属性。</p>
+<p>实现 Vue 提供的 <code>set</code> 和 <code>delete</code> 方法向嵌套对象添加/删除响应式属性。</p>
+<ul>
+<li>不能监听数组的变化，需要进行数组方法的重写</li>
+</ul>
+<p>解决以上问题，具体代码如下：</p>
+<pre><code class="language-js">// array.js
+// 获得数组原型
+const arrayProto = Array.prototype
+export const arrayMethods = Object.create(arrayProto)
+// 创建一个自己的原型 并且重写 methods 这些方法
+const methodsToPatch = [
+  'push',
+  'pop',
+  'shift',
+  'unshift',
+  'splice',
+  'sort',
+  'reverse'
+]
+
+methodsToPatch.forEach(function (method) {
+  const original = arrayProto[method]
+  arrayMethods[method] = function (...args) {
+    const result = original.apply(this, args)
+    return result
+  }
+})
+</code></pre>
+<p>在 <code>observer/index.js</code> 中导入 <code>arrayMethods</code> 重写的原型对象。</p>
+<pre><code class="language-js">import { arrayMethods } from './array'
+import { def, isObject } from '../util/index'
+
+class Observer {
+  constructor (value) {
+    this.value = value
+    def(value, '__ob__', this)
+    if (Array.isArray(value)) {
+      value.__proto__ = arrayMethods
+      this.observeArray(value)
+    } else {
+      this.walk(value)
+    }
+  }
+
+  walk (obj) {
+    const keys = Object.keys(obj)
+    for (let i = 0; i &lt; keys.length; i++) {
+      defineReactive(obj, keys[i], obj[keys[i]])
+    }
+  }
+
+  observeArray (items) {
+    for (let i = 0, l = items.length; i &lt; l; i++) {
+      observe(items[i])
+    }
+  }
+}
+</code></pre>
+<p>以上代码实现了数据劫持，接下来需要实现收集依赖以及数据更新时派发更新，其中的核心思想就是<code>发布-订阅模式</code>。关于订阅者 <code>Dep</code> 和观察者 <code>Watcher</code> 相关代码。</p>
+<p><strong>订阅者 Dep</strong></p>
+<pre><code class="language-js">import { remove } from '../util/index'
+
+export default class Dep {
+  constructor () {
+    /* 用来存放 Watcher 对象的数组 */
+    this.subs = []
+  }
+
+  /* 在 subs 中添加一个 Watcher 对象 */
+  addSub (sub) {
+    this.subs.push(sub)
+  }
+
+  removeSub (sub) {
+    remove(this.subs, sub)
+  }
+  
+  depend () {
+    if (Dep.target) {
+      Dep.target.addDep(this)
+    }
+  }
+
+  /* 通知所有 Watcher 对象更新视图 */
+  notify () {
+    const subs = this.subs.slice()
+    for (let i = 0, l = subs.length; i &lt; l; i++) {
+      subs[i].update()
+    }
+  }
+}
+
+/* 在 watcher.js 中调用，将 Watcher 实例赋值给 Dep.target */ 
+Dep.target = null
+</code></pre>
+<p><strong>观察者 Watcher</strong></p>
+<pre><code class="language-js">import Dep from './dep'
+
+export default class Watcher {
+  constructor (vm, expOrFn, cb) {
+    this.vm = vm
+    this.getter = expOrFn || function () {}
+    this.cb = cb
+    this.value = this.get()
+  }
+
+  get () {
+    Dep.target = this
+
+    const vm = this.vm
+    let value = this.getter.call(vm, vm)
+    return value
+  }
+
+  addDep(dep) {
+    dep.addSub(this)
+  }
+
+  update () {
+    console.log('更新value:', this.value)
+  }
+}
+</code></pre>
+<p>在执行构造函数的时候将 <code>Dep.target</code> 指向自身，从而使得收集到了对应的 <code>Watcher</code>，在派发更新的时候取出对应的 <code>Watcher</code>，然后执行 <code>update</code> 函数。</p>
+<p>最后对 <code>defineReactive</code> 函数和 <code>Vue</code> 类进行改造</p>
+<pre><code class="language-js">export function defineReactive (obj, key, val) {
+  const dep = new Dep()
+  let childOb = observe(val)
+  
+  Object.defineProperty(obj, key, {
+    enumerable: true,
+    configurable: true,
+    get: function reactiveGetter () {
+      // 将 Watcher 添加到订阅  
+      dep.depend()
+      return val
+    },
+    set: function reactiveSetter (newVal) {
+      if (newVal === val || (newVal !== newVal &amp;&amp; val !== val)) {
+        return
+      }
+      val = newVal
+      childOb = observe(newVal)
+      // 执行 watcher 的 update 方法
+      dep.notify()
+    }
+  })
+}
+</code></pre>
+<pre><code class="language-js">function Vue (options) {
+  let vm = this
+  let data = options.data
+  vm._data = data
+
+  const keys = Object.keys(data)
+  let i = keys.length
+  while (i--) {
+    const key = keys[i]
+    proxy(vm, `_data`, key)
+  }
+
+  observe(data)
+  /* 新建一个 Watcher 观察者对象，这时候 Dep.target 会指向这个 Watcher 对象 */
+  new Watcher(data, val =&gt; val)
+}
+</code></pre>
+<p>当 render function 被渲染的时候，读取所需对象的值，会触发 reactiveGetter 函数把当前的 Watcher 对象（存放在 Dep.target 中）收集到 Dep 类中去。之后如果修改对象的值，则会触发 reactiveSetter 方法，通知 Dep 类调用 notify 来触发所有 Watcher 对象的 update 方法更新对应视图。</p>
+<h2 id="总结">总结</h2>
+<p>本文在阅读 Vue 源码后，根据自己的理解编写的一个精简代码实现。其中代码实现并不严谨以及自身的理解不到位，在此深表惭愧。</p>
+
+        </div>
+
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://jrb1995.github.io/tag/UzM9m2bP0/">
+            <span class="flex-auto">vue</span>
+          </a>
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://jrb1995.github.io/tag/pGvoCX5tk/">
+            <span class="flex-auto">js</span>
+          </a>
+        
+
+
+        <div class="flex justify-between py-8">
+          
+
+          
+            <div class="next-post">
+              <a href="https://jrb1995.github.io/post/github-actions-zi-dong-bu-shu-shi-jian/">
+                <h3 class="post-title">
+                  GitHub Actions 自动部署实践
+                  <i class="remixicon-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '58415ac62e821b4b6bbd',
+    clientSecret: '69a93aa48149a7a74c6517efbbb32c57bc07799f',
+    repo: 'jrb1995.github.io',
+    owner: 'jrb1995',
+    admin: ['jrb1995'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+      </div>
+    </div>
+
+    <script src="https://jrb1995.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>

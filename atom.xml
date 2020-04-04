@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jrb1995.github.io</id>
     <title>Rubin&apos;s Blog</title>
-    <updated>2020-03-29T03:17:47.075Z</updated>
+    <updated>2020-04-04T10:08:11.153Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jrb1995.github.io"/>
     <link rel="self" href="https://jrb1995.github.io/atom.xml"/>
@@ -11,9 +11,9 @@
     <icon>https://jrb1995.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Rubin&apos;s Blog</rights>
     <entry>
-        <title type="html"><![CDATA[Vue 源码分析 — 数据侦测]]></title>
-        <id>https://jrb1995.github.io/post/vue-yuan-ma-fen-xi-shu-ju-zhen-ce/</id>
-        <link href="https://jrb1995.github.io/post/vue-yuan-ma-fen-xi-shu-ju-zhen-ce/">
+        <title type="html"><![CDATA[Vue 源码分析 — 响应式原理]]></title>
+        <id>https://jrb1995.github.io/post/vue-yuan-ma-fen-xi-xiang-ying-shi-yuan-li/</id>
+        <link href="https://jrb1995.github.io/post/vue-yuan-ma-fen-xi-xiang-ying-shi-yuan-li/">
         </link>
         <updated>2020-03-15T11:50:48.000Z</updated>
         <content type="html"><![CDATA[<h2 id="前言">前言</h2>
@@ -192,8 +192,117 @@ class Observer {
   }
 }
 </code></pre>
+<p>以上代码实现了数据劫持，接下来需要实现收集依赖以及数据更新时派发更新，其中的核心思想就是<code>发布-订阅模式</code>。关于订阅者 <code>Dep</code> 和观察者 <code>Watcher</code> 相关代码。</p>
+<p><strong>订阅者 Dep</strong></p>
+<pre><code class="language-js">import { remove } from '../util/index'
+
+export default class Dep {
+  constructor () {
+    /* 用来存放 Watcher 对象的数组 */
+    this.subs = []
+  }
+
+  /* 在 subs 中添加一个 Watcher 对象 */
+  addSub (sub) {
+    this.subs.push(sub)
+  }
+
+  removeSub (sub) {
+    remove(this.subs, sub)
+  }
+  
+  depend () {
+    if (Dep.target) {
+      Dep.target.addDep(this)
+    }
+  }
+
+  /* 通知所有 Watcher 对象更新视图 */
+  notify () {
+    const subs = this.subs.slice()
+    for (let i = 0, l = subs.length; i &lt; l; i++) {
+      subs[i].update()
+    }
+  }
+}
+
+/* 在 watcher.js 中调用，将 Watcher 实例赋值给 Dep.target */ 
+Dep.target = null
+</code></pre>
+<p><strong>观察者 Watcher</strong></p>
+<pre><code class="language-js">import Dep from './dep'
+
+export default class Watcher {
+  constructor (vm, expOrFn, cb) {
+    this.vm = vm
+    this.getter = expOrFn || function () {}
+    this.cb = cb
+    this.value = this.get()
+  }
+
+  get () {
+    Dep.target = this
+
+    const vm = this.vm
+    let value = this.getter.call(vm, vm)
+    return value
+  }
+
+  addDep(dep) {
+    dep.addSub(this)
+  }
+
+  update () {
+    console.log('更新value:', this.value)
+  }
+}
+</code></pre>
+<p>在执行构造函数的时候将 <code>Dep.target</code> 指向自身，从而使得收集到了对应的 <code>Watcher</code>，在派发更新的时候取出对应的 <code>Watcher</code>，然后执行 <code>update</code> 函数。</p>
+<p>最后对 <code>defineReactive</code> 函数和 <code>Vue</code> 类进行改造</p>
+<pre><code class="language-js">export function defineReactive (obj, key, val) {
+  const dep = new Dep()
+  let childOb = observe(val)
+  
+  Object.defineProperty(obj, key, {
+    enumerable: true,
+    configurable: true,
+    get: function reactiveGetter () {
+      // 将 Watcher 添加到订阅  
+      dep.depend()
+      return val
+    },
+    set: function reactiveSetter (newVal) {
+      if (newVal === val || (newVal !== newVal &amp;&amp; val !== val)) {
+        return
+      }
+      val = newVal
+      childOb = observe(newVal)
+      // 执行 watcher 的 update 方法
+      dep.notify()
+    }
+  })
+}
+</code></pre>
+<pre><code class="language-js">function Vue (options) {
+  let vm = this
+  let data = options.data
+  vm._data = data
+
+  const keys = Object.keys(data)
+  let i = keys.length
+  while (i--) {
+    const key = keys[i]
+    proxy(vm, `_data`, key)
+  }
+
+  observe(data)
+  /* 新建一个 Watcher 观察者对象，这时候 Dep.target 会指向这个 Watcher 对象 */
+  new Watcher(data, val =&gt; val)
+}
+</code></pre>
+<p>当 render function 被渲染的时候，读取所需对象的值，会触发 reactiveGetter 函数把当前的 Watcher 对象（存放在 Dep.target 中）收集到 Dep 类中去。之后如果修改对象的值，则会触发 reactiveSetter 方法，通知 Dep 类调用 notify 来触发所有 Watcher 对象的 update 方法更新对应视图。</p>
 <h2 id="总结">总结</h2>
-<p>以上代码只涉及了如何把对象转换为可侦测的数据。此外还有其他的知识点，比如如何才能知道哪些地方依赖我的数据，以及数据更新时派发更新。也就是关于订阅者 Dep 和观察者 Watcher。自己还需要再继续研究一下 vue 关于这个部分的源码——惭愧😓。</p>
+<p>本文在阅读 Vue 源码后，根据自己的理解编写的一个精简代码实现。其中代码实现并不严谨以及自身的理解不到位，在此深表惭愧。</p>
 ]]></content>
     </entry>
     <entry>
