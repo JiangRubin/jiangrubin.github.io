@@ -2,7 +2,7 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>CSS开发技巧整理 - Rubin&#39;s Blog</title>
+<title>Rubin&#39;s Blog</title>
 <meta name="description" content="温故而知新" />
 <link rel="shortcut icon" href="https://jrb1995.github.io/favicon.ico?v=1586236914769">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
 
 <link rel="stylesheet" href="https://jrb1995.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="CSS开发技巧整理 - Rubin&#39;s Blog - Atom Feed" href="https://jrb1995.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="Rubin&#39;s Blog - Atom Feed" href="https://jrb1995.github.io/atom.xml">
 
 
 
@@ -31,24 +31,38 @@
       
         <div class="animated fadeInLeft" style="animation-delay: 0.4s">
           <p class="my-4 text-gray-600 font-light hidden lg:block">
-            文章目录
+            温故而知新
           </p>
-          <div class="toc-container hidden lg:block">
-            <ul class="markdownIt-TOC">
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#%E5%BF%AB%E9%80%9F%E9%87%8D%E7%BD%AE%E8%A1%A8%E5%8D%95%E5%85%83%E7%B4%A0">快速重置表单元素</a></li>
-<li><a href="#%E6%96%87%E6%9C%AC%E7%9C%81%E7%95%A5%E5%8F%B7%E6%98%BE%E7%A4%BA">文本省略号显示</a></li>
-<li><a href="#%E8%AE%BE%E7%BD%AE%E6%96%87%E6%9C%AC%E4%B8%A4%E7%AB%AF%E5%AF%B9%E9%BD%90">设置文本两端对齐</a></li>
-<li><a href="#%E8%A7%84%E5%AE%9A%E5%9B%BE%E5%83%8F%E5%B1%95%E7%A4%BA%E6%96%B9%E5%BC%8F">规定图像展示方式</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
+          <div class="animated fadeInLeft social-container hidden lg:block" style="animation-delay: 0.6s">
+            
+              
+                <a href="https://github.com/jrb1995" target="_blank" class="mr-4 text-xl text-gray-400 font-light hover:text-gray-900">
+                  <i class="remixicon-github-line"></i>
+                </a>
+              
+            
+              
+            
+              
+            
+              
+                <a href="https://www.zhihu.com/people/jiang-ru-bin-95/activities" target="_blank" class="mr-4 text-xl text-gray-400 font-light hover:text-gray-900">
+                  <i class="remixicon-zhihu-line"></i>
+                </a>
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
           </div>
         </div>
       
@@ -92,118 +106,28 @@
 </div>
 <div class="mask" onclick="closeMenu()">
 </div>
-      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
-        <h1 class="text-3xl font-bold lg:mt-16">CSS开发技巧整理</h1>
-        <div class="text-sm text-gray-700 lg:my-8">
-          2019-11-11 / 2 min read
-        </div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4">
+        <h2 class="text-lg text-gray-700 mb-8">
+          <i class="remixicon-bookmark-line"></i> ios
+        </h2>
         
-        <div class="post-content yue">
-          <h3 id="快速重置表单元素">快速重置表单元素</h3>
-<p>原始的 <code>button</code> 按钮重置</p>
-<pre><code class="language-css">button {
-  background: none;
-  border: none;
-  color: inherit;
-  font: inherit;
-  outline: none;
-  padding: 0;
-}
-</code></pre>
-<p>只需要这样就可以(<code>input</code>、<code>textarea</code>)</p>
-<pre><code class="language-css">button { 
-  all: unset;
-}
-</code></pre>
-<h3 id="文本省略号显示">文本省略号显示</h3>
-<p>文本省略号是非常常见的需求，而省略号展示又通常分为俩种情况折行和不折行。</p>
-<p>不折行：</p>
-<pre><code class="language-css">div {  
-  white-space: nowrap; /* 规定文本是否折行 */  
-  overflow: hidden; /* 规定超出内容宽度的元素隐藏 */
-  text-overflow: ellipsis; /* 规定超出的内容文本省略号显示，通常跟上面的属性连用，因为没有上面的属性不会触发超出规定的内容 */
-}
-</code></pre>
-<p>折行(能主动控制行数,这里设置的超出 4 行显示省略号)：</p>
-<pre><code class="language-css">div {      
-  overflow: hidden;      
-  text-overflow: ellipsis;      
-  display: -webkit-box; /* 将对象作为弹性伸缩盒子模型显示 */      
-  -webkit-line-clamp: 4; /* 控制最多显示几行 */      
-  -webkit-box-orient: vertical; /* 设置或检索伸缩盒对象的子元素的排列方式 */    
-}
-</code></pre>
-<h3 id="设置文本两端对齐">设置文本两端对齐</h3>
-<pre><code class="language-css">p {
-  text-align-last: justify; /* 这是关键属性 */
-}
-</code></pre>
-<h3 id="规定图像展示方式">规定图像展示方式</h3>
-<p>显示图片的时候会遇到这种问题，对面返回的图片宽高比例是不一样的。但是设置的容器大小是一样的，这个时候需要让图片保持比例最大填充容器。</p>
-<pre><code>object-fit： cover | contain | fill | scale-down | none
-</code></pre>
-<figure data-type="image" tabindex="1"><img src="https://jrb1995.github.io/post-images/1573479048374.png" alt="" loading="lazy"></figure>
-
-        </div>
-
+  <section class="post-item md:flex pb-12 animated fadeIn" :style="{ 'animation-delay': `${0 * 0.2}s` }">
+    
+    <div class="content">
+      <a href="https://jrb1995.github.io/post/ios-zheng-shu-pei-zhi-zhi-bei/">
+        <h2 class="post-title text-xl font-extrabold mt-5 md:mt-0">iOS 证书配置指北</h2>
+      </a>
+      <div class="post-abstract text-gray-700 font-light my-4">
         
-          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://jrb1995.github.io/tag/a4skdzeUz/">
-            <span class="flex-auto">css</span>
-          </a>
-        
+      </div>
+      <div class="text-gray-400 text-sm font-light">2020-04-06 / 4 min read</div>
+    </div>
+  </section>
 
-
-        <div class="flex justify-between py-8">
-          
-            <div class="prev-post">
-              <a href="https://jrb1995.github.io/post/han-shu-de-fang-dou-he-jie-liu/">
-                <h3 class="post-title">
-                  <i class="remixicon-arrow-left-line"></i>
-                  函数的防抖和节流
-                </h3>
-              </a>
-            </div>
-          
-
-          
-            <div class="next-post">
-              <a href="https://jrb1995.github.io/post/react-native/">
-                <h3 class="post-title">
-                  React Native 知识点小记
-                  <i class="remixicon-arrow-right-line"></i>
-                </h3>
-              </a>
-            </div>
-          
-        </div>
-
-        
-          
-            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-
-<div id="gitalk-container"></div>
-
-<script>
-
-  var gitalk = new Gitalk({
-    clientID: '58415ac62e821b4b6bbd',
-    clientSecret: '69a93aa48149a7a74c6517efbbb32c57bc07799f',
-    repo: 'jrb1995.github.io',
-    owner: 'jrb1995',
-    admin: ['jrb1995'],
-    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
-    distractionFreeMode: false  // Facebook-like distraction free mode
-  })
-
-  gitalk.render('gitalk-container')
-
-</script>
-
-          
-
-          
-        
+        <div class="pagination-container animated fadeIn">
+  
+  
+</div>
 
       </div>
     </div>
