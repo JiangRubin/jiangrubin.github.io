@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jrb1995.github.io</id>
     <title>Rubin&apos;s Blog</title>
-    <updated>2020-04-07T05:39:01.794Z</updated>
+    <updated>2020-04-09T02:32:32.042Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jrb1995.github.io"/>
     <link rel="self" href="https://jrb1995.github.io/atom.xml"/>
@@ -76,6 +76,11 @@
 <p>填写完 Profile Name 点击 generate 完成，之后点击 DownLoad，下载 <code>.mobileprovision</code> 的文件，双击文件即可添加到 Xcode。</p>
 <figure data-type="image" tabindex="25"><img src="https://jrb1995.github.io/post-images/1586235137886.png" alt="" loading="lazy"></figure>
 <p>至此证书和配置文件之类的都创建完了。</p>
+<h2 id="其他问题">其他问题</h2>
+<h3 id="xcode-missing-private-key-解决方案">Xcode Missing Private key 解决方案</h3>
+<p>当我们换另一台 Mac 设备开发打包的时候，会发现提示 <code>Missing Private key</code>。</p>
+<p>因为苹果规定 <code>.cer</code> 证书只能存在于一台机器上，因此如果另一台电脑想要用的话，需要导出为 <code>.p12</code> 文件，安装到另一台没有安装 <code>.cer</code> 文件的 Mac 电脑。</p>
+<p>详细说明参考该篇博客 <a href="https://www.jianshu.com/p/6372055fbaa0" target="_blank">https://www.jianshu.com/p/6372055fbaa0</a></p>
 ]]></content>
     </entry>
     <entry>
