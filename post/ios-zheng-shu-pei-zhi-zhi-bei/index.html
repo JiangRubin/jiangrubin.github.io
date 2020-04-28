@@ -4,14 +4,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>iOS 证书配置指北 - Rubin&#39;s Blog</title>
 <meta name="description" content="温故而知新" />
-<link rel="shortcut icon" href="https://jrb1995.github.io/favicon.ico?v=1587091439433">
+<link rel="shortcut icon" href="https://jrb1995.gitee.io/favicon.ico?v=1588065645914">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@1.3.1/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
 
-<link rel="stylesheet" href="https://jrb1995.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="iOS 证书配置指北 - Rubin&#39;s Blog - Atom Feed" href="https://jrb1995.github.io/atom.xml">
+<link rel="stylesheet" href="https://jrb1995.gitee.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="iOS 证书配置指北 - Rubin&#39;s Blog - Atom Feed" href="https://jrb1995.gitee.io/atom.xml">
 
 
 
@@ -23,8 +23,8 @@
     <div class="sidebar-content">
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="remixicon-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
-        <a href="https://jrb1995.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://jrb1995.github.io/images/avatar.png?v=1587091439433" alt="">
+        <a href="https://jrb1995.gitee.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://jrb1995.gitee.io/images/avatar.png?v=1588065645914" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">Rubin&#39;s Blog</h1>
       </div>
@@ -93,7 +93,7 @@
   </div>
   <div class="site-footer">
     <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
-    <a class="rss" href="https://jrb1995.github.io/atom.xml" target="_blank">RSS</a>
+    <a class="rss" href="https://jrb1995.gitee.io/atom.xml" target="_blank">RSS</a>
   </div>
 </div>
 <div class="mask" onclick="closeMenu()">
@@ -104,24 +104,24 @@
           2020-04-06 / 4 min read
         </div>
         
-          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://jrb1995.github.io/post-images/ios-zheng-shu-pei-zhi-zhi-bei.png" alt="">
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://jrb1995.gitee.io/post-images/ios-zheng-shu-pei-zhi-zhi-bei.png" alt="">
         
         <div class="post-content yue">
           <h2 id="前言">前言</h2>
 <p>用 react-native 开发项目时，在对 iOS 证书相关的配置，每次操作一遍后过一段时间又忘了。所以将证书的配置流程都记录下来，方便以后查阅。</p>
 <h2 id="创建应用程序-id">创建应用程序 ID</h2>
 <p>首先需要开发者账号，登录<a href="https://developer.apple.com/" target="_blank">苹果开发者网站</a>进入开发者账户。</p>
-<figure data-type="image" tabindex="1"><img src="https://jrb1995.github.io/post-images/1586741039119.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="1"><img src="https://jrb1995.gitee.io/post-images/1586741039119.png" alt="" loading="lazy"></figure>
 <p>进入 <code>Certificates, Identifiers &amp; Profiles</code> 页面。</p>
-<figure data-type="image" tabindex="2"><img src="https://jrb1995.github.io/post-images/1586141548388.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="2"><img src="https://jrb1995.gitee.io/post-images/1586141548388.png" alt="" loading="lazy"></figure>
 <p>选择 Identifiers 创建 App ID，填写 App ID 的 Description 和 Bundle ID。</p>
-<figure data-type="image" tabindex="3"><img src="https://jrb1995.github.io/post-images/1586141828211.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="3"><img src="https://jrb1995.gitee.io/post-images/1586141828211.png" alt="" loading="lazy"></figure>
 <p>一般选择 App IDs 即可。</p>
-<figure data-type="image" tabindex="4"><img src="https://jrb1995.github.io/post-images/1586141936519.png" alt="" loading="lazy"></figure>
-<figure data-type="image" tabindex="5"><img src="https://jrb1995.github.io/post-images/1586142154922.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="4"><img src="https://jrb1995.gitee.io/post-images/1586141936519.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="5"><img src="https://jrb1995.gitee.io/post-images/1586142154922.png" alt="" loading="lazy"></figure>
 <p>为 App 添加一些功能，比如消息推送功能。</p>
-<figure data-type="image" tabindex="6"><img src="https://jrb1995.github.io/post-images/1586142360020.png" alt="" loading="lazy"></figure>
-<figure data-type="image" tabindex="7"><img src="https://jrb1995.github.io/post-images/1586142366600.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="6"><img src="https://jrb1995.gitee.io/post-images/1586142360020.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="7"><img src="https://jrb1995.gitee.io/post-images/1586142366600.png" alt="" loading="lazy"></figure>
 <p>填写好以上信息后，点击 Continue，确认 AppId 正确填写，点击 Register，注册 AppId 成功。</p>
 <h2 id="创建-csr-文件证书请求文件">创建 CSR 文件（证书请求文件）</h2>
 <blockquote>
@@ -129,43 +129,43 @@
 </blockquote>
 <p>CSR 文件在创建 Certificates 时需要上传。</p>
 <p>使用 Mac 自带的 <code>钥匙串访问</code> 来创建 <code>Certificate Signing Request</code> 文件，如下图操作：</p>
-<figure data-type="image" tabindex="8"><img src="https://jrb1995.github.io/post-images/1586143369160.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="8"><img src="https://jrb1995.gitee.io/post-images/1586143369160.png" alt="" loading="lazy"></figure>
 <p>填写 <code>用户邮箱</code> 和 <code>常用名称</code> (名称可以随意填)，并选择 <code>存储到磁盘</code>，文件后缀为 <code>.certSigningRequest</code>。</p>
-<figure data-type="image" tabindex="9"><img src="https://jrb1995.github.io/post-images/1586143624913.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="9"><img src="https://jrb1995.gitee.io/post-images/1586143624913.png" alt="" loading="lazy"></figure>
 <h2 id="创建证书">创建证书</h2>
 <blockquote>
 <p>iOS 证书是用来证明 iOS App 内容（executable code）的合法性和完整性的数字证书。对于想安装到真机或发布到 AppStore 的应用程序（App），只有经过签名验证（Signature Validated）才能确保来源可信，并且保证 App 内容是完整、未经篡改的。</p>
 </blockquote>
 <p>选择 Certificates 点击加号。</p>
-<figure data-type="image" tabindex="10"><img src="https://jrb1995.github.io/post-images/1586144322541.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="10"><img src="https://jrb1995.gitee.io/post-images/1586144322541.png" alt="" loading="lazy"></figure>
 <p>选择相应的证书种类，如图有开发调试证书、生产发布证书（App Store 上传应用商店、Ad Hoc 用于测试包发布）、开发环境推送证书、生产环境推送证书。选择你需要的证书。</p>
-<figure data-type="image" tabindex="11"><img src="https://jrb1995.github.io/post-images/1586236889292.png" alt="" loading="lazy"></figure>
-<figure data-type="image" tabindex="12"><img src="https://jrb1995.github.io/post-images/1586236895832.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="11"><img src="https://jrb1995.gitee.io/post-images/1586236889292.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="12"><img src="https://jrb1995.gitee.io/post-images/1586236895832.png" alt="" loading="lazy"></figure>
 <p>再点击 Continue，选择之前生成的 CSR 文件上传，继续点击 Continue，证书创建完成。下载下来添加到钥匙串访问中。</p>
-<figure data-type="image" tabindex="13"><img src="https://jrb1995.github.io/post-images/1586229786987.png" alt="" loading="lazy"></figure>
-<figure data-type="image" tabindex="14"><img src="https://jrb1995.github.io/post-images/1586229914720.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="13"><img src="https://jrb1995.gitee.io/post-images/1586229786987.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="14"><img src="https://jrb1995.gitee.io/post-images/1586229914720.png" alt="" loading="lazy"></figure>
 <h3 id="推送证书和极光推送">推送证书和极光推送</h3>
 <p>项目中需要消息推送服务的话，就需要用的消息推送证书。我使用的是极光推送，把消息推送证书 Download 下来，双击添加到钥匙串访问中。找到刚才下载的证书并导出 <code>.p12</code> 文件，之后需要添加到极光后台。</p>
-<figure data-type="image" tabindex="15"><img src="https://jrb1995.github.io/post-images/1586235903947.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="15"><img src="https://jrb1995.gitee.io/post-images/1586235903947.png" alt="" loading="lazy"></figure>
 <p>点击存储后需要输入密码，密码要记住，上传到极光后台需要用到。</p>
-<figure data-type="image" tabindex="16"><img src="https://jrb1995.github.io/post-images/1586236061023.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="16"><img src="https://jrb1995.gitee.io/post-images/1586236061023.png" alt="" loading="lazy"></figure>
 <p>假设你的极光后台应用信息已经填写好，设置证书时如下图：</p>
-<figure data-type="image" tabindex="17"><img src="https://jrb1995.github.io/post-images/1586236293643.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="17"><img src="https://jrb1995.gitee.io/post-images/1586236293643.png" alt="" loading="lazy"></figure>
 <p>上传之前导出的 <code>.p12</code> 文件，填写导出时设置的密码，极光会在后台为你的应用进行鉴权。</p>
-<figure data-type="image" tabindex="18"><img src="https://jrb1995.github.io/post-images/1586236303663.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="18"><img src="https://jrb1995.gitee.io/post-images/1586236303663.png" alt="" loading="lazy"></figure>
 <h2 id="创建配置文件">创建配置文件</h2>
 <p>创建 Provisioning Profile 的前提，已在 Apple Developer 网站创建待发布应用所使用的 Bundle ID 的 App ID。</p>
 <p>选择 Profile 点击加号按钮，创建 Provisioning Profile。</p>
-<figure data-type="image" tabindex="19"><img src="https://jrb1995.github.io/post-images/1586230645086.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="19"><img src="https://jrb1995.gitee.io/post-images/1586230645086.png" alt="" loading="lazy"></figure>
 <p>选择你需要的 Profile 环境。</p>
-<figure data-type="image" tabindex="20"><img src="https://jrb1995.github.io/post-images/1586237441979.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="20"><img src="https://jrb1995.gitee.io/post-images/1586237441979.png" alt="" loading="lazy"></figure>
 <p>选择之前创建的 App ID、相应的证书、测试的设备、profile 名称，一直 Continue 即可。</p>
-<figure data-type="image" tabindex="21"><img src="https://jrb1995.github.io/post-images/1586231384208.png" alt="" loading="lazy"></figure>
-<figure data-type="image" tabindex="22"><img src="https://jrb1995.github.io/post-images/1586231669480.png" alt="" loading="lazy"></figure>
-<figure data-type="image" tabindex="23"><img src="https://jrb1995.github.io/post-images/1586231591517.png" alt="" loading="lazy"></figure>
-<figure data-type="image" tabindex="24"><img src="https://jrb1995.github.io/post-images/1586234979603.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="21"><img src="https://jrb1995.gitee.io/post-images/1586231384208.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="22"><img src="https://jrb1995.gitee.io/post-images/1586231669480.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="23"><img src="https://jrb1995.gitee.io/post-images/1586231591517.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="24"><img src="https://jrb1995.gitee.io/post-images/1586234979603.png" alt="" loading="lazy"></figure>
 <p>填写完 Profile Name 点击 generate 完成，之后点击 DownLoad，下载 <code>.mobileprovision</code> 的文件，双击文件即可添加到 Xcode。</p>
-<figure data-type="image" tabindex="25"><img src="https://jrb1995.github.io/post-images/1586235137886.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="25"><img src="https://jrb1995.gitee.io/post-images/1586235137886.png" alt="" loading="lazy"></figure>
 <p>至此证书和配置文件之类的都创建完了。</p>
 <h2 id="其他问题">其他问题</h2>
 <h3 id="xcode-missing-private-key-解决方案">Xcode Missing Private key 解决方案</h3>
@@ -176,11 +176,11 @@
         </div>
 
         
-          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://jrb1995.github.io/tag/a-YytiE2t/">
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://jrb1995.gitee.io/tag/a-YytiE2t/">
             <span class="flex-auto">ios</span>
           </a>
         
-          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://jrb1995.github.io/tag/oGDYGXS3n/">
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://jrb1995.gitee.io/tag/oGDYGXS3n/">
             <span class="flex-auto">react-native</span>
           </a>
         
@@ -191,7 +191,7 @@
 
           
             <div class="next-post">
-              <a href="https://jrb1995.github.io/post/vue-yuan-ma-fen-xi-xiang-ying-shi-yuan-li/">
+              <a href="https://jrb1995.gitee.io/post/vue-yuan-ma-fen-xi-xiang-ying-shi-yuan-li/">
                 <h3 class="post-title">
                   Vue 源码分析 — 响应式原理
                   <i class="remixicon-arrow-right-line"></i>
@@ -232,7 +232,7 @@
       </div>
     </div>
 
-    <script src="https://jrb1995.github.io/media/prism.js"></script>  
+    <script src="https://jrb1995.gitee.io/media/prism.js"></script>  
 <script>
 
 Prism.highlightAll()
