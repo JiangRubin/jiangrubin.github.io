@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://nwc7cp.coding-pages.com</id>
+    <id>https://jrb1995.github.io</id>
     <title>Rubin&apos;s Blog</title>
-    <updated>2020-04-29T02:06:33.588Z</updated>
+    <updated>2020-05-01T10:29:34.763Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://nwc7cp.coding-pages.com"/>
-    <link rel="self" href="https://nwc7cp.coding-pages.com/atom.xml"/>
+    <link rel="alternate" href="https://jrb1995.github.io"/>
+    <link rel="self" href="https://jrb1995.github.io/atom.xml"/>
     <subtitle>温故而知新</subtitle>
-    <logo>https://nwc7cp.coding-pages.com/images/avatar.png</logo>
-    <icon>https://nwc7cp.coding-pages.com/favicon.ico</icon>
+    <logo>https://jrb1995.github.io/images/avatar.png</logo>
+    <icon>https://jrb1995.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Rubin&apos;s Blog</rights>
     <entry>
         <title type="html"><![CDATA[iOS 证书配置指北]]></title>
-        <id>https://nwc7cp.coding-pages.com/post/ios-zheng-shu-pei-zhi-zhi-bei/</id>
-        <link href="https://nwc7cp.coding-pages.com/post/ios-zheng-shu-pei-zhi-zhi-bei/">
+        <id>https://jrb1995.github.io/post/ios-zheng-shu-pei-zhi-zhi-bei/</id>
+        <link href="https://jrb1995.github.io/post/ios-zheng-shu-pei-zhi-zhi-bei/">
         </link>
         <updated>2020-04-06T02:16:52.000Z</updated>
         <content type="html"><![CDATA[<h2 id="前言">前言</h2>
 <p>用 react-native 开发项目时，在对 iOS 证书相关的配置，每次操作一遍后过一段时间又忘了。所以将证书的配置流程都记录下来，方便以后查阅。</p>
 <h2 id="创建应用程序-id">创建应用程序 ID</h2>
 <p>首先需要开发者账号，登录<a href="https://developer.apple.com/" target="_blank">苹果开发者网站</a>进入开发者账户。</p>
-<figure data-type="image" tabindex="1"><img src="https://nwc7cp.coding-pages.com/post-images/1586741039119.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="1"><img src="https://jrb1995.github.io/post-images/1586741039119.png" alt="" loading="lazy"></figure>
 <p>进入 <code>Certificates, Identifiers &amp; Profiles</code> 页面。</p>
-<figure data-type="image" tabindex="2"><img src="https://nwc7cp.coding-pages.com/post-images/1586141548388.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="2"><img src="https://jrb1995.github.io/post-images/1586141548388.png" alt="" loading="lazy"></figure>
 <p>选择 Identifiers 创建 App ID，填写 App ID 的 Description 和 Bundle ID。</p>
-<figure data-type="image" tabindex="3"><img src="https://nwc7cp.coding-pages.com/post-images/1586141828211.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="3"><img src="https://jrb1995.github.io/post-images/1586141828211.png" alt="" loading="lazy"></figure>
 <p>一般选择 App IDs 即可。</p>
-<figure data-type="image" tabindex="4"><img src="https://nwc7cp.coding-pages.com/post-images/1586141936519.png" alt="" loading="lazy"></figure>
-<figure data-type="image" tabindex="5"><img src="https://nwc7cp.coding-pages.com/post-images/1586142154922.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="4"><img src="https://jrb1995.github.io/post-images/1586141936519.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="5"><img src="https://jrb1995.github.io/post-images/1586142154922.png" alt="" loading="lazy"></figure>
 <p>为 App 添加一些功能，比如消息推送功能。</p>
-<figure data-type="image" tabindex="6"><img src="https://nwc7cp.coding-pages.com/post-images/1586142360020.png" alt="" loading="lazy"></figure>
-<figure data-type="image" tabindex="7"><img src="https://nwc7cp.coding-pages.com/post-images/1586142366600.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="6"><img src="https://jrb1995.github.io/post-images/1586142360020.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="7"><img src="https://jrb1995.github.io/post-images/1586142366600.png" alt="" loading="lazy"></figure>
 <p>填写好以上信息后，点击 Continue，确认 AppId 正确填写，点击 Register，注册 AppId 成功。</p>
 <h2 id="创建-csr-文件证书请求文件">创建 CSR 文件（证书请求文件）</h2>
 <blockquote>
@@ -38,43 +38,43 @@
 </blockquote>
 <p>CSR 文件在创建 Certificates 时需要上传。</p>
 <p>使用 Mac 自带的 <code>钥匙串访问</code> 来创建 <code>Certificate Signing Request</code> 文件，如下图操作：</p>
-<figure data-type="image" tabindex="8"><img src="https://nwc7cp.coding-pages.com/post-images/1586143369160.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="8"><img src="https://jrb1995.github.io/post-images/1586143369160.png" alt="" loading="lazy"></figure>
 <p>填写 <code>用户邮箱</code> 和 <code>常用名称</code> (名称可以随意填)，并选择 <code>存储到磁盘</code>，文件后缀为 <code>.certSigningRequest</code>。</p>
-<figure data-type="image" tabindex="9"><img src="https://nwc7cp.coding-pages.com/post-images/1586143624913.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="9"><img src="https://jrb1995.github.io/post-images/1586143624913.png" alt="" loading="lazy"></figure>
 <h2 id="创建证书">创建证书</h2>
 <blockquote>
 <p>iOS 证书是用来证明 iOS App 内容（executable code）的合法性和完整性的数字证书。对于想安装到真机或发布到 AppStore 的应用程序（App），只有经过签名验证（Signature Validated）才能确保来源可信，并且保证 App 内容是完整、未经篡改的。</p>
 </blockquote>
 <p>选择 Certificates 点击加号。</p>
-<figure data-type="image" tabindex="10"><img src="https://nwc7cp.coding-pages.com/post-images/1586144322541.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="10"><img src="https://jrb1995.github.io/post-images/1586144322541.png" alt="" loading="lazy"></figure>
 <p>选择相应的证书种类，如图有开发调试证书、生产发布证书（App Store 上传应用商店、Ad Hoc 用于测试包发布）、开发环境推送证书、生产环境推送证书。选择你需要的证书。</p>
-<figure data-type="image" tabindex="11"><img src="https://nwc7cp.coding-pages.com/post-images/1586236889292.png" alt="" loading="lazy"></figure>
-<figure data-type="image" tabindex="12"><img src="https://nwc7cp.coding-pages.com/post-images/1586236895832.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="11"><img src="https://jrb1995.github.io/post-images/1586236889292.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="12"><img src="https://jrb1995.github.io/post-images/1586236895832.png" alt="" loading="lazy"></figure>
 <p>再点击 Continue，选择之前生成的 CSR 文件上传，继续点击 Continue，证书创建完成。下载下来添加到钥匙串访问中。</p>
-<figure data-type="image" tabindex="13"><img src="https://nwc7cp.coding-pages.com/post-images/1586229786987.png" alt="" loading="lazy"></figure>
-<figure data-type="image" tabindex="14"><img src="https://nwc7cp.coding-pages.com/post-images/1586229914720.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="13"><img src="https://jrb1995.github.io/post-images/1586229786987.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="14"><img src="https://jrb1995.github.io/post-images/1586229914720.png" alt="" loading="lazy"></figure>
 <h3 id="推送证书和极光推送">推送证书和极光推送</h3>
 <p>项目中需要消息推送服务的话，就需要用的消息推送证书。我使用的是极光推送，把消息推送证书 Download 下来，双击添加到钥匙串访问中。找到刚才下载的证书并导出 <code>.p12</code> 文件，之后需要添加到极光后台。</p>
-<figure data-type="image" tabindex="15"><img src="https://nwc7cp.coding-pages.com/post-images/1586235903947.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="15"><img src="https://jrb1995.github.io/post-images/1586235903947.png" alt="" loading="lazy"></figure>
 <p>点击存储后需要输入密码，密码要记住，上传到极光后台需要用到。</p>
-<figure data-type="image" tabindex="16"><img src="https://nwc7cp.coding-pages.com/post-images/1586236061023.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="16"><img src="https://jrb1995.github.io/post-images/1586236061023.png" alt="" loading="lazy"></figure>
 <p>假设你的极光后台应用信息已经填写好，设置证书时如下图：</p>
-<figure data-type="image" tabindex="17"><img src="https://nwc7cp.coding-pages.com/post-images/1586236293643.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="17"><img src="https://jrb1995.github.io/post-images/1586236293643.png" alt="" loading="lazy"></figure>
 <p>上传之前导出的 <code>.p12</code> 文件，填写导出时设置的密码，极光会在后台为你的应用进行鉴权。</p>
-<figure data-type="image" tabindex="18"><img src="https://nwc7cp.coding-pages.com/post-images/1586236303663.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="18"><img src="https://jrb1995.github.io/post-images/1586236303663.png" alt="" loading="lazy"></figure>
 <h2 id="创建配置文件">创建配置文件</h2>
 <p>创建 Provisioning Profile 的前提，已在 Apple Developer 网站创建待发布应用所使用的 Bundle ID 的 App ID。</p>
 <p>选择 Profile 点击加号按钮，创建 Provisioning Profile。</p>
-<figure data-type="image" tabindex="19"><img src="https://nwc7cp.coding-pages.com/post-images/1586230645086.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="19"><img src="https://jrb1995.github.io/post-images/1586230645086.png" alt="" loading="lazy"></figure>
 <p>选择你需要的 Profile 环境。</p>
-<figure data-type="image" tabindex="20"><img src="https://nwc7cp.coding-pages.com/post-images/1586237441979.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="20"><img src="https://jrb1995.github.io/post-images/1586237441979.png" alt="" loading="lazy"></figure>
 <p>选择之前创建的 App ID、相应的证书、测试的设备、profile 名称，一直 Continue 即可。</p>
-<figure data-type="image" tabindex="21"><img src="https://nwc7cp.coding-pages.com/post-images/1586231384208.png" alt="" loading="lazy"></figure>
-<figure data-type="image" tabindex="22"><img src="https://nwc7cp.coding-pages.com/post-images/1586231669480.png" alt="" loading="lazy"></figure>
-<figure data-type="image" tabindex="23"><img src="https://nwc7cp.coding-pages.com/post-images/1586231591517.png" alt="" loading="lazy"></figure>
-<figure data-type="image" tabindex="24"><img src="https://nwc7cp.coding-pages.com/post-images/1586234979603.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="21"><img src="https://jrb1995.github.io/post-images/1586231384208.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="22"><img src="https://jrb1995.github.io/post-images/1586231669480.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="23"><img src="https://jrb1995.github.io/post-images/1586231591517.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="24"><img src="https://jrb1995.github.io/post-images/1586234979603.png" alt="" loading="lazy"></figure>
 <p>填写完 Profile Name 点击 generate 完成，之后点击 DownLoad，下载 <code>.mobileprovision</code> 的文件，双击文件即可添加到 Xcode。</p>
-<figure data-type="image" tabindex="25"><img src="https://nwc7cp.coding-pages.com/post-images/1586235137886.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="25"><img src="https://jrb1995.github.io/post-images/1586235137886.png" alt="" loading="lazy"></figure>
 <p>至此证书和配置文件之类的都创建完了。</p>
 <h2 id="其他问题">其他问题</h2>
 <h3 id="xcode-missing-private-key-解决方案">Xcode Missing Private key 解决方案</h3>
@@ -85,13 +85,13 @@
     </entry>
     <entry>
         <title type="html"><![CDATA[Vue 源码分析 — 响应式原理]]></title>
-        <id>https://nwc7cp.coding-pages.com/post/vue-yuan-ma-fen-xi-xiang-ying-shi-yuan-li/</id>
-        <link href="https://nwc7cp.coding-pages.com/post/vue-yuan-ma-fen-xi-xiang-ying-shi-yuan-li/">
+        <id>https://jrb1995.github.io/post/vue-yuan-ma-fen-xi-xiang-ying-shi-yuan-li/</id>
+        <link href="https://jrb1995.github.io/post/vue-yuan-ma-fen-xi-xiang-ying-shi-yuan-li/">
         </link>
         <updated>2020-03-15T11:50:48.000Z</updated>
         <content type="html"><![CDATA[<h2 id="前言">前言</h2>
 <p>Vue 是目前流行前端框架，其独特的特性是其非侵入性的响应式系统。当侦测到数据的变化来更新视图，原理核心是使用 <code>Object.defineProperty</code> 方法。本文对响应式原理进行分析，参照 vue 源码实现简易版的数据响应式。</p>
-<figure data-type="image" tabindex="1"><img src="https://nwc7cp.coding-pages.com/post-images/1584274877854.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="1"><img src="https://jrb1995.github.io/post-images/1584274877854.png" alt="" loading="lazy"></figure>
 <h2 id="代码实现">代码实现</h2>
 <p>本文完整代码点击<a href="https://github.com/jrb1995/vue-mine" target="_blank">这里</a></p>
 <pre><code class="language-js">import { def, isObject } from '../util/index'
@@ -380,8 +380,8 @@ export default class Watcher {
     </entry>
     <entry>
         <title type="html"><![CDATA[GitHub Actions 自动部署实践]]></title>
-        <id>https://nwc7cp.coding-pages.com/post/github-actions-zi-dong-bu-shu-shi-jian/</id>
-        <link href="https://nwc7cp.coding-pages.com/post/github-actions-zi-dong-bu-shu-shi-jian/">
+        <id>https://jrb1995.github.io/post/github-actions-zi-dong-bu-shu-shi-jian/</id>
+        <link href="https://jrb1995.github.io/post/github-actions-zi-dong-bu-shu-shi-jian/">
         </link>
         <updated>2020-02-13T11:16:59.000Z</updated>
         <content type="html"><![CDATA[<h2 id="前言">前言</h2>
@@ -408,12 +408,12 @@ export default class Watcher {
 <li>
 <p>申请一个 access tokens</p>
 <p>点击头像 <code>Setting</code> &gt; <code>Developer setttings</code> &gt; <code>Personal access tokens</code></p>
-<figure data-type="image" tabindex="1"><img src="https://nwc7cp.coding-pages.com/post-images/1581598562909.jpeg" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="1"><img src="https://jrb1995.github.io/post-images/1581598562909.jpeg" alt="" loading="lazy"></figure>
 <p>点击 <code>Generate new token</code> 按钮，勾选好权限生成 token，记下生成的 token 之后需要用到。</p>
 </li>
 <li>
 <p>在创建的仓库中点击  <code>Settings</code> &gt; <code>Secrets</code> &gt; <code>Add a new secret</code></p>
-<figure data-type="image" tabindex="2"><img src="https://nwc7cp.coding-pages.com/post-images/1581598887444.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="2"><img src="https://jrb1995.github.io/post-images/1581598887444.png" alt="" loading="lazy"></figure>
 <p>Name 随意填写，Value 填入刚申请的 token 值</p>
 </li>
 </ol>
@@ -441,20 +441,20 @@ jobs:
 <h2 id="最后工作">最后工作</h2>
 <p>保存文件后，将整个仓库推送到 GitHub，完整的 <a href="https://github.com/jrb1995/github-actions-demo" target="_blank">代码仓库</a> 在这里。</p>
 <p>Actions 开始自动运行，接着等待它完成。</p>
-<figure data-type="image" tabindex="3"><img src="https://nwc7cp.coding-pages.com/post-images/1581599890441.jpeg" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="3"><img src="https://jrb1995.github.io/post-images/1581599890441.jpeg" alt="" loading="lazy"></figure>
 <p>等 workflow 运行结束，访问 <a href="https://jrb1995.github.io/github-actions-demo/#/" target="_blank">GitHub Page</a> 就可以看到页面了。</p>
-<figure data-type="image" tabindex="4"><img src="https://nwc7cp.coding-pages.com/post-images/1581600153643.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="4"><img src="https://jrb1995.github.io/post-images/1581600153643.png" alt="" loading="lazy"></figure>
 <p>以后，每次修改后推送源码，GitHub Actions 都会自动运行，将构建产物发布到网页。</p>
 <blockquote>
 <p>GitHub Page 会有生效时间，在 Settings 中 GitHub Pages 看到配置如下时就可以正常访问了。</p>
 </blockquote>
-<figure data-type="image" tabindex="5"><img src="https://nwc7cp.coding-pages.com/post-images/1581600456035.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="5"><img src="https://jrb1995.github.io/post-images/1581600456035.png" alt="" loading="lazy"></figure>
 ]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[Git Commit Message 规范化实践]]></title>
-        <id>https://nwc7cp.coding-pages.com/post/git-commit-message-gui-fan-hua-shi-jian/</id>
-        <link href="https://nwc7cp.coding-pages.com/post/git-commit-message-gui-fan-hua-shi-jian/">
+        <id>https://jrb1995.github.io/post/git-commit-message-gui-fan-hua-shi-jian/</id>
+        <link href="https://jrb1995.github.io/post/git-commit-message-gui-fan-hua-shi-jian/">
         </link>
         <updated>2020-02-06T03:21:31.000Z</updated>
         <content type="html"><![CDATA[<h2 id="前言">前言</h2>
@@ -512,7 +512,7 @@ jobs:
 }
 </code></pre>
 <p>之后就可以在项目中执行 <code>npm run commit</code> 或者 <code>npx git cz</code>，效果如下：</p>
-<figure data-type="image" tabindex="1"><img src="https://nwc7cp.coding-pages.com/post-images/1580967235373.jpeg" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="1"><img src="https://jrb1995.github.io/post-images/1580967235373.jpeg" alt="" loading="lazy"></figure>
 <h2 id="standard-version-自动生成-changelog">standard-version: 自动生成 CHANGELOG</h2>
 <p>使用工具后我们的工程 commit message 应该是符合 Angular 团队那套，这样也便于我们借助 <a href="https://github.com/conventional-changelog/standard-version" target="_blank">standard-version</a> 这样的工具，自动生成 CHANGELOG。</p>
 <p>本地安装</p>
@@ -526,7 +526,7 @@ jobs:
 }
 </code></pre>
 <p>运行脚本后，效果大致如下：</p>
-<figure data-type="image" tabindex="2"><img src="https://nwc7cp.coding-pages.com/post-images/1580970514212.jpeg" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="2"><img src="https://jrb1995.github.io/post-images/1580970514212.jpeg" alt="" loading="lazy"></figure>
 <p>更多使用特性详见其文档</p>
 <h2 id="结语">结语</h2>
 <p>查看完整的 <a href="https://github.com/jrb1995/standard-commit" target="_blank">demo</a></p>
@@ -544,8 +544,8 @@ jobs:
     </entry>
     <entry>
         <title type="html"><![CDATA[scrollIntoView 实现页面锚点]]></title>
-        <id>https://nwc7cp.coding-pages.com/post/scrollintoview-shi-xian-ye-mian-mao-dian/</id>
-        <link href="https://nwc7cp.coding-pages.com/post/scrollintoview-shi-xian-ye-mian-mao-dian/">
+        <id>https://jrb1995.github.io/post/scrollintoview-shi-xian-ye-mian-mao-dian/</id>
+        <link href="https://jrb1995.github.io/post/scrollintoview-shi-xian-ye-mian-mao-dian/">
         </link>
         <updated>2020-01-30T03:12:12.000Z</updated>
         <summary type="html"><![CDATA[<p>锚点即指 html 中的链接，在页面中适当的添加锚点可以大大提高阅读或查找效率</p>
@@ -595,8 +595,8 @@ function getAnchor (id) {
     </entry>
     <entry>
         <title type="html"><![CDATA[Mac 下 nvm 的安装和使用]]></title>
-        <id>https://nwc7cp.coding-pages.com/post/mac-xia-nvm-de-an-zhuang-he-shi-yong/</id>
-        <link href="https://nwc7cp.coding-pages.com/post/mac-xia-nvm-de-an-zhuang-he-shi-yong/">
+        <id>https://jrb1995.github.io/post/mac-xia-nvm-de-an-zhuang-he-shi-yong/</id>
+        <link href="https://jrb1995.github.io/post/mac-xia-nvm-de-an-zhuang-he-shi-yong/">
         </link>
         <updated>2019-12-18T02:48:28.000Z</updated>
         <content type="html"><![CDATA[<h2 id="前言">前言</h2>
@@ -622,7 +622,7 @@ function getAnchor (id) {
 </code></pre>
 <h2 id="验证安装成功">验证安装成功</h2>
 <p>重启终端，执行 <code>nvm -v</code> 命令</p>
-<figure data-type="image" tabindex="1"><img src="https://nwc7cp.coding-pages.com/post-images/1576726689482.jpeg" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="1"><img src="https://jrb1995.github.io/post-images/1576726689482.jpeg" alt="" loading="lazy"></figure>
 <h2 id="常用的-nvm-命令">常用的 nvm 命令</h2>
 <p><code>nvm ls-remote</code> 列出所有可安装的版本</p>
 <p><code>nvm install &lt;version&gt;</code> 安装指定的版本，如 nvm install v8.12.0</p>
@@ -633,15 +633,15 @@ function getAnchor (id) {
 <p><code>nvm alias default &lt;version&gt;</code> 设置默认node版本</p>
 <h2 id="简单使用">简单使用</h2>
 <p>在终端执行 <code>node -v</code> 、 <code>nvm ls</code>，查看当前使用的 node 版本。例如我的环境中指向 <code>system</code> 也就是 <code>v12.11.1</code>。</p>
-<figure data-type="image" tabindex="2"><img src="https://nwc7cp.coding-pages.com/post-images/1584193730067.jpeg" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="2"><img src="https://jrb1995.github.io/post-images/1584193730067.jpeg" alt="" loading="lazy"></figure>
 <p>执行 <code>nvm use vx.x.x</code>，即可对当前开发环境中 node 版本进行切换。</p>
-<figure data-type="image" tabindex="3"><img src="https://nwc7cp.coding-pages.com/post-images/1584194043884.jpeg" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="3"><img src="https://jrb1995.github.io/post-images/1584194043884.jpeg" alt="" loading="lazy"></figure>
 ]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[函数的防抖和节流]]></title>
-        <id>https://nwc7cp.coding-pages.com/post/han-shu-de-fang-dou-he-jie-liu/</id>
-        <link href="https://nwc7cp.coding-pages.com/post/han-shu-de-fang-dou-he-jie-liu/">
+        <id>https://jrb1995.github.io/post/han-shu-de-fang-dou-he-jie-liu/</id>
+        <link href="https://jrb1995.github.io/post/han-shu-de-fang-dou-he-jie-liu/">
         </link>
         <updated>2019-11-28T03:01:12.000Z</updated>
         <content type="html"><![CDATA[<h2 id="前言">前言</h2>
@@ -857,8 +857,8 @@ function throttle(func, wait, options) {
     </entry>
     <entry>
         <title type="html"><![CDATA[CSS开发技巧整理]]></title>
-        <id>https://nwc7cp.coding-pages.com/post/5dc8a231f268da4d40712f8a/</id>
-        <link href="https://nwc7cp.coding-pages.com/post/5dc8a231f268da4d40712f8a/">
+        <id>https://jrb1995.github.io/post/5dc8a231f268da4d40712f8a/</id>
+        <link href="https://jrb1995.github.io/post/5dc8a231f268da4d40712f8a/">
         </link>
         <updated>2019-11-11T13:15:39.000Z</updated>
         <content type="html"><![CDATA[<h3 id="快速重置表单元素">快速重置表单元素</h3>
@@ -904,13 +904,13 @@ function throttle(func, wait, options) {
 <p>显示图片的时候会遇到这种问题，对面返回的图片宽高比例是不一样的。但是设置的容器大小是一样的，这个时候需要让图片保持比例最大填充容器。</p>
 <pre><code>object-fit： cover | contain | fill | scale-down | none
 </code></pre>
-<figure data-type="image" tabindex="1"><img src="https://nwc7cp.coding-pages.com/post-images/1573479048374.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="1"><img src="https://jrb1995.github.io/post-images/1573479048374.png" alt="" loading="lazy"></figure>
 ]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[React Native 知识点小记]]></title>
-        <id>https://nwc7cp.coding-pages.com/post/react-native/</id>
-        <link href="https://nwc7cp.coding-pages.com/post/react-native/">
+        <id>https://jrb1995.github.io/post/react-native/</id>
+        <link href="https://jrb1995.github.io/post/react-native/">
         </link>
         <updated>2019-04-08T12:29:48.000Z</updated>
         <summary type="html"><![CDATA[<p>此篇文章用于记录开发中遇到的问题和知识点...</p>
@@ -944,7 +944,7 @@ function throttle(func, wait, options) {
 <h3 id="修改图标">修改图标</h3>
 <p>应用图标对尺寸有要求。比较简单地方式是准备一张 <code>1024*1024</code> 的图片，然后使用 <a href="https://icon.wuruihong.com/">图标工厂</a> 在线生成。</p>
 <p>生成文件如下：</p>
-<figure data-type="image" tabindex="1"><img src="https://nwc7cp.coding-pages.com/post-images/1573218973706.jpg" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="1"><img src="https://jrb1995.github.io/post-images/1573218973706.jpg" alt="" loading="lazy"></figure>
 <ul>
 <li>iOS</li>
 </ul>
