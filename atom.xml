@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jrb1995.github.io</id>
     <title>Rubin&apos;s Blog</title>
-    <updated>2020-05-04T07:17:16.099Z</updated>
+    <updated>2020-05-04T13:47:32.776Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jrb1995.github.io"/>
     <link rel="self" href="https://jrb1995.github.io/atom.xml"/>
@@ -158,15 +158,30 @@ mergeSort([3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48])
 </code></pre>
 <p>归并排序性能不错，其复杂度为 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mi>l</mi><mi>o</mi><msup><mi>g</mi><mi>n</mi></msup><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n log^n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>。</p>
 <h2 id="快速排序">快速排序</h2>
+<p>快速排序是最快的排序算法之一，它的复杂度为 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mi>l</mi><mi>o</mi><msup><mi>g</mi><mi>n</mi></msup><mo>)</mo></mrow><annotation encoding="application/x-tex">O(nlog^n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>。和归并排序一样，快速排序也使用分治的方法，将原始数组分为较小的数组。</p>
+<p><strong>算法描述：</strong></p>
+<ol>
+<li>从数组中选择中间一项作为“主元”（pivot）。</li>
+<li>创建两个指针，左边一个指向数组第一个项，右边一个指向数组最后一个项。移动左指<br>
+针直到我们找到一个比主元大的元素，接着，移动右指针直到找到一个比主元小的元素，然后交<br>
+换它们，重复这个过程，直到左指针超过了右指针。这个过程将使得比主元小的值都排在主元之<br>
+前，而比主元大的值都排在主元之后。这一步叫作划分操作（partition）。</li>
+<li>算法对划分后的小数组（较主元小的值组成的子数组，以及较主元大的值组成的<br>
+子数组）重复之前的两个步骤，直至数组已完全排序。</li>
+</ol>
 <figure data-type="image" tabindex="6"><img src="https://jrb1995.github.io/post-images/1588422728358.gif" alt="" loading="lazy"></figure>
 <p><strong>代码实现：</strong></p>
 <pre><code class="language-js">function quickSort(array) {
+    // 传递待排序数组，以及索引0及其最末的位置（因为我们要排整个数组，而不是一个子数组）作为参数
     return quick(array, 0, array.length - 1)
 }
 
 function quick(array, left, right) {
+    // 声明index变量，用于帮助我们将子数组分离为较小值数组和较大值数组
+    var index
     if (array.length &gt; 1) {
-        var index = partition(array, left, right)
+        index = partition(array, left, right)
+        // 划分为两个子数组重复快速排序过程
         if (left &lt; index - 1) {
             quick(array, left, index - 1)
         }
@@ -178,25 +193,32 @@ function quick(array, left, right) {
 }
 
 function partition(array, left, right) {
+    // 选择中间项作为主元，初始化两个指针：数组第一个元素、数组最后一个元素
     var pivot = array[Math.floor((left + right) / 2)],
-        i = left,
-        j = right
-    while (i &lt;= j) {
-        while (array[i] &lt; pivot) {
-            i++
+        l = left,
+        r = right;
+
+    // 只要left和right指针没有相互交错，就执行划分操作
+    while (l &lt;= r) {
+        // 移动left指针直到找到一个元素比主元大
+        while (array[l] &lt; pivot) {
+            l++
         }
-        while (array[j] &gt; pivot) {
-            j--
+        // 移动right指针直到找到一个元素比主元小
+        while (array[r] &gt; pivot) {
+            r--
         }
-        if (i &lt;= j) {
-            var temp = array[i]
-            array[i] = array[j]
-            array[j] = temp;
-            i++
-            j--
+        // 当左指针指向的元素比主元大且右指针指向的元素比主元小，并且此时左指针索引没有右指针索引大，则交换它们，然后移动两个指针，并重复此过程继续循环。
+        if (l &lt;= r) {
+            var temp = array[l]
+            array[l] = array[r]
+            array[r] = temp;
+            l++
+            r--
         }
     }
-    return i
+    // 在划分操作结束后，返回左指针的索引，用来处创建子数组
+    return l
 }
 
 quickSort([3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48])
