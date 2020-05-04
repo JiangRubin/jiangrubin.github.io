@@ -1,0 +1,495 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>数据结构与算法 — 排序 - Rubin&#39;s Blog</title>
+<meta name="description" content="温故而知新" />
+<link rel="shortcut icon" href="https://jrb1995.github.io/favicon.ico?v=1588576579978">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@1.3.1/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://jrb1995.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="数据结构与算法 — 排序 - Rubin&#39;s Blog - Atom Feed" href="https://jrb1995.github.io/atom.xml">
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="remixicon-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://jrb1995.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://jrb1995.github.io/images/avatar.png?v=1588576579978" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">Rubin&#39;s Blog</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#%E7%BB%8F%E5%85%B8%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E5%AF%B9%E6%AF%94">经典排序算法对比</a></li>
+<li><a href="#%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F">冒泡排序</a></li>
+<li><a href="#%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F">选择排序</a></li>
+<li><a href="#%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F">插入排序</a></li>
+<li><a href="#%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F">归并排序</a></li>
+<li><a href="#%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F">快速排序</a></li>
+<li><a href="#%E5%A0%86%E6%8E%92%E5%BA%8F">堆排序</a></li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="remixicon-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu" style="animation-delay: 0.6000000000000001s">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://jrb1995.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">数据结构与算法 — 排序</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2020-04-27 / 8 min read
+        </div>
+        
+        <div class="post-content yue">
+          <h2 id="前言">前言</h2>
+<blockquote>
+<p>程序 = 数据结构 + 算法</p>
+</blockquote>
+<p>要想在编程之路走的更远，学好数据结构与算法很重要。所以把学习的总结写成一个系列，使用自己熟悉的 JavaScript 语言，旨在入门数据结构与算法和方便以后复习。</p>
+<p>先从算法领域里基础的排序算法开始。</p>
+<h2 id="经典排序算法对比">经典排序算法对比</h2>
+<figure data-type="image" tabindex="1"><img src="https://jrb1995.github.io/post-images/1588420187412.webp" alt="" loading="lazy"></figure>
+<p><strong>名词解释：</strong></p>
+<p><strong>n</strong>: 待排序列的个数<br>
+<strong>k</strong>: “桶”的个数<br>
+<strong>In-place</strong>: 原地算法，指的是占用常用内存，不占用额外内存。空间复杂度为 O(1) 的都可以认为是原地算法<br>
+<strong>Out-place</strong>: 非原地算法，占用额外内存<br>
+<strong>稳定性</strong>：排序后2个相等键值的顺序和排序之前它们的顺序相同</p>
+<h2 id="冒泡排序">冒泡排序</h2>
+<p>冒泡排序是一种简单的排序算法。它重复地走访过要排序的数列，一次比较两个元素，如果它们的顺序错误就把它们交换过来。走访数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。这个算法的名字由来是因为越小的元素会经由交换慢慢“浮”到数列的顶端。</p>
+<p><strong>算法描述：</strong></p>
+<ol>
+<li>比较相邻的元素。如果第一个比第二个大，就交换它们两个。</li>
+<li>对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对，这样在最后的元素应是最大的数。</li>
+<li>针对所有的元素重复以上的步骤，除了最后一个。</li>
+<li>重复步骤1~3，直到排序完成。</li>
+</ol>
+<figure data-type="image" tabindex="2"><img src="https://jrb1995.github.io/post-images/1588422112893.gif" alt="" loading="lazy"></figure>
+<p><strong>代码实现：</strong></p>
+<pre><code class="language-js">function bubbleSort(array) {
+    var length = array.length
+    for (var i = 0; i &lt; length; i++) {
+        // length - 1 - i 从内循环减去外循环中已跑过的轮数，就可以避免内循环中所有不必要的比较
+        for (var j = 0; j &lt; length - 1 - i; j++) {
+            // 如果当前项比下一项大，则使用中间值进行交换
+            if (array[j] &gt; array[j + 1]) {
+                var temp = array[j] 
+                array[j] = array[j + 1]
+                array[j + 1] = temp
+            }
+        }
+    }
+    return array
+}
+
+bubbleSort([3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48])
+// [2, 3, 4, 5, 15, 19, 26, 27, 36, 38, 44, 46, 47, 48, 50]
+</code></pre>
+<h2 id="选择排序">选择排序</h2>
+<p>选择排序算法是一种原址比较排序算法。选择排序大致的思路是找到数据结构中的最小值并<br>
+将其放置在第一位，接着找到第二小的值并将其放在第二位，以此类推。</p>
+<figure data-type="image" tabindex="3"><img src="https://jrb1995.github.io/post-images/1588422191480.gif" alt="" loading="lazy"></figure>
+<p><strong>代码实现：</strong></p>
+<pre><code class="language-js">function selectionSort (array) {
+    var length = array.length
+    var minIndex, temp
+    for (var i = 0; i &lt; length - 1; i ++) {
+        minIndex = i // 假设本次循环的第一个值为数组最小值
+        for (var j = i + 1; j &lt; length; j++) {
+            // 比较位置j的值是否比当前最小值小
+            if (array[j] &lt; array[minIndex]) {
+                minIndex = j // 如果是，则改变最小值的索引
+            }
+        }
+        // 如果该最小值和原最小值不同，则交换其值
+        if (i !== minIndex) {
+            temp = array[i]
+            array[i] = array[minIndex]
+            array[minIndex] = temp
+        }
+    }
+    return array
+}
+
+selectionSort([3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48])
+// [2, 3, 4, 5, 15, 19, 26, 27, 36, 38, 44, 46, 47, 48, 50]
+</code></pre>
+<p>选择排序同样也是一个复杂度为 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><msup><mi>n</mi><mn>2</mn></msup><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> 的算法。和冒泡排序一样，它包含有嵌套的两个循环，这导致了二次方的复杂度。</p>
+<h2 id="插入排序">插入排序</h2>
+<p>插入排序每次排一个数组项，以此方式构建最后的排序数组。假定第一项已经排序了。取第二项向前进行比较，第二项是应该待在原位还是插到第一项之前呢？这样，头两项就已正确排序，接着和第三项比较（它是该插入到第一、第二还是第三的位置呢？），以此类推。</p>
+<figure data-type="image" tabindex="4"><img src="https://jrb1995.github.io/post-images/1588422221669.gif" alt="" loading="lazy"></figure>
+<p><strong>代码实现：</strong></p>
+<pre><code class="language-js">function insertionSort (array) {
+    var length = array.length
+    var j, temp
+    // 是从第二个位置（索引1）而不是0位置开始的（假定第一项已排序了）
+    for (var i = 1; i &lt; length; i ++) {
+        // 用i的值来初始化一个辅助变量并将其值亦存储于一临时变量中，便于之后将其插入到正确的位置上
+        j = i
+        temp = array[i]
+        // 要变量j比0大，并且数组中前面的值比待比较的值大
+        // 就把这个值移到当前位置上并减小j
+        while (j &gt; 0 &amp;&amp; array[j - 1] &gt; temp) {
+            array[j] = array[j - 1]
+            j--
+        }
+        array[j] = temp
+    }
+    return array
+}
+</code></pre>
+<h2 id="归并排序">归并排序</h2>
+<p>归并排序是一种分治算法。其思想是将原始数组切分成较小的数组，直到每个小数组只有一<br>
+个位置，接着将小数组归并成较大的数组，直到最后只有一个排序完毕的大数组。</p>
+<figure data-type="image" tabindex="5"><img src="https://jrb1995.github.io/post-images/1588422563704.gif" alt="" loading="lazy"></figure>
+<p><strong>代码实现：</strong></p>
+<pre><code class="language-js">function mergeSort (array) {
+    var length = array.length
+    // 由于算法是递归，需要一个停止条件
+    if (length &lt;= 1) {
+        return array
+    }
+    // 如果数组长度大于1，首先是找到数组的中间位，之后将数组分成left、right两个小数组
+    var mid = Math.floor(length / 2)
+    var left = array.slice(0, mid)
+    var right = array.slice(mid)
+    // 调用merge函数，它负责合并和排序小数组来产生大数组
+    // 为了不断将原始数组分成小数组，我们得再次对left数组和right数组递归调用mergeSort，并同时作为参数传递给merge函数
+    return merge(mergeSort(left), mergeSort(right))
+}
+
+function merge (left, right) {
+    // 声明归并过程要创建的新数组以及用来迭代两个数组（left和right）所需的两个变量
+    var result = [], il = 0, ir = 0
+    // 迭代两个数组的过程中，比较两个数组的项大小。将小的一方添加至结果数组，并递增迭代数组的控制变量
+    while (il &lt; left.length &amp;&amp; ir &lt; right.length) {
+        if (left[il] &lt; right[ir]) {
+            result.push(left[il++])
+        } else {
+            result.push(right[ir++])
+        }
+    }
+    // 接下来，分别将两个数组剩余的项添加到结果数组中
+    while (il &lt; left.length) {
+        result.push(left[il++])
+    }
+    while (ir &lt; right.length) {
+        result.push(right[ir++])
+    }
+    return result;
+}
+
+mergeSort([3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48])
+</code></pre>
+<p>归并排序性能不错，其复杂度为 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mi>l</mi><mi>o</mi><msup><mi>g</mi><mi>n</mi></msup><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n log^n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>。</p>
+<h2 id="快速排序">快速排序</h2>
+<figure data-type="image" tabindex="6"><img src="https://jrb1995.github.io/post-images/1588422728358.gif" alt="" loading="lazy"></figure>
+<p><strong>代码实现：</strong></p>
+<pre><code class="language-js">function quickSort(array) {
+    return quick(array, 0, array.length - 1)
+}
+
+function quick(array, left, right) {
+    if (array.length &gt; 1) {
+        var index = partition(array, left, right)
+        if (left &lt; index - 1) {
+            quick(array, left, index - 1)
+        }
+        if (index &lt; right) {
+            quick(array, index, right)
+        }
+    }
+    return array
+}
+
+function partition(array, left, right) {
+    var pivot = array[Math.floor((left + right) / 2)],
+        i = left,
+        j = right
+    while (i &lt;= j) {
+        while (array[i] &lt; pivot) {
+            i++
+        }
+        while (array[j] &gt; pivot) {
+            j--
+        }
+        if (i &lt;= j) {
+            var temp = array[i]
+            array[i] = array[j]
+            array[j] = temp;
+            i++
+            j--
+        }
+    }
+    return i
+}
+
+quickSort([3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48])
+</code></pre>
+<h2 id="堆排序">堆排序</h2>
+<figure data-type="image" tabindex="7"><img src="https://jrb1995.github.io/post-images/1588500046422.gif" alt="" loading="lazy"></figure>
+<p><strong>代码实现：</strong></p>
+<pre><code class="language-js">function heapSort(array) {
+    var heapSize = array.length
+    for (var i = Math.floor(heapSize / 2); i &gt;= 0; i--) {
+        heapify(array, heapSize, i)
+    }
+    while (heapSize &gt; 1) {
+        heapSize--
+        swap(array, 0, heapSize)
+        heapify(array, heapSize, 0)
+    }
+    return array
+}
+
+function heapify(array, heapSize, i) {
+    var left = i * 2 + 1,
+        right = i * 2 + 2,
+        largest = i;
+    if (left &lt; heapSize &amp;&amp; array[left] &gt; array[largest]) {
+        largest = left;
+    }
+    if (right &lt; heapSize &amp;&amp; array[right] &gt; array[largest]) {
+        largest = right;
+    }
+    if (largest !== i) {
+        swap(array, i, largest);
+        heapify(array, heapSize, largest);
+    }
+}
+
+function swap(arr, i, j) {
+    var temp = arr[i]
+    arr[i] = arr[j]
+    arr[j] = temp
+}
+
+heapSort([3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48])
+</code></pre>
+<!-- ## 计数排序    
+
+![](https://jrb1995.github.io/post-images/1588423003529.webp)
+
+## 桶排序
+
+## 基数排序
+
+![](https://jrb1995.github.io/post-images/1588423067487.webp) -->
+<h2 id="总结">总结</h2>
+<p>感慨算法实在是博大精深，前辈们花费心血研究出的成果值得我们学习和推敲。排序算法还有计数排序、桶排序和基数排序，实在没精力去一一研究了😓。</p>
+
+        </div>
+
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://jrb1995.github.io/tag/pGvoCX5tk/">
+            <span class="flex-auto">js</span>
+          </a>
+        
+
+
+        <div class="flex justify-between py-8">
+          
+
+          
+            <div class="next-post">
+              <a href="https://jrb1995.github.io/post/ios-zheng-shu-pei-zhi-zhi-bei/">
+                <h3 class="post-title">
+                  iOS 证书配置指北
+                  <i class="remixicon-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '58415ac62e821b4b6bbd',
+    clientSecret: '69a93aa48149a7a74c6517efbbb32c57bc07799f',
+    repo: 'jrb1995.github.io',
+    owner: 'jrb1995',
+    admin: ['jrb1995'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+      </div>
+    </div>
+
+    <script src="https://jrb1995.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>
