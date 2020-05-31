@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jrb1995.github.io</id>
     <title>Rubin&apos;s Blog</title>
-    <updated>2020-05-04T13:47:32.776Z</updated>
+    <updated>2020-05-31T10:29:52.541Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jrb1995.github.io"/>
     <link rel="self" href="https://jrb1995.github.io/atom.xml"/>
@@ -10,6 +10,132 @@
     <logo>https://jrb1995.github.io/images/avatar.png</logo>
     <icon>https://jrb1995.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Rubin&apos;s Blog</rights>
+    <entry>
+        <title type="html"><![CDATA[数据结构与算法 — 递归]]></title>
+        <id>https://jrb1995.github.io/post/shu-ju-jie-gou-yu-suan-fa-di-gui/</id>
+        <link href="https://jrb1995.github.io/post/shu-ju-jie-gou-yu-suan-fa-di-gui/">
+        </link>
+        <updated>2020-05-31T07:17:07.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="前言">前言</h2>
+<p>递归是算法中一种非常重要的思想，应用非常广泛。是DFS、分治法、回溯、二叉树遍历等方法的基础。emm 这些方法我都不懂 😂 ，先从学习这些方法的基础开始。</p>
+<h2 id="什么是递归">什么是递归</h2>
+<p>程序调用自身的编程技巧称为递归（ recursion）。 一个过程或函数在其定义或说明中有直接或间接调用自身的一种方法，它通常把一个大型复杂的问题层层转化为一个与原问题相似的规模较小的问题来求解。</p>
+<p>像下面这样直接调用自身的函数：</p>
+<pre><code class="language-js">function recursion(param){
+    recursion(param)
+}
+</code></pre>
+<p>间接调用自身的函数，也是递归函数：</p>
+<pre><code class="language-js">function recursion1(param){
+    recursion2(param)
+}
+
+function recursion2(param){
+    recursion1(param)
+}
+</code></pre>
+<p>假设现在执行 recursion 函数，就上述情况而言，其会一直执行下去。因此，每个递归函数都必须要有边界条件，即一个不再递归调用的条件，以防止无限递归。</p>
+<p>如果忘记加上用以停止函数递归调用的边界条件，在浏览器中执行，递归并不会无限地执行下去，浏览器会抛出错误 <code>Maximum call stack size exceeded</code> 也就是所谓的栈溢出。</p>
+<p>以阶乘为例，体会一下递归：</p>
+<pre><code class="language-js">function factorial(n) {
+    if (n &lt;= 1) {
+        return 1
+    }
+    return n * factorial(n - 1)
+}
+
+factorial(6) // 6 * 5 * 4 * 3 * 2 * 1 = 720
+</code></pre>
+<p>factorial 是一个实现阶乘的函数，来看下它的调用过程。</p>
+<figure data-type="image" tabindex="1"><img src="https://jrb1995.github.io/post-images/1590918559854.jpg" alt="" loading="lazy"></figure>
+<p>从这个例子中可以看出，阶乘中的 <code>n &lt;= 1</code> 是边界条件，当边界条件不满足时，递归前进，当边界条件满足时，递归返回。构成递归需具备边界条件、递归前进段和递归返回段。</p>
+<h2 id="斐波那契数列">斐波那契数列</h2>
+<p>斐波那契指的是这样一个数列：1、1、2、3、5、8、13、21、34 ...，这个数列从第3项开始，每一项都等于前两项之和。</p>
+<h3 id="递归实现">递归实现</h3>
+<pre><code class="language-js">function fibonacci(n) {
+    if (n &lt;= 2) {
+        return 1
+    }
+    return fibonacci(n - 1) + fibonacci(n - 2)
+}
+
+console.log(fibonacci(6)) // 8
+</code></pre>
+<p>但是当参数 n 变大时，浏览器卡死了。原因是此函数中存在着大量的冗余计算，并且 n 越大，冗余的越多。如下图所示：</p>
+<figure data-type="image" tabindex="2"><img src="https://jrb1995.github.io/post-images/1590919586864.png" alt="" loading="lazy"></figure>
+<p>图中每个分支上的函数都是单独调用的，并且都是重复的调用，针对这种冗余计算，我们可以做相关的优化，优化的思路都是减少相同函数的重复调用。</p>
+<h3 id="迭代实现">迭代实现</h3>
+<pre><code class="language-js">function fibonacci(num){
+    var n1 = 1,
+    n2 = 1,
+    n = 1;
+    for (var i = 3; i &lt;= num; i++){
+        n = n1 + n2;
+        n1 = n2;
+        n2 = n;
+    }
+    return n;
+} 
+</code></pre>
+<h3 id="尾调用优化">尾调用优化</h3>
+<pre><code class="language-js">function fibonacci (n, res1 = 1, res2 = 1) {
+    if (n &lt;= 2) {
+        return res2
+    }
+    return fibonacci(n - 1, res2, res1 + res2)
+}
+</code></pre>
+<h2 id="应用场景">应用场景</h2>
+<p>一些 JavaScript 的工具方法中涉及到了递归。</p>
+<h3 id="深拷贝">深拷贝</h3>
+<pre><code class="language-js">function deepCopy (data) {
+    // 数据类型判断函数，见下
+    const t = typeOf(data)
+    let o
+
+    if (t === 'array') {
+        o = []
+    } else if (t === 'object') {
+        o = {}
+    } else {
+     return data
+    }
+
+    for (var key in data) {
+        o[key] = deepCopy(data[key])
+    }
+
+    return o
+}
+
+function typeOf (obj) {
+    const toString = Object.prototype.toString
+    const map = {
+        '[object Boolean]': 'boolean',
+        '[object Number]': 'number',
+        '[object String]': 'string',
+        '[object Function]': 'function',
+        '[object Array]': 'array',
+        '[object Date]': 'date',
+        '[object RegExp]': 'regExp',
+        '[object Undefined]': 'undefined',
+        '[object Null]': 'null',
+        '[object Object]': 'object'
+    }
+    return map[toString.call(obj)]
+}
+</code></pre>
+<h3 id="数组扁平化">数组扁平化</h3>
+<pre><code class="language-js">function flatten(arr) {
+    return arr.reduce(function(prev, next){
+        return prev.concat(Array.isArray(next) ? flatten(next) : next)
+    }, [])
+}
+</code></pre>
+<h2 id="总结">总结</h2>
+<p>学习了递归的基本使用和实现了 JavaScript 中常用的工具方法。关于递归的内容还有很多，比如还有汉诺塔、二叉树遍历等递归场景。算法之路漫漫 😬。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[数据结构与算法 — 排序]]></title>
         <id>https://jrb1995.github.io/post/shu-ju-jie-gou-yu-suan-fa-pai-xu/</id>
@@ -1171,132 +1297,6 @@ function throttle(func, wait, options) {
 <pre><code>object-fit： cover | contain | fill | scale-down | none
 </code></pre>
 <figure data-type="image" tabindex="1"><img src="https://jrb1995.github.io/post-images/1573479048374.png" alt="" loading="lazy"></figure>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[React Native 知识点小记]]></title>
-        <id>https://jrb1995.github.io/post/react-native/</id>
-        <link href="https://jrb1995.github.io/post/react-native/">
-        </link>
-        <updated>2019-04-08T12:29:48.000Z</updated>
-        <summary type="html"><![CDATA[<p>此篇文章用于记录开发中遇到的问题和知识点...</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>此篇文章用于记录开发中遇到的问题和知识点...</p>
-<!-- more -->
-<h2 id="前言">前言</h2>
-<p>公司打算开发一个App项目。由于没有原生开发人员，组里都是纯前端开发人员，所以技术选型时采用相对成熟的 <code>react-native</code> 来开发。不得不说 <code>react-native</code> 确实很优秀，让前端开发人员能够迅速搭起一个应用运行。但开发过程中也遇到了不少问题，对前端开发来说也是一个不小的挑战。</p>
-<h2 id="开发环境搭建">开发环境搭建</h2>
-<p>只要严格按照 <a href="https://reactnative.cn/docs/getting-started/">React Native</a> 官方文档搭建即可，当时项目使用 <code>react-native</code> 0.57 版本基础库。</p>
-<h2 id="应用设置">应用设置</h2>
-<p>应用名称、图标、启动屏相关设置</p>
-<h3 id="修改应用名称">修改应用名称</h3>
-<ul>
-<li>iOS</li>
-</ul>
-<p>编辑 <code>ios/项目名称/Info.plist</code> 文件：</p>
-<pre><code class="language-xml">&lt;key&gt;CFBundleDisplayName&lt;/key&gt;
-- &lt;string&gt;$(PRODUCT_NAME)&lt;/string&gt;
-+ &lt;string&gt;应用名称&lt;/string&gt;
-</code></pre>
-<ul>
-<li>android</li>
-</ul>
-<p>编辑 <code>android/app/src/main/res/values/strings.xml</code> 文件：</p>
-<pre><code class="language-xml">&lt;resources&gt;
-- &lt;string name=&quot;app_name&quot;&gt;default&lt;/string&gt;
-+ &lt;string name=&quot;app_name&quot;&gt;应用名称&lt;/string&gt;   
-&lt;/resources&gt;
-</code></pre>
-<h3 id="修改图标">修改图标</h3>
-<p>应用图标对尺寸有要求。比较简单地方式是准备一张 <code>1024*1024</code> 的图片，然后使用 <a href="https://icon.wuruihong.com/">图标工厂</a> 在线生成。</p>
-<p>生成文件如下：</p>
-<figure data-type="image" tabindex="1"><img src="https://jrb1995.github.io/post-images/1573218973706.jpg" alt="" loading="lazy"></figure>
-<ul>
-<li>iOS</li>
-</ul>
-<p>替换 <code>ios/项目名称/Images.xcassets/AppIcon.appiconset</code> 中的内容。如果不需要全部尺寸可以用 <code>XCode</code> 打开项目 <code>Images.xcassets</code> &gt; <code>AppIcon</code> 拖入相应尺寸的图标。</p>
-<ul>
-<li>android</li>
-</ul>
-<p>替换 <code>android/app/src/main/res</code> 下对应的图标。</p>
-<h3 id="添加启动页">添加启动页</h3>
-<p>应用打开时会有短暂的白屏，为解决这一问题项目中使用 <a href="https://github.com/crazycodeboy/react-native-splash-screen">react-native-splash-screen</a> 库。文档写的很详细。</p>
-<p><a href="https://developer.apple.com/design/human-interface-guidelines/ios/icons-and-images/launch-screen/">Launch Screen苹果官方分辨率大全</a></p>
-<h2 id="功能组件">功能组件</h2>
-<h3 id="icon-组件">Icon 组件</h3>
-<p>关于 <code>svg</code> 文件的优点就不必多说了。要想在应用中使用会有一些问题，不像在 web 中直接 img 标签引入就可以用了。比如安卓不支持 svg 静态文件的 require 😂。也为了避免每次打开应用请求多个 svg 浪费资源。</p>
-<p>所以可以将多个 svg 文件通过脚本转换成一个 js 对象或者一个 json 文件，其格式如下：</p>
-<pre><code class="language-js">export default {
-  &quot;arrow-left&quot;: &quot;&lt;svg&gt;...&lt;/svg&gt;&quot;
-}
-</code></pre>
-<p>上面的转换脚本可以参考 <a href="https://github.com/HuJiaoHJ/svg2json">svg2json</a></p>
-<p>安装</p>
-<pre><code class="language-shell">npm install react-native-svg2json --save-dev
-</code></pre>
-<p>在项目根目录输入命令如下：</p>
-<pre><code class="language-shell">// svg2json -i ${inDir} -o ${outFile}
-./node_modules/.bin/svg2json -i ./src/assets/svgs -o ./src/assets/svgs.js
-</code></pre>
-<p>或者写入 <code>package.json</code> scripts 中，直接运行 <code>npm run svg2json</code></p>
-<pre><code class="language-js">&quot;scripts&quot;: {
-    &quot;start&quot;: &quot;node node_modules/react-native/local-cli/cli.js start&quot;,
-    &quot;test&quot;: &quot;jest&quot;,
-    &quot;svg2json&quot;: &quot;node node_modules/.bin/svg2json -i ./src/assets/svgs -o ./src/assets/svgs.js&quot;
-}
-</code></pre>
-<p>之后如何使用，就需要 <a href="https://github.com/vault-development/react-native-svg-uri">react-native-svg-uri</a> 库，支持传入 svg 字符串来渲染 svg。但还需做好组件封装。</p>
-<pre><code class="language-js">import React, { Component } from 'react';
-import SvgUri from 'react-native-svg-uri';
-import svgs from '@/assets/svgs.js'; // 生成的 svg 字符串对象
-export default class Icon extends Component {
-  render() {
-    const { name, color, size, style } = this.props;
-    let svgXmlData = svgs[name]
-    if (!svgXmlData) {
-      let err_msg = `没有&quot;${name}&quot;这个icon文件`;
-      throw new Error(err_msg);
-    }
-    return (
-      &lt;SvgUri width={size} height={size} svgXmlData={svgXmlData} fill={color} style={style} /&gt;
-    )
-  }
-}
-</code></pre>
-<p>使用</p>
-<pre><code class="language-js">&lt;Icon name=&quot;ac_unit&quot; size=&quot;40&quot; color=&quot;#ccc&quot;/&gt;
-</code></pre>
-<h2 id="路径别名">路径别名</h2>
-<p>在开发过程中通常使用 <code>../../../</code> 的方式引入组件，这种方式路径过深且不够优雅。</p>
-<p>插件安装</p>
-<pre><code class="language-shell">npm install babel-plugin-root-import --save-dev
-或者
-yarn add babel-plugin-root-import --dev
-</code></pre>
-<p>在 <code>babel</code> 配置文件 <code>.babelrc</code> 或者 <code>babel.config.js</code> 中</p>
-<pre><code class="language-js">{
-  &quot;plugins&quot;: [
-    [&quot;babel-plugin-root-import&quot;, {
-      &quot;rootPathPrefix&quot;: &quot;~&quot;,
-      &quot;rootPathSuffix&quot;: &quot;src&quot;
-    }]
-  ]
-}
-</code></pre>
-<blockquote>
-<p>注意： 当 rootPathPrefix 设置为 @ 可能会导致一些以 @ 开头的 npm 包引入错误，如 <code>@ant-design/react-native</code></p>
-</blockquote>
-<p>之后使用</p>
-<pre><code class="language-js">import foo from '~/foo';
-const bar = require('~/bar');
-</code></pre>
-<h2 id="打包和发布">打包和发布</h2>
-<p>应用开发完就该考虑上架了😘，由于没有经验上网查询了很多资料。</p>
-<p>链接：<a href="https://my.oschina.net/KJhulinhua/blog/1585628">react native ios打包流程</a>、<a href="https://www.pgyer.com/doc/view/build_ipa">打包iOS的ipa文件</a>、<a href="https://www.jianshu.com/p/431ed0536754">iOS生成证书 描述文件 打包上架Appstore详细流程</a></p>
-<h2 id="其他问题">其他问题</h2>
-<p>android 图片不显示，图片名称不能是中文（开发时碰到这个问题😓）。</p>
-<h2 id="其他知识资源">其他知识资源</h2>
-<p><a href="https://juejin.im/post/5c5402f8f265da2dbd7fd084">https://juejin.im/post/5c5402f8f265da2dbd7fd084</a></p>
 ]]></content>
     </entry>
 </feed>
