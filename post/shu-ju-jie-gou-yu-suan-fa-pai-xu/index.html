@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>数据结构与算法 — 排序 - Rubin&#39;s Blog</title>
 <meta name="description" content="温故而知新" />
-<link rel="shortcut icon" href="https://jrb1995.github.io/favicon.ico?v=1591167623163">
+<link rel="shortcut icon" href="https://jrb1995.github.io/favicon.ico?v=1591327505399">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@1.3.1/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -24,7 +24,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="remixicon-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://jrb1995.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://jrb1995.github.io/images/avatar.png?v=1591167623163" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://jrb1995.github.io/images/avatar.png?v=1591327505399" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">Rubin&#39;s Blog</h1>
       </div>
@@ -107,7 +107,7 @@
 <p>要想在编程之路走的更远，学好数据结构与算法很重要。所以把学习的总结写成一个系列，使用自己熟悉的 JavaScript 语言，旨在入门数据结构与算法和方便以后复习。</p>
 <p>先从算法领域里基础的排序算法开始。</p>
 <h2 id="经典排序算法对比">经典排序算法对比</h2>
-<figure data-type="image" tabindex="1"><img src="https://jrb1995.github.io/post-images/1588420187412.webp" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="1"><img src="https://cdn.jsdelivr.net/gh/jrb1995/image-host/1588420187412.jpg" alt="" loading="lazy"></figure>
 <p><strong>名词解释：</strong></p>
 <p><strong>n</strong>: 待排序列的个数<br>
 <strong>k</strong>: “桶”的个数<br>
@@ -123,7 +123,7 @@
 <li>针对所有的元素重复以上的步骤，除了最后一个。</li>
 <li>重复步骤1~3，直到排序完成。</li>
 </ol>
-<figure data-type="image" tabindex="2"><img src="https://jrb1995.github.io/post-images/1588422112893.gif" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="2"><img src="https://cdn.jsdelivr.net/gh/jrb1995/image-host/1588422112893.gif" alt="" loading="lazy"></figure>
 <p><strong>代码实现：</strong></p>
 <pre><code class="language-js">function bubbleSort(array) {
     var length = array.length
@@ -147,7 +147,7 @@ bubbleSort([3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48])
 <h2 id="选择排序">选择排序</h2>
 <p>选择排序算法是一种原址比较排序算法。选择排序大致的思路是找到数据结构中的最小值并<br>
 将其放置在第一位，接着找到第二小的值并将其放在第二位，以此类推。</p>
-<figure data-type="image" tabindex="3"><img src="https://jrb1995.github.io/post-images/1588422191480.gif" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="3"><img src="https://cdn.jsdelivr.net/gh/jrb1995/image-host/1588422191480.gif" alt="" loading="lazy"></figure>
 <p><strong>代码实现：</strong></p>
 <pre><code class="language-js">function selectionSort (array) {
     var length = array.length
@@ -176,7 +176,7 @@ selectionSort([3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48])
 <p>选择排序同样也是一个复杂度为 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><msup><mi>n</mi><mn>2</mn></msup><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> 的算法。和冒泡排序一样，它包含有嵌套的两个循环，这导致了二次方的复杂度。</p>
 <h2 id="插入排序">插入排序</h2>
 <p>插入排序每次排一个数组项，以此方式构建最后的排序数组。假定第一项已经排序了。取第二项向前进行比较，第二项是应该待在原位还是插到第一项之前呢？这样，头两项就已正确排序，接着和第三项比较（它是该插入到第一、第二还是第三的位置呢？），以此类推。</p>
-<figure data-type="image" tabindex="4"><img src="https://jrb1995.github.io/post-images/1588422221669.gif" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="4"><img src="https://cdn.jsdelivr.net/gh/jrb1995/image-host/1588422221669.gif" alt="" loading="lazy"></figure>
 <p><strong>代码实现：</strong></p>
 <pre><code class="language-js">function insertionSort (array) {
     var length = array.length
@@ -200,7 +200,7 @@ selectionSort([3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48])
 <h2 id="归并排序">归并排序</h2>
 <p>归并排序是一种分治算法。其思想是将原始数组切分成较小的数组，直到每个小数组只有一<br>
 个位置，接着将小数组归并成较大的数组，直到最后只有一个排序完毕的大数组。</p>
-<figure data-type="image" tabindex="5"><img src="https://jrb1995.github.io/post-images/1588422563704.gif" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="5"><img src="https://cdn.jsdelivr.net/gh/jrb1995/image-host/1588422563704.gif" alt="" loading="lazy"></figure>
 <p><strong>代码实现：</strong></p>
 <pre><code class="language-js">function mergeSort (array) {
     var length = array.length
@@ -253,7 +253,7 @@ mergeSort([3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48])
 <li>算法对划分后的小数组（较主元小的值组成的子数组，以及较主元大的值组成的<br>
 子数组）重复之前的两个步骤，直至数组已完全排序。</li>
 </ol>
-<figure data-type="image" tabindex="6"><img src="https://jrb1995.github.io/post-images/1588422728358.gif" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="6"><img src="https://cdn.jsdelivr.net/gh/jrb1995/image-host/1588422728358.gif" alt="" loading="lazy"></figure>
 <p><strong>代码实现：</strong></p>
 <pre><code class="language-js">function quickSort(array) {
     // 传递待排序数组，以及索引0及其最末的位置（因为我们要排整个数组，而不是一个子数组）作为参数
@@ -308,7 +308,7 @@ function partition(array, left, right) {
 quickSort([3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48])
 </code></pre>
 <h2 id="堆排序">堆排序</h2>
-<figure data-type="image" tabindex="7"><img src="https://jrb1995.github.io/post-images/1588500046422.gif" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="7"><img src="https://cdn.jsdelivr.net/gh/jrb1995/image-host/1588500046422.gif" alt="" loading="lazy"></figure>
 <p><strong>代码实现：</strong></p>
 <pre><code class="language-js">function heapSort(array) {
     var heapSize = array.length
@@ -349,13 +349,13 @@ heapSort([3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48])
 </code></pre>
 <!-- ## 计数排序    
 
-![](https://jrb1995.github.io/post-images/1588423003529.webp)
+![](https://cdn.jsdelivr.net/gh/jrb1995/image-host/1588423003529.gif)
 
 ## 桶排序
 
 ## 基数排序
 
-![](https://jrb1995.github.io/post-images/1588423067487.webp) -->
+![](https://cdn.jsdelivr.net/gh/jrb1995/image-host/1588423067487.gif) -->
 <h2 id="总结">总结</h2>
 <p>感慨算法实在是博大精深，前辈们花费心血研究出的成果值得我们学习和推敲。排序算法还有计数排序、桶排序和基数排序，实在没精力去一一研究了😓。</p>
 
