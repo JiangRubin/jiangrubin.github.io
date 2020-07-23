@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Git Commit Message 规范化实践 - Rubin&#39;s Blog</title>
 <meta name="description" content="温故而知新" />
-<link rel="shortcut icon" href="https://jrb1995.github.io/favicon.ico?v=1591327695116">
+<link rel="shortcut icon" href="https://jrb1995.github.io/favicon.ico?v=1595470374290">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@1.3.1/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -24,7 +24,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="remixicon-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://jrb1995.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://jrb1995.github.io/images/avatar.png?v=1591327695116" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://jrb1995.github.io/images/avatar.png?v=1595470374290" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">Rubin&#39;s Blog</h1>
       </div>
@@ -134,7 +134,7 @@
 <pre><code>npx commitizen init cz-conventional-changelog --save-dev --save-exact
 </code></pre>
 <blockquote>
-<p>npm &lt; 5.2 可以执行 <code>./node_modules/.bin/commitizen or ./node_modules/.bin/git-cz</code></p>
+<p>npm &lt; 5.2 可以执行 <code>./node_modules/.bin/commitizen</code> 或者 <code>./node_modules/.bin/git-cz</code></p>
 </blockquote>
 <p>并在 package.json 中添加 npm scripts 运行脚本</p>
 <p>package.json 会新增如下配置：</p>
@@ -167,7 +167,7 @@
 </code></pre>
 <p>运行脚本后，效果大致如下：</p>
 <figure data-type="image" tabindex="2"><img src="https://cdn.jsdelivr.net/gh/jrb1995/image-host/1580970514212.jpeg" alt="" loading="lazy"></figure>
-<p>更多使用特性详见其文档</p>
+<p>更多使用特性详见其<a href="https://github.com/conventional-changelog/standard-version" target="_blank">文档</a></p>
 <h2 id="结语">结语</h2>
 <p>查看完整的 <a href="https://github.com/jrb1995/standard-commit" target="_blank">demo</a></p>
 <p>此文是适合自己的一个简单通用配置，如使用 commitlint 更严格的校验 message 以及其他自定义配置，可见以下参考资料中的链接</p>

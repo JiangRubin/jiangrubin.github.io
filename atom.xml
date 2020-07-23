@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jrb1995.github.io</id>
     <title>Rubin&apos;s Blog</title>
-    <updated>2020-06-05T03:28:30.907Z</updated>
+    <updated>2020-07-23T02:14:29.122Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jrb1995.github.io"/>
     <link rel="self" href="https://jrb1995.github.io/atom.xml"/>
@@ -886,7 +886,7 @@ jobs:
 <pre><code>npx commitizen init cz-conventional-changelog --save-dev --save-exact
 </code></pre>
 <blockquote>
-<p>npm &lt; 5.2 可以执行 <code>./node_modules/.bin/commitizen or ./node_modules/.bin/git-cz</code></p>
+<p>npm &lt; 5.2 可以执行 <code>./node_modules/.bin/commitizen</code> 或者 <code>./node_modules/.bin/git-cz</code></p>
 </blockquote>
 <p>并在 package.json 中添加 npm scripts 运行脚本</p>
 <p>package.json 会新增如下配置：</p>
@@ -919,7 +919,7 @@ jobs:
 </code></pre>
 <p>运行脚本后，效果大致如下：</p>
 <figure data-type="image" tabindex="2"><img src="https://cdn.jsdelivr.net/gh/jrb1995/image-host/1580970514212.jpeg" alt="" loading="lazy"></figure>
-<p>更多使用特性详见其文档</p>
+<p>更多使用特性详见其<a href="https://github.com/conventional-changelog/standard-version" target="_blank">文档</a></p>
 <h2 id="结语">结语</h2>
 <p>查看完整的 <a href="https://github.com/jrb1995/standard-commit" target="_blank">demo</a></p>
 <p>此文是适合自己的一个简单通用配置，如使用 commitlint 更严格的校验 message 以及其他自定义配置，可见以下参考资料中的链接</p>
