@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jrb1995.github.io</id>
     <title>Rubin&apos;s Blog</title>
-    <updated>2020-07-23T02:14:29.122Z</updated>
+    <updated>2020-08-17T01:13:01.233Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jrb1995.github.io"/>
     <link rel="self" href="https://jrb1995.github.io/atom.xml"/>
@@ -17,7 +17,7 @@
         </link>
         <updated>2020-05-31T07:17:07.000Z</updated>
         <content type="html"><![CDATA[<h2 id="前言">前言</h2>
-<p>递归是算法中一种非常重要的思想，应用非常广泛。是DFS、分治法、回溯、二叉树遍历等方法的基础。emm 这些方法我都不懂 😂 ，先从学习这些方法的基础开始。</p>
+<p>递归是算法中一种非常重要的思想，应用非常广泛。是DFS、分治法、回溯、二叉树遍历等方法的基础。先从学习这些方法的基础开始。</p>
 <h2 id="什么是递归">什么是递归</h2>
 <p>程序调用自身的编程技巧称为递归（ recursion）。 一个过程或函数在其定义或说明中有直接或间接调用自身的一种方法，它通常把一个大型复杂的问题层层转化为一个与原问题相似的规模较小的问题来求解。</p>
 <p>像下面这样直接调用自身的函数：</p>
