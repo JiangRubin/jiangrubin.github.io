@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Vue 源码分析 — 响应式原理 - Rubin&#39;s Blog</title>
 <meta name="description" content="温故而知新" />
-<link rel="shortcut icon" href="https://jiangrubin.github.io/favicon.ico?v=1598001549130">
+<link rel="shortcut icon" href="https://jiangrubin.github.io/favicon.ico?v=1598001885048">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@1.3.1/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -24,7 +24,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="remixicon-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://jiangrubin.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://jiangrubin.github.io/images/avatar.png?v=1598001549130" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://jiangrubin.github.io/images/avatar.png?v=1598001885048" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">Rubin&#39;s Blog</h1>
       </div>
@@ -96,9 +96,9 @@
         <div class="post-content yue">
           <h2 id="前言">前言</h2>
 <p>Vue 是目前流行前端框架，其独特的特性是其非侵入性的响应式系统。当侦测到数据的变化来更新视图，原理核心是使用 <code>Object.defineProperty</code> 方法。本文对响应式原理进行分析，参照 vue 源码实现简易版的数据响应式。</p>
-<figure data-type="image" tabindex="1"><img src="https://cdn.jsdelivr.net/gh/jrb1995/image-host/1584274877854.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="1"><img src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host/1584274877854.png" alt="" loading="lazy"></figure>
 <h2 id="代码实现">代码实现</h2>
-<p>本文完整代码点击<a href="https://github.com/jrb1995/vue-mine" target="_blank">这里</a></p>
+<p>本文完整代码点击<a href="https://github.com/jiangrubin/vue-mine" target="_blank">这里</a></p>
 <pre><code class="language-js">import { def, isObject } from '../util/index'
 
 class Observer {
