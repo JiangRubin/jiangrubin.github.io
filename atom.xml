@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://jrb1995.github.io</id>
+    <id>https://jiangrubin.github.io</id>
     <title>Rubin&apos;s Blog</title>
-    <updated>2020-08-17T01:13:01.233Z</updated>
+    <updated>2020-08-21T09:20:08.057Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://jrb1995.github.io"/>
-    <link rel="self" href="https://jrb1995.github.io/atom.xml"/>
+    <link rel="alternate" href="https://jiangrubin.github.io"/>
+    <link rel="self" href="https://jiangrubin.github.io/atom.xml"/>
     <subtitle>温故而知新</subtitle>
-    <logo>https://jrb1995.github.io/images/avatar.png</logo>
-    <icon>https://jrb1995.github.io/favicon.ico</icon>
+    <logo>https://jiangrubin.github.io/images/avatar.png</logo>
+    <icon>https://jiangrubin.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Rubin&apos;s Blog</rights>
     <entry>
         <title type="html"><![CDATA[数据结构与算法 — 递归]]></title>
-        <id>https://jrb1995.github.io/post/shu-ju-jie-gou-yu-suan-fa-di-gui/</id>
-        <link href="https://jrb1995.github.io/post/shu-ju-jie-gou-yu-suan-fa-di-gui/">
+        <id>https://jiangrubin.github.io/post/shu-ju-jie-gou-yu-suan-fa-di-gui/</id>
+        <link href="https://jiangrubin.github.io/post/shu-ju-jie-gou-yu-suan-fa-di-gui/">
         </link>
         <updated>2020-05-31T07:17:07.000Z</updated>
         <content type="html"><![CDATA[<h2 id="前言">前言</h2>
@@ -138,8 +138,8 @@ function typeOf (obj) {
     </entry>
     <entry>
         <title type="html"><![CDATA[数据结构与算法 — 排序]]></title>
-        <id>https://jrb1995.github.io/post/shu-ju-jie-gou-yu-suan-fa-pai-xu/</id>
-        <link href="https://jrb1995.github.io/post/shu-ju-jie-gou-yu-suan-fa-pai-xu/">
+        <id>https://jiangrubin.github.io/post/shu-ju-jie-gou-yu-suan-fa-pai-xu/</id>
+        <link href="https://jiangrubin.github.io/post/shu-ju-jie-gou-yu-suan-fa-pai-xu/">
         </link>
         <updated>2020-04-27T11:41:27.000Z</updated>
         <content type="html"><![CDATA[<h2 id="前言">前言</h2>
@@ -404,8 +404,8 @@ heapSort([3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48])
     </entry>
     <entry>
         <title type="html"><![CDATA[iOS 证书配置指北]]></title>
-        <id>https://jrb1995.github.io/post/ios-zheng-shu-pei-zhi-zhi-bei/</id>
-        <link href="https://jrb1995.github.io/post/ios-zheng-shu-pei-zhi-zhi-bei/">
+        <id>https://jiangrubin.github.io/post/ios-zheng-shu-pei-zhi-zhi-bei/</id>
+        <link href="https://jiangrubin.github.io/post/ios-zheng-shu-pei-zhi-zhi-bei/">
         </link>
         <updated>2020-04-06T02:16:52.000Z</updated>
         <content type="html"><![CDATA[<h2 id="前言">前言</h2>
@@ -477,8 +477,8 @@ heapSort([3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48])
     </entry>
     <entry>
         <title type="html"><![CDATA[Vue 源码分析 — 响应式原理]]></title>
-        <id>https://jrb1995.github.io/post/vue-yuan-ma-fen-xi-xiang-ying-shi-yuan-li/</id>
-        <link href="https://jrb1995.github.io/post/vue-yuan-ma-fen-xi-xiang-ying-shi-yuan-li/">
+        <id>https://jiangrubin.github.io/post/vue-yuan-ma-fen-xi-xiang-ying-shi-yuan-li/</id>
+        <link href="https://jiangrubin.github.io/post/vue-yuan-ma-fen-xi-xiang-ying-shi-yuan-li/">
         </link>
         <updated>2020-03-15T11:50:48.000Z</updated>
         <content type="html"><![CDATA[<h2 id="前言">前言</h2>
@@ -772,8 +772,8 @@ export default class Watcher {
     </entry>
     <entry>
         <title type="html"><![CDATA[GitHub Actions 自动部署实践]]></title>
-        <id>https://jrb1995.github.io/post/github-actions-zi-dong-bu-shu-shi-jian/</id>
-        <link href="https://jrb1995.github.io/post/github-actions-zi-dong-bu-shu-shi-jian/">
+        <id>https://jiangrubin.github.io/post/github-actions-zi-dong-bu-shu-shi-jian/</id>
+        <link href="https://jiangrubin.github.io/post/github-actions-zi-dong-bu-shu-shi-jian/">
         </link>
         <updated>2020-02-13T11:16:59.000Z</updated>
         <content type="html"><![CDATA[<h2 id="前言">前言</h2>
@@ -845,8 +845,8 @@ jobs:
     </entry>
     <entry>
         <title type="html"><![CDATA[Git Commit Message 规范化实践]]></title>
-        <id>https://jrb1995.github.io/post/git-commit-message-gui-fan-hua-shi-jian/</id>
-        <link href="https://jrb1995.github.io/post/git-commit-message-gui-fan-hua-shi-jian/">
+        <id>https://jiangrubin.github.io/post/git-commit-message-gui-fan-hua-shi-jian/</id>
+        <link href="https://jiangrubin.github.io/post/git-commit-message-gui-fan-hua-shi-jian/">
         </link>
         <updated>2020-02-06T03:21:31.000Z</updated>
         <content type="html"><![CDATA[<h2 id="前言">前言</h2>
@@ -936,8 +936,8 @@ jobs:
     </entry>
     <entry>
         <title type="html"><![CDATA[scrollIntoView 实现页面锚点]]></title>
-        <id>https://jrb1995.github.io/post/scrollintoview-shi-xian-ye-mian-mao-dian/</id>
-        <link href="https://jrb1995.github.io/post/scrollintoview-shi-xian-ye-mian-mao-dian/">
+        <id>https://jiangrubin.github.io/post/scrollintoview-shi-xian-ye-mian-mao-dian/</id>
+        <link href="https://jiangrubin.github.io/post/scrollintoview-shi-xian-ye-mian-mao-dian/">
         </link>
         <updated>2020-01-30T03:12:12.000Z</updated>
         <summary type="html"><![CDATA[<p>锚点即指 html 中的链接，在页面中适当的添加锚点可以大大提高阅读或查找效率</p>
@@ -987,8 +987,8 @@ function getAnchor (id) {
     </entry>
     <entry>
         <title type="html"><![CDATA[Mac 下 nvm 的安装和使用]]></title>
-        <id>https://jrb1995.github.io/post/mac-xia-nvm-de-an-zhuang-he-shi-yong/</id>
-        <link href="https://jrb1995.github.io/post/mac-xia-nvm-de-an-zhuang-he-shi-yong/">
+        <id>https://jiangrubin.github.io/post/mac-xia-nvm-de-an-zhuang-he-shi-yong/</id>
+        <link href="https://jiangrubin.github.io/post/mac-xia-nvm-de-an-zhuang-he-shi-yong/">
         </link>
         <updated>2019-12-18T02:48:28.000Z</updated>
         <content type="html"><![CDATA[<h2 id="前言">前言</h2>
@@ -1032,8 +1032,8 @@ function getAnchor (id) {
     </entry>
     <entry>
         <title type="html"><![CDATA[函数的防抖和节流]]></title>
-        <id>https://jrb1995.github.io/post/han-shu-de-fang-dou-he-jie-liu/</id>
-        <link href="https://jrb1995.github.io/post/han-shu-de-fang-dou-he-jie-liu/">
+        <id>https://jiangrubin.github.io/post/han-shu-de-fang-dou-he-jie-liu/</id>
+        <link href="https://jiangrubin.github.io/post/han-shu-de-fang-dou-he-jie-liu/">
         </link>
         <updated>2019-11-28T03:01:12.000Z</updated>
         <content type="html"><![CDATA[<h2 id="前言">前言</h2>
@@ -1249,8 +1249,8 @@ function throttle(func, wait, options) {
     </entry>
     <entry>
         <title type="html"><![CDATA[CSS 开发技巧整理]]></title>
-        <id>https://jrb1995.github.io/post/css-kai-fa-ji-qiao/</id>
-        <link href="https://jrb1995.github.io/post/css-kai-fa-ji-qiao/">
+        <id>https://jiangrubin.github.io/post/css-kai-fa-ji-qiao/</id>
+        <link href="https://jiangrubin.github.io/post/css-kai-fa-ji-qiao/">
         </link>
         <updated>2019-11-11T13:15:39.000Z</updated>
         <content type="html"><![CDATA[<h3 id="快速重置表单元素">快速重置表单元素</h3>
