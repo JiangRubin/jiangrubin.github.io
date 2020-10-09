@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jiangrubin.github.io</id>
     <title>Rubin&apos;s Blog</title>
-    <updated>2020-10-09T07:45:27.354Z</updated>
+    <updated>2020-10-09T08:26:09.053Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jiangrubin.github.io"/>
     <link rel="self" href="https://jiangrubin.github.io/atom.xml"/>
@@ -131,7 +131,7 @@ padding-top: env(safe-area-inset-top);
 <p>SKU 商品规格选择是 C 端的功能，其中还涉及到如何生成商品 SKU 数据。也就是笛卡尔积的应用。</p>
 <p>如上图所示，通过“颜色”和“尺寸”2个销售属性来生成商品的 SKU，就需要对属性的值做笛卡尔积，其中核心代码如下：</p>
 <pre><code class="language-js">/**
- * @desc 多数组求笛卡儿积
+ * @desc 多数组求笛卡尔积
  * @param { Array } array [['粉色', '黄色', '黑色'], ['大', '小']]
  * @return { Array } ['粉色', '大'], ['粉色', '小'], ['黄色', '大'], ['黄色', '小'], ['蓝色', '大'], ['蓝色', '小']
  */
@@ -146,7 +146,7 @@ function cartesianProduct (array) {
 }
 </code></pre>
 <h2 id="总结">总结</h2>
-<p>这些都是最近项目中记录下来的，欢迎大家交流，以后开发中碰了其他问题也会持续更新的。</p>
+<p>这些都是最近项目中记录下来的，欢迎大家交流，以后开发中碰到了其他问题也会持续更新的。</p>
 ]]></content>
     </entry>
     <entry>
