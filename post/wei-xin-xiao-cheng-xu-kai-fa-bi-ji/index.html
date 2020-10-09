@@ -2,7 +2,7 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>数据结构与算法 — 递归 - Rubin&#39;s Blog</title>
+<title>微信小程序开发笔记 - Rubin&#39;s Blog</title>
 <meta name="description" content="温故而知新" />
 <link rel="shortcut icon" href="https://jiangrubin.github.io/favicon.ico?v=1602229361400">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
 
 <link rel="stylesheet" href="https://jiangrubin.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="数据结构与算法 — 递归 - Rubin&#39;s Blog - Atom Feed" href="https://jiangrubin.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="微信小程序开发笔记 - Rubin&#39;s Blog - Atom Feed" href="https://jiangrubin.github.io/atom.xml">
 
 
 
@@ -38,18 +38,19 @@
 <li>
 <ul>
 <li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
-<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AF%E9%80%92%E5%BD%92">什么是递归</a></li>
-<li><a href="#%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97">斐波那契数列</a>
+<li><a href="#%E5%AD%97%E4%BD%93">字体</a>
 <ul>
-<li><a href="#%E9%80%92%E5%BD%92%E5%AE%9E%E7%8E%B0">递归实现</a></li>
-<li><a href="#%E8%BF%AD%E4%BB%A3%E5%AE%9E%E7%8E%B0">迭代实现</a></li>
-<li><a href="#%E5%B0%BE%E8%B0%83%E7%94%A8%E4%BC%98%E5%8C%96">尾调用优化</a></li>
+<li><a href="#%E5%85%A8%E5%B1%80%E5%AD%97%E4%BD%93">全局字体</a></li>
+<li><a href="#%E5%AD%97%E5%8F%B7%E5%8D%95%E4%BD%8D">字号单位</a></li>
 </ul>
 </li>
-<li><a href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF">应用场景</a>
+<li><a href="#%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90">图片资源</a></li>
+<li><a href="#wxs-%E5%B7%A5%E5%85%B7%E6%96%B9%E6%B3%95">WXS 工具方法</a></li>
+<li><a href="#iphonex-%E9%80%82%E9%85%8D">iPhoneX 适配</a></li>
+<li><a href="#ios-%E4%B8%AD-promise-%E5%AF%B9%E8%B1%A1%E4%B8%8D%E5%AD%98%E5%9C%A8-finally-%E6%96%B9%E6%B3%95">iOS 中 Promise 对象不存在 finally 方法</a></li>
+<li><a href="#sku-%E5%95%86%E5%93%81%E8%A7%84%E6%A0%BC">SKU 商品规格</a>
 <ul>
-<li><a href="#%E6%B7%B1%E6%8B%B7%E8%B4%9D">深拷贝</a></li>
-<li><a href="#%E6%95%B0%E7%BB%84%E6%89%81%E5%B9%B3%E5%8C%96">数组扁平化</a></li>
+<li><a href="#%E7%AC%9B%E5%8D%A1%E5%B0%94%E7%A7%AF%E5%BA%94%E7%94%A8">笛卡尔积应用</a></li>
 </ul>
 </li>
 <li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
@@ -101,133 +102,152 @@
 <div class="mask" onclick="closeMenu()">
 </div>
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
-        <h1 class="text-3xl font-bold lg:mt-16">数据结构与算法 — 递归</h1>
+        <h1 class="text-3xl font-bold lg:mt-16">微信小程序开发笔记</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2020-05-31 / 4 min read
+          2020-09-27 / 4 min read
         </div>
+        
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host/wei-xin-xiao-cheng-xu-kai-fa-bi-ji.jpg" alt="">
         
         <div class="post-content yue">
           <h2 id="前言">前言</h2>
-<p>递归是算法中一种非常重要的思想，应用非常广泛。是DFS、分治法、回溯、二叉树遍历等方法的基础。先从学习这些方法的基础开始。</p>
-<h2 id="什么是递归">什么是递归</h2>
-<p>程序调用自身的编程技巧称为递归（ recursion）。 一个过程或函数在其定义或说明中有直接或间接调用自身的一种方法，它通常把一个大型复杂的问题层层转化为一个与原问题相似的规模较小的问题来求解。</p>
-<p>像下面这样直接调用自身的函数：</p>
-<pre><code class="language-js">function recursion(param){
-    recursion(param)
+<p>最近在开发小程序项目，将项目中遇到的问题和要点记录下来，方便以后查阅。</p>
+<h2 id="字体">字体</h2>
+<h3 id="全局字体">全局字体</h3>
+<p>项目中使用了 <a href="https://vant-contrib.gitee.io/vant-weapp/#/intro">vant-weapp</a>，有赞开源的小程序组件库。</p>
+<p>为保证在不同设备上提供最佳的视觉体验，且与组件库风格统一，可在 app.wxss 中设置以下全局字体。</p>
+<pre><code class="language-css">page {
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica,
+    Segoe UI, Arial, Roboto, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft Yahei',
+    sans-serif;
 }
 </code></pre>
-<p>间接调用自身的函数，也是递归函数：</p>
-<pre><code class="language-js">function recursion1(param){
-    recursion2(param)
+<h3 id="字号单位">字号单位</h3>
+<p>字号单位用 px，不同分辨率设备上字体大小保持一致，取值尽量是偶数。</p>
+<p>可以将常用的字号写成 css 变量，方便使用。</p>
+<pre><code class="language-css">page {
+    --font-size-xs: 10px;
+    --font-size-sm: 12px;
+    --font-size-md: 14px;
+    --font-size-lg: 16px;
+    --font-size-xl: 18px;
+    --font-size-xxl: 24px;
 }
 
-function recursion2(param){
-    recursion1(param)
-}
-</code></pre>
-<p>假设现在执行 recursion 函数，就上述情况而言，其会一直执行下去。因此，每个递归函数都必须要有边界条件，即一个不再递归调用的条件，以防止无限递归。</p>
-<p>如果忘记加上用以停止函数递归调用的边界条件，在浏览器中执行，递归并不会无限地执行下去，浏览器会抛出错误 <code>Maximum call stack size exceeded</code> 也就是所谓的栈溢出。</p>
-<p>以阶乘为例，体会一下递归：</p>
-<pre><code class="language-js">function factorial(n) {
-    if (n &lt;= 1) {
-        return 1
-    }
-    return n * factorial(n - 1)
-}
-
-factorial(6) // 6 * 5 * 4 * 3 * 2 * 1 = 720
-</code></pre>
-<p>factorial 是一个实现阶乘的函数，来看下它的调用过程。</p>
-<figure data-type="image" tabindex="1"><img src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host/1590918559854.jpg" alt="" loading="lazy"></figure>
-<p>从这个例子中可以看出，阶乘中的 <code>n &lt;= 1</code> 是边界条件，当边界条件不满足时，递归前进，当边界条件满足时，递归返回。构成递归需具备边界条件、递归前进段和递归返回段。</p>
-<h2 id="斐波那契数列">斐波那契数列</h2>
-<p>斐波那契指的是这样一个数列：1、1、2、3、5、8、13、21、34 ...，这个数列从第3项开始，每一项都等于前两项之和。</p>
-<h3 id="递归实现">递归实现</h3>
-<pre><code class="language-js">function fibonacci(n) {
-    if (n &lt;= 2) {
-        return 1
-    }
-    return fibonacci(n - 1) + fibonacci(n - 2)
-}
-
-console.log(fibonacci(6)) // 8
-</code></pre>
-<p>但是当参数 n 变大时，浏览器卡死了。原因是此函数中存在着大量的冗余计算，并且 n 越大，冗余的越多。如下图所示：</p>
-<figure data-type="image" tabindex="2"><img src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host/1590919586864.png" alt="" loading="lazy"></figure>
-<p>图中每个分支上的函数都是单独调用的，并且都是重复的调用，针对这种冗余计算，我们可以做相关的优化，优化的思路都是减少相同函数的重复调用。</p>
-<h3 id="迭代实现">迭代实现</h3>
-<pre><code class="language-js">function fibonacci(num){
-    var n1 = 1,
-    n2 = 1,
-    n = 1;
-    for (var i = 3; i &lt;= num; i++){
-        n = n1 + n2;
-        n1 = n2;
-        n2 = n;
-    }
-    return n;
-} 
-</code></pre>
-<h3 id="尾调用优化">尾调用优化</h3>
-<pre><code class="language-js">function fibonacci (n, res1 = 1, res2 = 1) {
-    if (n &lt;= 2) {
-        return res2
-    }
-    return fibonacci(n - 1, res2, res1 + res2)
+view {
+    font-size: var(--font-size-md);
 }
 </code></pre>
-<h2 id="应用场景">应用场景</h2>
-<p>一些 JavaScript 的工具方法中涉及到了递归。</p>
-<h3 id="深拷贝">深拷贝</h3>
-<pre><code class="language-js">function deepCopy (data) {
-    // 数据类型判断函数，见下
-    const t = typeOf(data)
-    let o
+<h2 id="图片资源">图片资源</h2>
+<p>项目中经常会使用图片、SVG 等文件，而这些文件占据项目体积很大的比重。因小程序包体积限制，需要对图片文件进行压缩处理。</p>
+<ul>
+<li>
+<p><a href="https://tinypng.com/">TinyPNG 图片压缩</a></p>
+</li>
+<li>
+<p><a href="https://www.zhangxinxu.com/sp/svgo/">SVG 在线压缩合并工具</a></p>
+</li>
+</ul>
+<h2 id="wxs-工具方法">WXS 工具方法</h2>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/reference/wxs/">WXS</a> 是小程序的一套脚本语言。所说跟 JavaScript 类似但其中有一些坑。比如不能遍历对象。没有 Object 对象，不能使用 <code>for ... in ...</code>。小程序社区里也有关于这个的<a href="https://developers.weixin.qq.com/community/develop/doc/000680569f81100755279069856000?highLine=wxs%2520%25E9%2581%258D%25E5%258E%2586%25E5%25AF%25B9%25E8%25B1%25A1">吐槽</a>。</p>
+<p>只能通过正则的方式来实现对象的遍历方法：</p>
+<pre><code class="language-js">// object.wxs
+var REGEXP = getRegExp('{|}|&quot;', 'g');
 
-    if (t === 'array') {
-        o = []
-    } else if (t === 'object') {
-        o = {}
-    } else {
-        return data
-    }
-
-    for (var key in data) {
-        o[key] = deepCopy(data[key])
-    }
-
-    return o
+function keys (obj) {
+  return JSON.stringify(obj)
+    .replace(REGEXP, '')
+    .split(',')
+    .map(function(item) {
+      return item.split(':')[0]
+    })
 }
 
-function typeOf (obj) {
-    const toString = Object.prototype.toString
-    const map = {
-        '[object Boolean]': 'boolean',
-        '[object Number]': 'number',
-        '[object String]': 'string',
-        '[object Function]': 'function',
-        '[object Array]': 'array',
-        '[object Date]': 'date',
-        '[object RegExp]': 'regExp',
-        '[object Undefined]': 'undefined',
-        '[object Null]': 'null',
-        '[object Object]': 'object'
-    }
-    return map[toString.call(obj)]
+function values (obj) {
+  return JSON.stringify(obj)
+    .replace(REGEXP, '')
+    .split(',')
+    .map(function(item) {
+      return item.split(':')[1]
+    })
+}
+
+module.exports = {
+  keys: keys,
+  values: values,
 }
 </code></pre>
-<h3 id="数组扁平化">数组扁平化</h3>
-<pre><code class="language-js">function flatten(arr) {
-    return arr.reduce(function(prev, next){
-        return prev.concat(Array.isArray(next) ? flatten(next) : next)
-    }, [])
+<h2 id="iphonex-适配">iPhoneX 适配</h2>
+<p>屏幕上边框，右边框，下边框，左边框安全距离：</p>
+<pre><code>safe-area-inset-top，
+safe-area-inset-right，
+safe-area-inset-bottom，
+safe-area-inset-left
+</code></pre>
+<p>使用：</p>
+<p>iOS 11</p>
+<pre><code class="language-css">padding-top: constant(safe-area-inset-top);
+padding-right: constant(safe-area-inset-right);
+padding-bottom: constant(safe-area-inset-bottom);
+padding-left: constant(safe-area-inset-left);
+</code></pre>
+<p>iOS 11.2 beta及其后</p>
+<pre><code class="language-css">padding-top: env(safe-area-inset-top);
+padding-right: env(safe-area-inset-right);
+padding-bottom: env(safe-area-inset-bottom);
+padding-left: env(safe-area-inset-left);
+</code></pre>
+<p>兼容性写法：</p>
+<pre><code class="language-css">padding-top: constant(safe-area-inset-top);
+padding-top: env(safe-area-inset-top);
+</code></pre>
+<p>参考文档：<a href="https://webkit.org/blog/7929/designing-websites-for-iphone-x/?hmsr=funteas.com&amp;utm_medium=funteas.com&amp;utm_source=funteas.com">苹果官方文档</a></p>
+<h2 id="ios-中-promise-对象不存在-finally-方法">iOS 中 Promise 对象不存在 finally 方法</h2>
+<p>在开发者工具中没有这个问题，只在 iOS 真机中存在。不知小程序官方是否修复了此 bug。</p>
+<p>在 app.js 中添加如下代码：</p>
+<pre><code class="language-js">if (!Promise.prototype.finally) {
+  Promise.prototype.finally = function (callback) {
+    this.then(res =&gt; {
+      callback &amp;&amp; callback(res)
+    }, error =&gt; {
+      callback &amp;&amp; callback(error)
+    })
+  }
+}
+</code></pre>
+<h2 id="sku-商品规格">SKU 商品规格</h2>
+<blockquote>
+<p>SKU 是值物理上不可分割的最小存货单元</p>
+</blockquote>
+<p>开发的是电商类型项目，SKU 商品规格选择功能是必不可少的，也是项目中比较复杂的功能。将功能封装为组件，具体的代码查看该<a href="https://github.com/jiangrubin/weapp-sku">地址</a>。</p>
+<figure data-type="image" tabindex="1"><img src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host/406936562400.png" alt="" loading="lazy"></figure>
+<h3 id="笛卡尔积应用">笛卡尔积应用</h3>
+<p>SKU 商品规格选择是 C 端的功能，其中还涉及到如何生成商品 SKU 数据。也就是笛卡尔积的应用。</p>
+<p>如上图所示，通过“颜色”和“尺寸”2个销售属性来生成商品的 SKU，就需要对属性的值做笛卡尔积，其中核心代码如下：</p>
+<pre><code class="language-js">/**
+ * @desc 多数组求笛卡儿积
+ * @param { Array } array [['粉色', '黄色', '黑色'], ['大', '小']]
+ * @return { Array } ['粉色', '大'], ['粉色', '小'], ['黄色', '大'], ['黄色', '小'], ['蓝色', '大'], ['蓝色', '小']
+ */
+function cartesianProduct (array) {
+  return array.reduce(function (a, b) {
+    return a.map(function (x) {
+      return b.map(function (y) {
+        return x.concat(y)
+      })
+    }).reduce(function (a, b) { return a.concat(b) }, [])
+  }, [[]])
 }
 </code></pre>
 <h2 id="总结">总结</h2>
-<p>学习了递归的基本使用和实现了 JavaScript 中常用的工具方法。关于递归的内容还有很多，比如还有汉诺塔、二叉树遍历等递归场景。算法之路漫漫 😬。</p>
+<p>这些都是最近项目中记录下来的，欢迎大家交流，以后开发中碰了其他问题也会持续更新的。</p>
 
         </div>
 
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://jiangrubin.github.io/tag/iazsLuWUk/">
+            <span class="flex-auto">微信小程序</span>
+          </a>
         
           <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://jiangrubin.github.io/tag/pGvoCX5tk/">
             <span class="flex-auto">js</span>
@@ -237,21 +257,12 @@ function typeOf (obj) {
 
         <div class="flex justify-between py-8">
           
-            <div class="prev-post">
-              <a href="https://jiangrubin.github.io/post/wei-xin-xiao-cheng-xu-kai-fa-bi-ji/">
-                <h3 class="post-title">
-                  <i class="remixicon-arrow-left-line"></i>
-                  微信小程序开发笔记
-                </h3>
-              </a>
-            </div>
-          
 
           
             <div class="next-post">
-              <a href="https://jiangrubin.github.io/post/shu-ju-jie-gou-yu-suan-fa-pai-xu/">
+              <a href="https://jiangrubin.github.io/post/shu-ju-jie-gou-yu-suan-fa-di-gui/">
                 <h3 class="post-title">
-                  数据结构与算法 — 排序
+                  数据结构与算法 — 递归
                   <i class="remixicon-arrow-right-line"></i>
                 </h3>
               </a>

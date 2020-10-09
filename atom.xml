@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jiangrubin.github.io</id>
     <title>Rubin&apos;s Blog</title>
-    <updated>2020-08-21T09:27:37.210Z</updated>
+    <updated>2020-10-09T07:45:27.354Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jiangrubin.github.io"/>
     <link rel="self" href="https://jiangrubin.github.io/atom.xml"/>
@@ -10,6 +10,145 @@
     <logo>https://jiangrubin.github.io/images/avatar.png</logo>
     <icon>https://jiangrubin.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Rubin&apos;s Blog</rights>
+    <entry>
+        <title type="html"><![CDATA[微信小程序开发笔记]]></title>
+        <id>https://jiangrubin.github.io/post/wei-xin-xiao-cheng-xu-kai-fa-bi-ji/</id>
+        <link href="https://jiangrubin.github.io/post/wei-xin-xiao-cheng-xu-kai-fa-bi-ji/">
+        </link>
+        <updated>2020-09-27T03:03:46.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="前言">前言</h2>
+<p>最近在开发小程序项目，将项目中遇到的问题和要点记录下来，方便以后查阅。</p>
+<h2 id="字体">字体</h2>
+<h3 id="全局字体">全局字体</h3>
+<p>项目中使用了 <a href="https://vant-contrib.gitee.io/vant-weapp/#/intro">vant-weapp</a>，有赞开源的小程序组件库。</p>
+<p>为保证在不同设备上提供最佳的视觉体验，且与组件库风格统一，可在 app.wxss 中设置以下全局字体。</p>
+<pre><code class="language-css">page {
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica,
+    Segoe UI, Arial, Roboto, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft Yahei',
+    sans-serif;
+}
+</code></pre>
+<h3 id="字号单位">字号单位</h3>
+<p>字号单位用 px，不同分辨率设备上字体大小保持一致，取值尽量是偶数。</p>
+<p>可以将常用的字号写成 css 变量，方便使用。</p>
+<pre><code class="language-css">page {
+    --font-size-xs: 10px;
+    --font-size-sm: 12px;
+    --font-size-md: 14px;
+    --font-size-lg: 16px;
+    --font-size-xl: 18px;
+    --font-size-xxl: 24px;
+}
+
+view {
+    font-size: var(--font-size-md);
+}
+</code></pre>
+<h2 id="图片资源">图片资源</h2>
+<p>项目中经常会使用图片、SVG 等文件，而这些文件占据项目体积很大的比重。因小程序包体积限制，需要对图片文件进行压缩处理。</p>
+<ul>
+<li>
+<p><a href="https://tinypng.com/">TinyPNG 图片压缩</a></p>
+</li>
+<li>
+<p><a href="https://www.zhangxinxu.com/sp/svgo/">SVG 在线压缩合并工具</a></p>
+</li>
+</ul>
+<h2 id="wxs-工具方法">WXS 工具方法</h2>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/reference/wxs/">WXS</a> 是小程序的一套脚本语言。所说跟 JavaScript 类似但其中有一些坑。比如不能遍历对象。没有 Object 对象，不能使用 <code>for ... in ...</code>。小程序社区里也有关于这个的<a href="https://developers.weixin.qq.com/community/develop/doc/000680569f81100755279069856000?highLine=wxs%2520%25E9%2581%258D%25E5%258E%2586%25E5%25AF%25B9%25E8%25B1%25A1">吐槽</a>。</p>
+<p>只能通过正则的方式来实现对象的遍历方法：</p>
+<pre><code class="language-js">// object.wxs
+var REGEXP = getRegExp('{|}|&quot;', 'g');
+
+function keys (obj) {
+  return JSON.stringify(obj)
+    .replace(REGEXP, '')
+    .split(',')
+    .map(function(item) {
+      return item.split(':')[0]
+    })
+}
+
+function values (obj) {
+  return JSON.stringify(obj)
+    .replace(REGEXP, '')
+    .split(',')
+    .map(function(item) {
+      return item.split(':')[1]
+    })
+}
+
+module.exports = {
+  keys: keys,
+  values: values,
+}
+</code></pre>
+<h2 id="iphonex-适配">iPhoneX 适配</h2>
+<p>屏幕上边框，右边框，下边框，左边框安全距离：</p>
+<pre><code>safe-area-inset-top，
+safe-area-inset-right，
+safe-area-inset-bottom，
+safe-area-inset-left
+</code></pre>
+<p>使用：</p>
+<p>iOS 11</p>
+<pre><code class="language-css">padding-top: constant(safe-area-inset-top);
+padding-right: constant(safe-area-inset-right);
+padding-bottom: constant(safe-area-inset-bottom);
+padding-left: constant(safe-area-inset-left);
+</code></pre>
+<p>iOS 11.2 beta及其后</p>
+<pre><code class="language-css">padding-top: env(safe-area-inset-top);
+padding-right: env(safe-area-inset-right);
+padding-bottom: env(safe-area-inset-bottom);
+padding-left: env(safe-area-inset-left);
+</code></pre>
+<p>兼容性写法：</p>
+<pre><code class="language-css">padding-top: constant(safe-area-inset-top);
+padding-top: env(safe-area-inset-top);
+</code></pre>
+<p>参考文档：<a href="https://webkit.org/blog/7929/designing-websites-for-iphone-x/?hmsr=funteas.com&amp;utm_medium=funteas.com&amp;utm_source=funteas.com">苹果官方文档</a></p>
+<h2 id="ios-中-promise-对象不存在-finally-方法">iOS 中 Promise 对象不存在 finally 方法</h2>
+<p>在开发者工具中没有这个问题，只在 iOS 真机中存在。不知小程序官方是否修复了此 bug。</p>
+<p>在 app.js 中添加如下代码：</p>
+<pre><code class="language-js">if (!Promise.prototype.finally) {
+  Promise.prototype.finally = function (callback) {
+    this.then(res =&gt; {
+      callback &amp;&amp; callback(res)
+    }, error =&gt; {
+      callback &amp;&amp; callback(error)
+    })
+  }
+}
+</code></pre>
+<h2 id="sku-商品规格">SKU 商品规格</h2>
+<blockquote>
+<p>SKU 是值物理上不可分割的最小存货单元</p>
+</blockquote>
+<p>开发的是电商类型项目，SKU 商品规格选择功能是必不可少的，也是项目中比较复杂的功能。将功能封装为组件，具体的代码查看该<a href="https://github.com/jiangrubin/weapp-sku">地址</a>。</p>
+<figure data-type="image" tabindex="1"><img src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host/406936562400.png" alt="" loading="lazy"></figure>
+<h3 id="笛卡尔积应用">笛卡尔积应用</h3>
+<p>SKU 商品规格选择是 C 端的功能，其中还涉及到如何生成商品 SKU 数据。也就是笛卡尔积的应用。</p>
+<p>如上图所示，通过“颜色”和“尺寸”2个销售属性来生成商品的 SKU，就需要对属性的值做笛卡尔积，其中核心代码如下：</p>
+<pre><code class="language-js">/**
+ * @desc 多数组求笛卡儿积
+ * @param { Array } array [['粉色', '黄色', '黑色'], ['大', '小']]
+ * @return { Array } ['粉色', '大'], ['粉色', '小'], ['黄色', '大'], ['黄色', '小'], ['蓝色', '大'], ['蓝色', '小']
+ */
+function cartesianProduct (array) {
+  return array.reduce(function (a, b) {
+    return a.map(function (x) {
+      return b.map(function (y) {
+        return x.concat(y)
+      })
+    }).reduce(function (a, b) { return a.concat(b) }, [])
+  }, [[]])
+}
+</code></pre>
+<h2 id="总结">总结</h2>
+<p>这些都是最近项目中记录下来的，欢迎大家交流，以后开发中碰了其他问题也会持续更新的。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[数据结构与算法 — 递归]]></title>
         <id>https://jiangrubin.github.io/post/shu-ju-jie-gou-yu-suan-fa-di-gui/</id>
@@ -1245,58 +1384,6 @@ function throttle(func, wait, options) {
 <li><a href="https://github.com/mqyqingfeng/Blog/issues/22" target="_blank">JavaScript 专题之跟着 underscore 学防抖</a></li>
 <li><a href="https://github.com/mqyqingfeng/Blog/issues/26" target="_blank">JavaScript 专题之跟着 underscore 学节流</a></li>
 </ul>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[CSS 开发技巧整理]]></title>
-        <id>https://jiangrubin.github.io/post/css-kai-fa-ji-qiao/</id>
-        <link href="https://jiangrubin.github.io/post/css-kai-fa-ji-qiao/">
-        </link>
-        <updated>2019-11-11T13:15:39.000Z</updated>
-        <content type="html"><![CDATA[<h3 id="快速重置表单元素">快速重置表单元素</h3>
-<p>原始的 <code>button</code> 按钮重置</p>
-<pre><code class="language-css">button {
-  background: none;
-  border: none;
-  color: inherit;
-  font: inherit;
-  outline: none;
-  padding: 0;
-}
-</code></pre>
-<p>只需要这样就可以(<code>input</code>、<code>textarea</code>)</p>
-<pre><code class="language-css">button { 
-  all: unset;
-}
-</code></pre>
-<h3 id="文本省略号显示">文本省略号显示</h3>
-<p>文本省略号是非常常见的需求，而省略号展示又通常分为俩种情况折行和不折行。</p>
-<p>不折行：</p>
-<pre><code class="language-css">div {  
-  white-space: nowrap; /* 规定文本是否折行 */  
-  overflow: hidden; /* 规定超出内容宽度的元素隐藏 */
-  text-overflow: ellipsis; /* 规定超出的内容文本省略号显示，通常跟上面的属性连用，因为没有上面的属性不会触发超出规定的内容 */
-}
-</code></pre>
-<p>折行(能主动控制行数,这里设置的超出 4 行显示省略号)：</p>
-<pre><code class="language-css">div {      
-  overflow: hidden;      
-  text-overflow: ellipsis;      
-  display: -webkit-box; /* 将对象作为弹性伸缩盒子模型显示 */      
-  -webkit-line-clamp: 4; /* 控制最多显示几行 */      
-  -webkit-box-orient: vertical; /* 设置或检索伸缩盒对象的子元素的排列方式 */    
-}
-</code></pre>
-<h3 id="设置文本两端对齐">设置文本两端对齐</h3>
-<pre><code class="language-css">p {
-  text-align-last: justify; /* 这是关键属性 */
-}
-</code></pre>
-<h3 id="规定图像展示方式">规定图像展示方式</h3>
-<p>显示图片的时候会遇到这种问题，对面返回的图片宽高比例是不一样的。但是设置的容器大小是一样的，这个时候需要让图片保持比例最大填充容器。</p>
-<pre><code>object-fit： cover | contain | fill | scale-down | none
-</code></pre>
-<figure data-type="image" tabindex="1"><img src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host/1573479048374.png" alt="" loading="lazy"></figure>
 ]]></content>
     </entry>
 </feed>
