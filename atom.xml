@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jiangrubin.github.io</id>
     <title>Rubin&apos;s Blog</title>
-    <updated>2020-10-13T03:58:20.084Z</updated>
+    <updated>2020-10-13T12:01:44.006Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jiangrubin.github.io"/>
     <link rel="self" href="https://jiangrubin.github.io/atom.xml"/>
@@ -1043,7 +1043,7 @@ jobs:
 </blockquote>
 <p>并在 package.json 中添加 npm scripts 运行脚本</p>
 <p>package.json 会新增如下配置：</p>
-<pre><code class="language-json">&quot;scripts&quot;: {
+<pre><code class="language-js">&quot;scripts&quot;: {
     &quot;commit&quot;: &quot;git-cz&quot;
 },
 &quot;devDependencies&quot;: {
@@ -1064,7 +1064,7 @@ jobs:
 <pre><code class="language-shell">npm install standard-version --save-dev
 </code></pre>
 <p>在 package.json 添加运行脚本</p>
-<pre><code class="language-json">{
+<pre><code class="language-js">{
   &quot;scripts&quot;: {
     &quot;release&quot;: &quot;standard-version&quot;
   }
@@ -1223,7 +1223,7 @@ function getAnchor (id) {
         var container = document.getElementById('container');
 
         function getUserAction() {
-        container.innerHTML = count++;
+            container.innerHTML = count++;
         };
 
         container.onmousemove = debounce(getUserAction, 1000);
