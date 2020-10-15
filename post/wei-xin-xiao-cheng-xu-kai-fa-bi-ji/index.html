@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>微信小程序开发笔记 - Rubin&#39;s Blog</title>
 <meta name="description" content="温故而知新" />
-<link rel="shortcut icon" href="https://jiangrubin.github.io/favicon.ico?v=1602591015547">
+<link rel="shortcut icon" href="https://jiangrubin.github.io/favicon.ico?v=1602738758574">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@1.3.1/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -33,7 +33,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="remixicon-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://jiangrubin.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://jiangrubin.github.io/images/avatar.png?v=1602591015547" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://jiangrubin.github.io/images/avatar.png?v=1602738758574" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">Rubin&#39;s Blog</h1>
       </div>
@@ -189,9 +189,9 @@ module.exports = {
 </code></pre>
 <h2 id="iphonex-适配">iPhoneX 适配</h2>
 <p>屏幕上边框，右边框，下边框，左边框安全距离：</p>
-<pre><code>safe-area-inset-top，
-safe-area-inset-right，
-safe-area-inset-bottom，
+<pre><code>safe-area-inset-top
+safe-area-inset-right
+safe-area-inset-bottom
 safe-area-inset-left
 </code></pre>
 <p>使用：</p>
@@ -241,7 +241,7 @@ const { formatTime } = app.require('/utils/util')
 </code></pre>
 <h2 id="sku-商品规格">SKU 商品规格</h2>
 <blockquote>
-<p>SKU 是值物理上不可分割的最小存货单元</p>
+<p>SKU 是指物理上不可分割的最小存货单元</p>
 </blockquote>
 <p>开发的是电商类型项目，SKU 商品规格选择功能是必不可少的，也是项目中比较复杂的功能。将功能封装为组件，具体的代码查看该<a href="https://github.com/jiangrubin/weapp-sku">地址</a>。</p>
 <figure data-type="image" tabindex="1"><img src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host/406936562400.png" alt="" loading="lazy"></figure>

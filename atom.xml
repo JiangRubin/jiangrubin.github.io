@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jiangrubin.github.io</id>
     <title>Rubin&apos;s Blog</title>
-    <updated>2020-10-13T12:10:22.815Z</updated>
+    <updated>2020-10-15T05:16:01.525Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jiangrubin.github.io"/>
     <link rel="self" href="https://jiangrubin.github.io/atom.xml"/>
@@ -85,9 +85,9 @@ module.exports = {
 </code></pre>
 <h2 id="iphonex-适配">iPhoneX 适配</h2>
 <p>屏幕上边框，右边框，下边框，左边框安全距离：</p>
-<pre><code>safe-area-inset-top，
-safe-area-inset-right，
-safe-area-inset-bottom，
+<pre><code>safe-area-inset-top
+safe-area-inset-right
+safe-area-inset-bottom
 safe-area-inset-left
 </code></pre>
 <p>使用：</p>
@@ -137,7 +137,7 @@ const { formatTime } = app.require('/utils/util')
 </code></pre>
 <h2 id="sku-商品规格">SKU 商品规格</h2>
 <blockquote>
-<p>SKU 是值物理上不可分割的最小存货单元</p>
+<p>SKU 是指物理上不可分割的最小存货单元</p>
 </blockquote>
 <p>开发的是电商类型项目，SKU 商品规格选择功能是必不可少的，也是项目中比较复杂的功能。将功能封装为组件，具体的代码查看该<a href="https://github.com/jiangrubin/weapp-sku">地址</a>。</p>
 <figure data-type="image" tabindex="1"><img src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host/406936562400.png" alt="" loading="lazy"></figure>
