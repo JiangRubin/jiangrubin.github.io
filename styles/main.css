@@ -6602,7 +6602,7 @@ body {
 }
 .prev-post,
 .next-post {
-  width: 50%;
+  flex: 1;
 }
 .prev-post .post-title,
 .next-post .post-title {
