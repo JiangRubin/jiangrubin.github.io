@@ -6293,7 +6293,7 @@ pre[data-line] {
 }
 .post-content {
   line-height: 1.75;
-  font-family: "Droid Serif", "PingFang SC", "Hiragino Sans GB", "Droid Sans Fallback", "Microsoft YaHei", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC, Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei, sans-serif;
   color: #2D3748;
 }
 .post-content hr {
@@ -6415,7 +6415,7 @@ pre[data-line] {
   right: 0;
 }
 body {
-  font: 400 18px/1.42 "Droid Serif", "PingFang SC", "Hiragino Sans GB", "Droid Sans Fallback", "Microsoft YaHei", sans-serif;
+  font: 400 18px/1.42 -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC, Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei, sans-serif;
 }
 .main {
   max-width: 1200px;

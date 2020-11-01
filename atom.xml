@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jiangrubin.github.io</id>
     <title>Rubin&apos;s Blog</title>
-    <updated>2020-10-16T02:46:55.633Z</updated>
+    <updated>2020-11-01T13:51:11.123Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jiangrubin.github.io"/>
     <link rel="self" href="https://jiangrubin.github.io/atom.xml"/>
@@ -97,7 +97,7 @@ padding-right: constant(safe-area-inset-right);
 padding-bottom: constant(safe-area-inset-bottom);
 padding-left: constant(safe-area-inset-left);
 </code></pre>
-<p>iOS 11.2 beta及其后</p>
+<p>iOS 11.2 beta 及其后</p>
 <pre><code class="language-css">padding-top: env(safe-area-inset-top);
 padding-right: env(safe-area-inset-right);
 padding-bottom: env(safe-area-inset-bottom);
