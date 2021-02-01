@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CSS 开发技巧整理 - Rubin&#39;s Blog</title>
 <meta name="description" content="温故而知新" />
-<link rel="shortcut icon" href="https://jiangrubin.github.io/favicon.ico?v=1608608856281">
+<link rel="shortcut icon" href="https://jiangrubin.github.io/favicon.ico?v=1612149099409">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@1.3.1/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
@@ -34,7 +34,7 @@
       <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
         <i class="remixicon-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
         <a href="https://jiangrubin.github.io">
-          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://jiangrubin.github.io/images/avatar.png?v=1608608856281" alt="">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://jiangrubin.github.io/images/avatar.png?v=1612149099409" alt="">
         </a>
         <h1 class="animated fadeInLeft lg:text-4xl font-semibold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">Rubin&#39;s Blog</h1>
       </div>
@@ -53,6 +53,7 @@
 <li><a href="#%E6%96%87%E6%9C%AC%E7%9C%81%E7%95%A5%E5%8F%B7%E6%98%BE%E7%A4%BA">文本省略号显示</a></li>
 <li><a href="#%E8%AE%BE%E7%BD%AE%E6%96%87%E6%9C%AC%E4%B8%A4%E7%AB%AF%E5%AF%B9%E9%BD%90">设置文本两端对齐</a></li>
 <li><a href="#%E8%A7%84%E5%AE%9A%E5%9B%BE%E5%83%8F%E5%B1%95%E7%A4%BA%E6%96%B9%E5%BC%8F">规定图像展示方式</a></li>
+<li><a href="#1px-%E8%BE%B9%E6%A1%86">1px 边框</a></li>
 </ul>
 </li>
 </ul>
@@ -155,6 +156,26 @@
 <pre><code>object-fit： cover | contain | fill | scale-down | none
 </code></pre>
 <figure data-type="image" tabindex="1"><img src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host/1573479048374.png" alt="" loading="lazy"></figure>
+<h3 id="1px-边框">1px 边框</h3>
+<p>为元素添加 Retina 屏幕下的 1px 边框（即 hairline），基于伪类 transform 实现。</p>
+<pre><code class="language-css">.hairline {
+  position: relative;
+}
+
+.hairline::after {
+  position: absolute;
+  box-sizing: border-box;
+  content: ' ';
+  pointer-events: none;
+  top: -50%;
+  right: -50%;
+  bottom: -50%;
+  left: -50%;
+  border: 0 solid #ebedf0;
+  transform: scale(0.5);
+  border-top-width: 1px;
+}
+</code></pre>
 
         </div>
 
