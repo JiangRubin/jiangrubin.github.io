@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>scrollIntoView 实现页面锚点 - Rubin&#39;s Blog</title>
+<title>编写一个 markdown-loader - Rubin&#39;s Blog</title>
 <meta name="description" content="温故而知新" />
 <link rel="shortcut icon" href="https://jiangrubin.github.io/favicon.ico?v=1613221394511">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css">
@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
 
 <link rel="stylesheet" href="https://jiangrubin.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="scrollIntoView 实现页面锚点 - Rubin&#39;s Blog - Atom Feed" href="https://jiangrubin.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="编写一个 markdown-loader - Rubin&#39;s Blog - Atom Feed" href="https://jiangrubin.github.io/atom.xml">
 
 
 
@@ -48,9 +48,9 @@
 <li>
 <ul>
 <li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
-<li><a href="#%E8%A7%A3%E5%86%B3%E9%97%AE%E9%A2%98">解决问题</a></li>
-<li><a href="#%E5%85%B6%E4%BB%96%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF">其他使用场景</a></li>
-<li><a href="#%E7%BB%93%E8%AF%AD">结语</a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0">代码实现</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8">使用</a></li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
 </ul>
 </li>
 </ul>
@@ -99,56 +99,125 @@
 <div class="mask" onclick="closeMenu()">
 </div>
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
-        <h1 class="text-3xl font-semibold lg:mt-16">scrollIntoView 实现页面锚点</h1>
+        <h1 class="text-3xl font-semibold lg:mt-16">编写一个 markdown-loader</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2020-01-30 / 3 min read
+          2021-02-11 / 3 min read
         </div>
         
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host@master/markdown-loader.jpeg" alt="">
+        
         <div class="post-content yue">
-          <p>锚点即指 html 中的链接，在页面中适当的添加锚点可以大大提高阅读或查找效率</p>
-<!-- more -->
-<h2 id="前言">前言</h2>
-<p>锚点是网站中常用的功能。前端简单实现锚点的方法，使用 a 标签把 href 属性写成要跳转到的元素 id，比如以下代码：</p>
-<pre><code class="language-html">&lt;a href=&quot;#anchor&quot;&gt;&lt;/a&gt;
+          <h2 id="前言">前言</h2>
+<p>项目中我们会用到一些 markdown 文件作为文档在页面中展示。基本原理是用 js 去读取解析文件，最后渲染出来。所以我们可以在 webpack 编译的过程中将 markdown 文件编译为 js 模块，然后在页面中直接引入。</p>
+<p>在了解 webpack 之后知道，每一个 loader 其实都是一个函数，函数接收资源，进行一定的处理之后输出给下一个 loader。明白了这个基本原理，我们也可以编写一个自己的 loader。</p>
+<p>话不多说，进入正题。</p>
+<h2 id="代码实现">代码实现</h2>
+<p>其中核心库使用了 <a href="https://github.com/markdown-it/markdown-it">markdown-it</a>、<a href="https://github.com/medfreeman/markdown-it-toc-and-anchor">markdown-it-toc-and-anchor</a>，将 md 文件转为 html 字符串，以及获取 md 内容中的标题目录列表。</p>
+<p>创建 <code>markdown-loader.js</code> 文件，代码如下：</p>
+<pre><code class="language-js">const MarkdownIt = require('markdown-it')
+const MarkdownItTocAndAnchor = require(&quot;markdown-it-toc-and-anchor&quot;).default
 
-&lt;div id=&quot;anchor&quot;&gt;&lt;/div&gt;
-</code></pre>
-<p>点击 a 标签页面就会跳转到指定 id 元素的位置。并改变链接地址比如：<code>http://www.xxxx.com#anchor</code>。</p>
-<p>虽然不会有什么问题，直接跳转过去立马完成产品的需求，但是当网页中存在多个锚点时，就会出现点击浏览器后退按钮并不会返回之前浏览的网页，而是返回上一个带有锚点的链接。</p>
-<blockquote>
-<p>举个例子，当前网站链接是 <code>http://www.xxxx.com#anchor2</code>， 当用户想返回之前的页面，点击后退按钮后，链接变成了 <code>http://www.xxxx.com#anchor1</code>。但还是在同一个页面中，会使用户感到迷惑，降低用户体验。</p>
-</blockquote>
-<h2 id="解决问题">解决问题</h2>
-<p><code>scrollIntoView()</code> 方法让当前的元素滚动到浏览器窗口的可视区域内，详见 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Element/scrollIntoView">MDN</a> 对此方法介绍。</p>
-<p>简单代码实现：</p>
-<pre><code class="language-html">&lt;!-- HTML --&gt;
-&lt;div onclick='getAnchor('anchor_1')'&gt;定位到锚点一&lt;/div&gt;
-&lt;div onclick='getAnchor('anchor_2')'&gt;定位到锚点二&lt;/div&gt;
+const markdownIt = new MarkdownIt({
+  html: true
+}).use(MarkdownItTocAndAnchor, {
+  anchorLink: false
+})
 
-&lt;div id='anchor_1'&gt;锚点位置一&lt;/div&gt;
-&lt;div id='anchor_2'&gt;锚点位置二&lt;/div&gt;
-</code></pre>
-<pre><code class="language-js">&lt;!-- JS --&gt;
-function getAnchor (id) {
-    // 跳转到锚点
-    document.getElementById(id).scrollIntoView()
+module.exports = function (source) {
+  let tocArray = []
+  
+  let content = markdownIt.render(source, {
+    tocCallback (markdown, array, html) {
+      tocArray = array
+    }
+  })
+
+  // 最后返回一个 js 对象，包含文本内容和目录列表两个属性
+  return `export default {
+    content: \`${content}\`,
+    tocArray: ${JSON.stringify(tocArray)}
+  }`
 }
 </code></pre>
-<p>如果需要让页面平滑滚动到指定位置，则需要增加参数 <code>behavior</code> 设置其值为 <code>smooth</code></p>
-<pre><code class="language-js">document.documentElement.scrollIntoView({
-    behavior: &quot;smooth&quot;,
-    block: &quot;start&quot;,
-    inline: &quot;nearest&quot;
-});
+<p>假设使用 vue-cli 搭建的项目，可在 <code>vue.config.js</code> 中配置如下：</p>
+<pre><code class="language-js">const path = require('path')
+
+module.exports = {
+  chainWebpack: config =&gt; {
+    config
+      .module
+      .rule('md')
+      .test(/\.md$/)
+      .use('markdown-loader')
+      .loader(path.resolve(__dirname, './markdown-loader.js'))
+      .end()
+  }
+}
 </code></pre>
-<h2 id="其他使用场景">其他使用场景</h2>
-<p><strong>回到顶部</strong> 也是网页中常用功能。</p>
-<p>简单代码实现  <code>document.querySelector('html').scrollIntoView()</code></p>
-<h2 id="结语">结语</h2>
-<p>本文只是简单介绍了使用方法，想要详细了解的话，可以参考张鑫旭的这篇文章：<a target="_blank" href="https://www.zhangxinxu.com/wordpress/2018/10/scroll-behavior-scrollintoview-%E5%B9%B3%E6%BB%91%E6%BB%9A%E5%8A%A8/">CSS scroll-behavior 和 JS scrollIntoView 让页面滚动平滑</a></p>
+<p>在文件中引入 md 文件，查看打印输出。</p>
+<pre><code class="language-js">import demo from './demo.md'
+
+console.log(demo);
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host@master/5465D8631B75.jpg" alt="" loading="lazy"></figure>
+<h2 id="使用">使用</h2>
+<pre><code class="language-js">&lt;template&gt;
+  &lt;div class=&quot;doc&quot;&gt;
+    &lt;div class=&quot;doc-summary&quot;&gt;
+      &lt;ul class=&quot;doc-toc&quot;&gt;
+        &lt;template v-for=&quot;(item, i) of tocArray&quot;&gt;
+          &lt;li :class=&quot;doc-toc-item&quot; :key=&quot;i&quot;&gt;{{ item.content }}&lt;/li&gt;
+        &lt;/template&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;doc-main&quot;&gt;
+      &lt;section class=&quot;doc-content markdown-body&quot; v-html=&quot;content&quot;&gt;&lt;/section&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+import demo from './demo.md'
+
+export default {
+  data () {
+    return {
+      content: '',
+      tocArray: [],
+    }
+  },
+  created () {
+    const { content, tocArray } = demo
+    this.content = content
+    this.tocArray = tocArray
+  }
+}
+&lt;/script&gt;
+
+&lt;style lang=&quot;scss&quot;&gt;
+// 使用社区中提供的 github-markdown-css 样式，就可以有和 github 一样的效果了。
+// https://github.com/sindresorhus/github-markdown-css
+@import './github-markdown.css';
+
+...
+&lt;/style&gt;
+</code></pre>
+<p>效果如下图所示：</p>
+<figure data-type="image" tabindex="2"><img src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host@master/0AF8ED7086F6.jpeg" alt="" loading="lazy"></figure>
+<h2 id="总结">总结</h2>
+<p>在项目中写一些小工具还是蛮有意思的 😘</p>
 
         </div>
 
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://jiangrubin.github.io/tag/CiumhZSFO/">
+            <span class="flex-auto">webpack</span>
+          </a>
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://jiangrubin.github.io/tag/UzM9m2bP0/">
+            <span class="flex-auto">vue</span>
+          </a>
         
           <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://jiangrubin.github.io/tag/pGvoCX5tk/">
             <span class="flex-auto">js</span>
@@ -158,21 +227,12 @@ function getAnchor (id) {
 
         <div class="flex justify-between py-8">
           
-            <div class="prev-post">
-              <a href="https://jiangrubin.github.io/post/git-commit-message-gui-fan-hua-shi-jian/">
-                <h3 class="post-title">
-                  <i class="remixicon-arrow-left-line"></i>
-                  Git Commit Message 规范化实践
-                </h3>
-              </a>
-            </div>
-          
 
           
             <div class="next-post">
-              <a href="https://jiangrubin.github.io/post/mac-xia-nvm-de-an-zhuang-he-shi-yong/">
+              <a href="https://jiangrubin.github.io/post/wei-xin-xiao-cheng-xu-kai-fa-bi-ji/">
                 <h3 class="post-title">
-                  Mac 下 nvm 的安装和使用
+                  微信小程序开发笔记
                   <i class="remixicon-arrow-right-line"></i>
                 </h3>
               </a>

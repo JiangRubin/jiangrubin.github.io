@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jiangrubin.github.io</id>
     <title>Rubin&apos;s Blog</title>
-    <updated>2021-02-01T03:11:49.851Z</updated>
+    <updated>2021-02-13T13:04:04.030Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jiangrubin.github.io"/>
     <link rel="self" href="https://jiangrubin.github.io/atom.xml"/>
@@ -10,6 +10,114 @@
     <logo>https://jiangrubin.github.io/images/avatar.png</logo>
     <icon>https://jiangrubin.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Rubin&apos;s Blog</rights>
+    <entry>
+        <title type="html"><![CDATA[编写一个 markdown-loader]]></title>
+        <id>https://jiangrubin.github.io/post/markdown-loader/</id>
+        <link href="https://jiangrubin.github.io/post/markdown-loader/">
+        </link>
+        <updated>2021-02-11T13:34:50.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="前言">前言</h2>
+<p>项目中我们会用到一些 markdown 文件作为文档在页面中展示。基本原理是用 js 去读取解析文件，最后渲染出来。所以我们可以在 webpack 编译的过程中将 markdown 文件编译为 js 模块，然后在页面中直接引入。</p>
+<p>在了解 webpack 之后知道，每一个 loader 其实都是一个函数，函数接收资源，进行一定的处理之后输出给下一个 loader。明白了这个基本原理，我们也可以编写一个自己的 loader。</p>
+<p>话不多说，进入正题。</p>
+<h2 id="代码实现">代码实现</h2>
+<p>其中核心库使用了 <a href="https://github.com/markdown-it/markdown-it">markdown-it</a>、<a href="https://github.com/medfreeman/markdown-it-toc-and-anchor">markdown-it-toc-and-anchor</a>，将 md 文件转为 html 字符串，以及获取 md 内容中的标题目录列表。</p>
+<p>创建 <code>markdown-loader.js</code> 文件，代码如下：</p>
+<pre><code class="language-js">const MarkdownIt = require('markdown-it')
+const MarkdownItTocAndAnchor = require(&quot;markdown-it-toc-and-anchor&quot;).default
+
+const markdownIt = new MarkdownIt({
+  html: true
+}).use(MarkdownItTocAndAnchor, {
+  anchorLink: false
+})
+
+module.exports = function (source) {
+  let tocArray = []
+  
+  let content = markdownIt.render(source, {
+    tocCallback (markdown, array, html) {
+      tocArray = array
+    }
+  })
+
+  // 最后返回一个 js 对象，包含文本内容和目录列表两个属性
+  return `export default {
+    content: \`${content}\`,
+    tocArray: ${JSON.stringify(tocArray)}
+  }`
+}
+</code></pre>
+<p>假设使用 vue-cli 搭建的项目，可在 <code>vue.config.js</code> 中配置如下：</p>
+<pre><code class="language-js">const path = require('path')
+
+module.exports = {
+  chainWebpack: config =&gt; {
+    config
+      .module
+      .rule('md')
+      .test(/\.md$/)
+      .use('markdown-loader')
+      .loader(path.resolve(__dirname, './markdown-loader.js'))
+      .end()
+  }
+}
+</code></pre>
+<p>在文件中引入 md 文件，查看打印输出。</p>
+<pre><code class="language-js">import demo from './demo.md'
+
+console.log(demo);
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host@master/5465D8631B75.jpg" alt="" loading="lazy"></figure>
+<h2 id="使用">使用</h2>
+<pre><code class="language-js">&lt;template&gt;
+  &lt;div class=&quot;doc&quot;&gt;
+    &lt;div class=&quot;doc-summary&quot;&gt;
+      &lt;ul class=&quot;doc-toc&quot;&gt;
+        &lt;template v-for=&quot;(item, i) of tocArray&quot;&gt;
+          &lt;li :class=&quot;doc-toc-item&quot; :key=&quot;i&quot;&gt;{{ item.content }}&lt;/li&gt;
+        &lt;/template&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;doc-main&quot;&gt;
+      &lt;section class=&quot;doc-content markdown-body&quot; v-html=&quot;content&quot;&gt;&lt;/section&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+import demo from './demo.md'
+
+export default {
+  data () {
+    return {
+      content: '',
+      tocArray: [],
+    }
+  },
+  created () {
+    const { content, tocArray } = demo
+    this.content = content
+    this.tocArray = tocArray
+  }
+}
+&lt;/script&gt;
+
+&lt;style lang=&quot;scss&quot;&gt;
+// 使用社区中提供的 github-markdown-css 样式，就可以有和 github 一样的效果了。
+// https://github.com/sindresorhus/github-markdown-css
+@import './github-markdown.css';
+
+...
+&lt;/style&gt;
+</code></pre>
+<p>效果如下图所示：</p>
+<figure data-type="image" tabindex="2"><img src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host@master/0AF8ED7086F6.jpeg" alt="" loading="lazy"></figure>
+<h2 id="总结">总结</h2>
+<p>在项目中写一些小工具还是蛮有意思的 😘</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[微信小程序开发笔记]]></title>
         <id>https://jiangrubin.github.io/post/wei-xin-xiao-cheng-xu-kai-fa-bi-ji/</id>
@@ -1181,223 +1289,6 @@ function getAnchor (id) {
 <figure data-type="image" tabindex="2"><img src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host/1584193730067.jpeg" alt="" loading="lazy"></figure>
 <p>执行 <code>nvm use vx.x.x</code>，即可对当前开发环境中 node 版本进行切换。</p>
 <figure data-type="image" tabindex="3"><img src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host/1584194043884.jpeg" alt="" loading="lazy"></figure>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[函数的防抖和节流]]></title>
-        <id>https://jiangrubin.github.io/post/han-shu-de-fang-dou-he-jie-liu/</id>
-        <link href="https://jiangrubin.github.io/post/han-shu-de-fang-dou-he-jie-liu/">
-        </link>
-        <updated>2019-11-28T03:01:12.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="前言">前言</h2>
-<p>函数的防抖与节流在项目中有很多的使用场景，本文参考了冴羽的两篇文章。</p>
-<h2 id="函数防抖">函数防抖</h2>
-<h3 id="概念">概念</h3>
-<p>指触发事件后，在 n 秒内函数只能执行一次，如果触发事件后在 n 秒内又触发了事件，则会重新计算函数延执行时间。</p>
-<blockquote>
-<p>举个栗子，坐电梯的时候，如果电梯检测到有人进来（触发事件），就会多等待 10 秒，此时如果又有人进来（10秒之内重复触发事件），那么电梯就会再多等待 10 秒。在上述例子中，电梯在检测到有人进入 10 秒钟之后，才会关闭电梯门开始运行，因此“函数防抖”的关键在于，在一个事件发生一定时间之后，才执行特定动作。</p>
-</blockquote>
-<p>场景代码 html</p>
-<pre><code class="language-html">&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;zh-cmn-Hans&quot;&gt;
-&lt;head&gt;
-  &lt;meta charset=&quot;utf-8&quot;&gt;
-  &lt;meta http-equiv=&quot;x-ua-compatible&quot; content=&quot;IE=edge, chrome=1&quot;&gt;
-  &lt;title&gt;Document&lt;/title&gt;
-  &lt;style&gt;
-    #container {
-      width: 100%;
-      height: 200px;
-      line-height: 200px;
-      text-align: center;
-      color: #fff;
-      background-color: #444;
-      font-size: 30px;
-    }
-  &lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;div id=&quot;container&quot;&gt;&lt;/div&gt;
-    &lt;script&gt;
-        var count = 1;
-        var container = document.getElementById('container');
-
-        function getUserAction() {
-            container.innerHTML = count++;
-        };
-
-        container.onmousemove = debounce(getUserAction, 1000);
-
-        function debounce () {
-            ...
-        }
-    &lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
-<h3 id="基础版">基础版</h3>
-<p>根据上面的表述，实现第一版的代码：</p>
-<pre><code class="language-js">function debounce(func, wait) {
-    var timeout;
-
-    return function () {
-        var context = this;
-        var args = arguments;
-
-        clearTimeout(timeout)
-        timeout = setTimeout(function(){
-            func.apply(context, args)
-        }, wait);
-    }
-}
-</code></pre>
-<p>第一版的代码没什么难点。一个事件在 n 秒内重复触发，会一直清除定时器，等停止触发 n 秒后定时器的方法才会执行。同时也解决了定时器中方法的 this 指向和 JavaScript 在事件处理函数中会提供事件对象 event 参数问题。</p>
-<h3 id="立刻执行">立刻执行</h3>
-<p>第一版代码事件需要在 n 秒后执行。一个新的需求是希望立刻执行函数，然后等到停止触发 n 秒后，再重新触发执行。</p>
-<p>增加 immediate 参数判断是否是立刻执行。</p>
-<pre><code class="language-js">function debounce(func, wait, immediate) {
-    var timeout;
-
-    return function () {
-        var context = this;
-        var args = arguments;
-
-        if (timeout) clearTimeout(timeout);
-
-        if (immediate) {
-            var callNow = !timeout;
-            timeout = setTimeout(function () {
-                timeout = null
-            }, wait);
-            
-            if (callNow) func.apply(this, args) 
-        } else {
-            timeout = setTimeout(function () {
-                func.apply(context, args)
-            }, wait);
-        }
-    }
-}
-</code></pre>
-<h3 id="返回值">返回值</h3>
-<p>getUserAction 函数可能是有返回值的，所以这里也需要返回函数的结果。但当 immediate 为 false 的时候，因为使用 setTimeout，在最后 return 的时候值会一直是 undefined。所以只在 immediate 为 true 的时候返回函数的执行结果。</p>
-<pre><code class="language-js">function debounce(func, wait, immediate) {
-    var timeout, result;
-
-    return function () {
-        var context = this;
-        var args = arguments;
-
-        if (timeout) clearTimeout(timeout);
-
-        if (immediate) {
-            var callNow = !timeout;
-            timeout = setTimeout(function () {
-                timeout = null
-            }, wait);
-            
-            if (callNow) result = func.apply(this, args) 
-        } else {
-            timeout = setTimeout(function () {
-                func.apply(context, args)
-            }, wait);
-        }
-        return result
-    }
-}
-</code></pre>
-<h3 id="取消">取消</h3>
-<p>实现让用户执行 cancel 方法来取消防抖，当用户再次去触发时又可以立刻执行。</p>
-<pre><code class="language-js">function debounce(func, wait, immediate) {
-    var timeout, result;
-
-    var debounced = function () {
-        var context = this;
-        var args = arguments;
-
-        if (timeout) clearTimeout(timeout);
-
-        if (immediate) {
-            var callNow = !timeout;
-            timeout = setTimeout(function () {
-                timeout = null
-            }, wait);
-            
-            if (callNow) result = func.apply(this, args) 
-        } else {
-            timeout = setTimeout(function () {
-                func.apply(context, args)
-            }, wait);
-        }
-        return result
-    }
-
-    debounced.cancel = function() {
-        clearTimeout(timeout);
-        timeout = null;
-    };
-
-    return debounced
-}
-</code></pre>
-<h2 id="函数节流">函数节流</h2>
-<p>概念：限制一个函数在一定时间内只能执行一次。</p>
-<blockquote>
-<p>举个栗子，坐火车或地铁，过安检的时候，在一定时间（例如10秒）内，只允许一个乘客通过安检入口，以配合安检人员完成安检工作。上例中，每10秒内，仅允许一位乘客通过。分析可知“函数节流”的要点在于，在一定时间之内，限制一个动作只执行一次 。</p>
-</blockquote>
-<pre><code class="language-js">// func (Function): 要节流的函数
-// [wait=0] (number): 需要节流的毫秒
-// [options={}] (Object): 选项对象
-// [options.leading=true] (boolean): 指定调用在节流开始前
-// [options.trailing=true] (boolean): 指定调用在节流结束后
-function throttle(func, wait, options) {
-    var timeout, context, args, result;
-    var previous = 0;
-    if (!options) options = {};
-
-    var later = function () {
-        previous = options.leading === false ? 0 : Date.now();
-        timeout = null;
-        result = func.apply(context, args);
-        if (!timeout) context = args = null;
-    };
-
-    var throttled = function () {
-        var now = Date.now();
-        if (!previous &amp;&amp; options.leading === false) previous = now;
-
-        var remaining = wait - (now - previous);
-        context = this;
-        args = arguments;
-
-        if (remaining &lt;= 0 || remaining &gt; wait) {
-            if (timeout) {
-                clearTimeout(timeout);
-                timeout = null;
-            }
-            previous = now;
-            result = func.apply(context, args);
-            if (!timeout) context = args = null;
-        } else if (!timeout &amp;&amp; options.trailing !== false) {
-            timeout = setTimeout(later, remaining);
-        }
-        return result;
-    };
-
-    throttled.cancel = function () {
-        clearTimeout(timeout);
-        previous = 0;
-        timeout = context = args = null;
-    };
-
-    return throttled;
-}
-</code></pre>
-<h2 id="参考文章">参考文章</h2>
-<ul>
-<li><a href="https://github.com/mqyqingfeng/Blog/issues/22" target="_blank">JavaScript 专题之跟着 underscore 学防抖</a></li>
-<li><a href="https://github.com/mqyqingfeng/Blog/issues/26" target="_blank">JavaScript 专题之跟着 underscore 学节流</a></li>
-</ul>
 ]]></content>
     </entry>
 </feed>
