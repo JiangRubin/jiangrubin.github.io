@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jiangrubin.github.io</id>
     <title>Rubin&apos;s Blog</title>
-    <updated>2021-04-10T04:30:34.720Z</updated>
+    <updated>2021-04-10T04:38:05.081Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jiangrubin.github.io"/>
     <link rel="self" href="https://jiangrubin.github.io/atom.xml"/>
@@ -527,7 +527,7 @@ export default {
 </tbody>
 </table>
 <h3 id="column">Column</h3>
-<p>列描述数据对象。columns 支持 <a href="https://element.eleme.cn/#/zh-CN/component/table#table-column-attributes">el-table-column</a> 已有的 props 配置，但是我们也提供了一些方便和自定义的 api，加快书写:</p>
+<p>列描述数据对象。column 支持 <a href="https://element.eleme.cn/#/zh-CN/component/table#table-column-attributes">el-table-column</a> 已有的 props 配置，但是也提供了一些方便和自定义的 api，加快书写:</p>
 <table>
 <thead>
 <tr>
