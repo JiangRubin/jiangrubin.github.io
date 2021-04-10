@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jiangrubin.github.io</id>
     <title>Rubin&apos;s Blog</title>
-    <updated>2021-04-10T04:38:05.081Z</updated>
+    <updated>2021-04-10T04:44:28.509Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jiangrubin.github.io"/>
     <link rel="self" href="https://jiangrubin.github.io/atom.xml"/>
@@ -421,6 +421,7 @@ export default {
 </code></pre>
 <h2 id="多级表头">多级表头</h2>
 <figure data-type="image" tabindex="6"><img src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host@master/D62384C3-9944-468A-9072-5AA14FC5854B.png" alt="" loading="lazy"></figure>
+<p>在 columns 配置项中可以内嵌 columns，以渲染多级表头。</p>
 <pre><code class="language-js">&lt;template&gt;
   &lt;el-pro-table :data=&quot;dataSource&quot; :columns=&quot;columns&quot; /&gt;
 &lt;/template&gt;
