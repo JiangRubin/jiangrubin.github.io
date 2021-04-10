@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jiangrubin.github.io</id>
     <title>Rubin&apos;s Blog</title>
-    <updated>2021-04-10T03:53:38.331Z</updated>
+    <updated>2021-04-10T04:30:34.720Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jiangrubin.github.io"/>
     <link rel="self" href="https://jiangrubin.github.io/atom.xml"/>
@@ -17,7 +17,7 @@
         </link>
         <updated>2021-04-10T02:48:09.000Z</updated>
         <content type="html"><![CDATA[<h2 id="前言">前言</h2>
-<p>使用配置描述数据来替代 vue 模板的组件写法，基础能力完全与 <a href="https://element.eleme.cn/#/zh-CN/component/table">el-table</a> 组件保持一致。</p>
+<p>使用配置描述数据来替代 vue 模板的组件写法，基础能力完全与 <a href="https://element.eleme.cn/#/zh-CN/component/table">el-table</a> 组件保持一致。并提供了一些方便和自定义的 api，加快书写。</p>
 <h2 id="代码实现">代码实现</h2>
 <pre><code class="language-js">&lt;script&gt;
 import { formatDate } from 'element-ui/lib/utils/date-util';
