@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Element Table 组件封装 - Rubin&#39;s Blog</title>
+<meta name="description" content="温故而知新" />
+<link rel="shortcut icon" href="https://jiangrubin.github.io/favicon.ico?v=1618026506008">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@1.3.1/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://jiangrubin.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Element Table 组件封装 - Rubin&#39;s Blog - Atom Feed" href="https://jiangrubin.github.io/atom.xml">
+
+
+
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?bd0efd81b021481d2fc486675082f721";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="remixicon-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://jiangrubin.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://jiangrubin.github.io/images/avatar.png?v=1618026506008" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-semibold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">Rubin&#39;s Blog</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0">代码实现</a></li>
+<li><a href="#%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8">基本使用</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8-valuetype">使用 valueType</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8-enum">使用 enum</a></li>
+<li><a href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%88%97">自定义列</a>
+<ul>
+<li><a href="#render-%E5%86%99%E6%B3%95">render 写法</a></li>
+<li><a href="#slot-scope-%E5%86%99%E6%B3%95">slot-scope 写法</a></li>
+</ul>
+</li>
+<li><a href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A1%A8%E5%A4%B4">自定义表头</a>
+<ul>
+<li><a href="#render-%E5%86%99%E6%B3%95-2">render 写法</a></li>
+<li><a href="#slot-scope-%E5%86%99%E6%B3%95-2">slot-scope 写法</a></li>
+</ul>
+</li>
+<li><a href="#%E5%A4%9A%E7%BA%A7%E8%A1%A8%E5%A4%B4">多级表头</a></li>
+<li><a href="#table-props">Table Props</a>
+<ul>
+<li><a href="#column">Column</a></li>
+<li><a href="#valuetype">ValueType</a></li>
+<li><a href="#table-events">Table Events</a></li>
+<li><a href="#table-methods">Table Methods</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="remixicon-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu" style="animation-delay: 0.6000000000000001s">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank" rel="noopener noreferrer">Gridea</a></div>
+    <a class="rss" href="https://jiangrubin.github.io/atom.xml" target="_blank" rel="noopener noreferrer">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-semibold lg:mt-16">Element Table 组件封装</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2021-04-10 / 12 min read
+        </div>
+        
+        <div class="post-content yue">
+          <h2 id="前言">前言</h2>
+<p>使用配置描述数据来替代 vue 模板的组件写法，基础能力完全与 <a href="https://element.eleme.cn/#/zh-CN/component/table">el-table</a> 组件保持一致。</p>
+<h2 id="代码实现">代码实现</h2>
+<pre><code class="language-js">&lt;script&gt;
+import { formatDate } from 'element-ui/lib/utils/date-util';
+
+function isObject (obj) {
+  return Object.prototype.toString.call(obj) === '[object Object]';
+};
+
+function isNil (val) {
+  return val === undefined || val === null;
+};
+
+function getEnumValue (value, _enum) {
+  const valueEnum = _enum || undefined;
+  return valueEnum &amp;&amp; valueEnum[value] ? valueEnum[value] : value;
+};
+
+export default {
+  name: 'ElProTable',
+
+  props: {
+    data: {
+      type: Array,
+      default: () =&gt; ([])
+    },
+    columns: {
+      type: Array,
+      default: () =&gt; ([])
+    },
+    loading: Boolean
+  },
+
+  mounted () {
+    this.mountTableMethods();
+  },
+
+  methods: {
+    // 在 this 上挂载 table 组件实例方法
+    mountTableMethods() {
+      const ElTableMethodKeys = ['clearSelection', 'toggleRowSelection', 'toggleAllSelection', 'toggleRowExpansion', 'setCurrentRow', 'clearSort', 'clearFilter', 'doLayout', 'sort'];
+      Object.entries(this.$refs.table).forEach(([key, item]) =&gt; {
+        if (ElTableMethodKeys.includes(key)) {
+          this[key] = item;
+        }
+      });
+    },
+
+    generateValue ({ prop, valueType, enum: _enum }) {
+      if (!prop) return null;
+      return (scoped) =&gt; {
+        const row = scoped.row || {};
+        let value = row[prop];
+        switch (valueType) {
+          case 'date':
+            value = formatDate(value);
+            break;
+          case 'dateTime':
+            value = formatDate(value, 'yyyy-MM-dd HH:mm:ss');
+            break;
+          case 'text':
+          default: value = getEnumValue(value, _enum);
+        };
+        return value;
+      };
+    },
+
+    renderColumns (h, columns) {
+      const $scopedSlots = this.$scopedSlots;
+      return columns.map((item, i) =&gt; {
+        if (!isObject(item)) return null;
+        const key = !isNil(item.prop) ? item.prop : i;
+        const { render, renderHeader, slot, slotHeader, columns: _columns, ...props } = item;
+        const scopedSlots = {
+          default: render ? (scoped) =&gt; render(h, scoped) : $scopedSlots[slot] || this.generateValue(item),
+          header: renderHeader ? (scoped) =&gt; renderHeader(h, scoped) : $scopedSlots[slotHeader] || null
+        };
+        // 通过递归处理多级表头的情况
+        return &lt;el-table-column key={ key } { ...{ props } } scopedSlots={ scopedSlots }&gt;
+          { Array.isArray(_columns) ? this.renderColumns(h, _columns) : null }
+        &lt;/el-table-column&gt;;
+      });
+    }
+  },
+
+  render (h) {
+    return (
+      &lt;div class=&quot;el-pro-table&quot;&gt;
+        &lt;el-table
+          ref=&quot;table&quot;
+          { ...{ props: this.$attrs } }
+          { ...{ on: this.$listeners } }
+          data={ this.data }
+          v-loading={ this.loading }
+        &gt;
+          { this.renderColumns(h, this.columns) }
+        &lt;/el-table&gt;
+      &lt;/div&gt;
+    );
+  }
+};
+&lt;/script&gt;
+</code></pre>
+<h2 id="基本使用">基本使用</h2>
+<figure data-type="image" tabindex="1"><img src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host@master/31992c4ad447.png" alt="" loading="lazy"></figure>
+<pre><code class="language-js">&lt;template&gt;
+  &lt;el-pro-table :data=&quot;dataSource&quot; :columns=&quot;columns&quot; /&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  data () {
+    return {
+      columns: [
+        {
+          prop: 'name',
+          label: 'Name'
+        },
+        {
+          prop: 'age',
+          label: 'Age'
+        },
+        {
+          prop: 'address',
+          label: 'Address'
+        }
+      ],
+      dataSource: [
+        { name: 'Yu Lou', age: 32, address: 'New York No. 1 Lake Park' },
+        { name: 'Jim Green', age: 42, address: 'London No. 1 Lake Park' },
+        { name: 'Joe Black', age: 32, address: 'Sidney No. 1 Lake Park' },
+      ]
+    }
+  }
+}
+&lt;/script&gt;
+</code></pre>
+<h2 id="使用-valuetype">使用 valueType</h2>
+<p>封装了一些常用的值类型来减少重复的 render 操作，通过在 columns 数据项中配置一个 valueType 即可展示格式化的数据。</p>
+<figure data-type="image" tabindex="2"><img src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host@master/74950AD8-AFFA-4267-926F-ADAA1736977D.png" alt="" loading="lazy"></figure>
+<pre><code class="language-js">&lt;template&gt;
+  &lt;el-pro-table :data=&quot;dataSource&quot; :columns=&quot;columns&quot; /&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  data () {
+    return {
+      columns: [
+        {
+          prop: 'title',
+          label: 'Title'
+        },
+        {
+          prop: 'createTime',
+          label: 'Time',
+          valueType: 'dateTime'
+        },
+        {
+          prop: 'state',
+          label: 'State'
+        },
+      ],
+      dataSource: [
+        { title: 'title 1', createTime: 1616495706550, state: 'open' },
+        { title: 'title 2', createTime: 1616405700550, state: 'closed' },
+      ]
+    }
+  }
+}
+&lt;/script&gt;
+</code></pre>
+<h2 id="使用-enum">使用 enum</h2>
+<p>通过在 columns 数据项中配置 enum 对象，将状态值转为对应的描述。</p>
+<figure data-type="image" tabindex="3"><img src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host@master/28D3F346-49B6-4592-98D2-5DC6588E081D.png" alt="" loading="lazy"></figure>
+<pre><code class="language-js">&lt;template&gt;
+  &lt;el-pro-table :data=&quot;dataSource&quot; :columns=&quot;columns&quot; /&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  data () {
+    return {
+      columns: [
+        {
+          prop: 'title',
+          label: 'Title'
+        },
+        {
+          prop: 'state',
+          label: 'State',
+          enum: {
+            open: '未解决',
+            closed: '已解决'
+          }
+        },
+      ],
+      dataSource: [
+        { title: 'title 1', state: 'open' },
+        { title: 'title 2', state: 'closed' },
+      ]
+    }
+  }
+}
+&lt;/script&gt;
+</code></pre>
+<h2 id="自定义列">自定义列</h2>
+<figure data-type="image" tabindex="4"><img src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host@master/5FD717E8-A446-42E7-A9FB-71ADB6F1E7CD.png" alt="" loading="lazy"></figure>
+<h3 id="render-写法">render 写法</h3>
+<p>通过给 columns 数据的项，设置一个函数 render，可以自定义渲染当前列，包括渲染自定义组件，它基于 Vue 的 Render 函数。</p>
+<p>render 函数传入两个参数，第一个是 h，第二个是对象，包含 row、column 和 $index，分别指当前行数据，当前列数据，当前是第几行。</p>
+<pre><code class="language-js">&lt;template&gt;
+  &lt;el-pro-table :data=&quot;dataSource&quot; :columns=&quot;columns&quot; /&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  data () {
+    return {
+      columns: [
+        {
+          prop: 'name',
+          label: 'Name'
+        },
+        {
+          prop: 'age',
+          label: 'Age'
+        },
+        {
+          prop: 'address',
+          label: 'Address'
+        },
+        {
+          label: 'Action',
+          render (h, { row }) {
+            return (
+              &lt;div&gt;
+                &lt;el-button type=&quot;text&quot;&gt;Invite { row.name }&lt;/el-button&gt;
+                &lt;el-button type=&quot;text&quot;&gt;Delete&lt;/el-button&gt;
+              &lt;/div&gt;
+            )
+          }
+        }
+      ],
+      dataSource: [
+        { name: 'Yu Lou', age: 32, address: 'New York No. 1 Lake Park' },
+        { name: 'Jim Green', age: 42, address: 'London No. 1 Lake Park' },
+        { name: 'Joe Black', age: 32, address: 'Sidney No. 1 Lake Park' },
+      ]
+    }
+  }
+}
+&lt;/script&gt;
+</code></pre>
+<h3 id="slot-scope-写法">slot-scope 写法</h3>
+<p>在 columns 的某列声明 slot 后，就可以在 Table 的 slot 中使用 slot-scope。</p>
+<p>slot-scope 的参数有 3 个：当前行数据 row，当前列数据 column，当前行序号 $index。</p>
+<pre><code class="language-js">&lt;template&gt;
+  &lt;el-pro-table :data=&quot;dataSource&quot; :columns=&quot;columns&quot;&gt;
+    &lt;template slot-scope=&quot;{ row }&quot; slot=&quot;action&quot;&gt;
+      &lt;el-button type=&quot;text&quot;&gt;Invite {{ row.name }}&lt;/el-button&gt;
+      &lt;el-button type=&quot;text&quot;&gt;Delete&lt;/el-button&gt;
+    &lt;/template&gt;
+  &lt;/el-pro-table&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  data () {
+    return {
+      columns: [
+        {
+          prop: 'name',
+          label: 'Name'
+        },
+        {
+          prop: 'age',
+          label: 'Age'
+        },
+        {
+          prop: 'address',
+          label: 'Address'
+        },
+        {
+          label: 'Action',
+          slot: 'action'
+        }
+      ],
+      dataSource: [
+        { name: 'Yu Lou', age: 32, address: 'New York No. 1 Lake Park' },
+        { name: 'Jim Green', age: 42, address: 'London No. 1 Lake Park' },
+        { name: 'Joe Black', age: 32, address: 'Sidney No. 1 Lake Park' },
+      ]
+    }
+  }
+}
+&lt;/script&gt;
+</code></pre>
+<h2 id="自定义表头">自定义表头</h2>
+<figure data-type="image" tabindex="5"><img src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host@master/24847B3C-8FCC-4080-958C-7CAD1291A155.png" alt="" loading="lazy"></figure>
+<h3 id="render-写法-2">render 写法</h3>
+<p>通过给 columns 数据的项，设置一个函数 renderHeader，可以自定义渲染当前列表头，包括渲染自定义组件，它基于 Vue 的 Render 函数。</p>
+<p>renderHeader 函数传入两个参数，第一个是 h，第二个是对象，包含 column 和 $index，分别指当前列数据，当前是第几行。</p>
+<pre><code class="language-js">&lt;template&gt;
+  &lt;el-pro-table :data=&quot;tableData&quot; :columns=&quot;columns&quot; /&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  data () {
+    return {
+      search: '',
+      columns: [
+        {
+          prop: 'date',
+          label: 'Date'
+        },
+        {
+          prop: 'name',
+          label: 'Name'
+        },
+        {
+          align: 'right',
+          renderHeader: (h, scoped) =&gt; {
+            return &lt;el-input value={ this.search } on-input={ this.onInput } size=&quot;small&quot; placeholder=&quot;Search&quot; /&gt;
+          },
+          render (h) {
+            return &lt;el-button size=&quot;small&quot;&gt;Edit&lt;/el-button&gt;
+          }
+        }
+      ],
+      dataSource: [
+        { date: '2016-05-03', name: 'Yu Lou' },
+        { date: '2016-05-02', name: 'Jim Green' },
+        { date: '2016-05-04', name: 'Joe Black' }
+      ]
+    }
+  },
+  computed: {
+    tableData () {
+      const { dataSource, search } = this
+      return dataSource.filter(data =&gt; !search || data.name.toLowerCase().includes(search.toLowerCase()))
+    }
+  },
+  methods: {
+    onInput (value) {
+      this.search = value
+    }
+  }
+}
+&lt;/script&gt;
+</code></pre>
+<h3 id="slot-scope-写法-2">slot-scope 写法</h3>
+<p>在 columns 的某列声明 slotHeader 后，就可以在 Table 的 slot 中使用 slot-scope。</p>
+<p>slot-scope 的参数有 3 个：当前行数据 row，当前列数据 column，当前行序号 $index。</p>
+<pre><code class="language-js">&lt;template&gt;
+  &lt;el-pro-table :data=&quot;tableData&quot; :columns=&quot;columns&quot;&gt;
+    &lt;template slot-scope=&quot;scope&quot; slot=&quot;search&quot;&gt;
+      &lt;el-input v-model=&quot;search&quot; size=&quot;small&quot; placeholder=&quot;Search&quot; /&gt;
+    &lt;/template&gt;
+    &lt;template slot-scope=&quot;scope&quot; slot=&quot;action&quot;&gt;
+      &lt;el-button size=&quot;small&quot;&gt;Edit&lt;/el-button&gt;
+    &lt;/template&gt;
+  &lt;/el-pro-table&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  data () {
+    return {
+      search: '',
+      columns: [
+        {
+          prop: 'date',
+          label: 'Date'
+        },
+        {
+          prop: 'name',
+          label: 'Name'
+        },
+        {
+          align: 'right',
+          slotHeader: 'search',
+          slot: 'action'
+        }
+      ],
+      dataSource: [
+        { date: '2016-05-03', name: 'Yu Lou' },
+        { date: '2016-05-02', name: 'Jim Green' },
+        { date: '2016-05-04', name: 'Joe Black' }
+      ]
+    }
+  },
+  computed: {
+    tableData () {
+      const { dataSource, search } = this
+      return dataSource.filter(data =&gt; !search || data.name.toLowerCase().includes(search.toLowerCase()))
+    }
+  }
+}
+&lt;/script&gt;
+</code></pre>
+<h2 id="多级表头">多级表头</h2>
+<figure data-type="image" tabindex="6"><img src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host@master/D62384C3-9944-468A-9072-5AA14FC5854B.png" alt="" loading="lazy"></figure>
+<pre><code class="language-js">&lt;template&gt;
+  &lt;el-pro-table :data=&quot;dataSource&quot; :columns=&quot;columns&quot; /&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  data () {
+    return {
+      columns: [
+        {
+          prop: 'date',
+          label: '日期',
+          width: '150'
+        },
+        {
+          label: '配送信息',
+          columns: [
+            {
+              prop: 'name',
+              label: '姓名',
+              width: '120'
+            },
+            {
+              label: '地址',
+              columns: [
+                {
+                  prop: 'province',
+                  label: '省份',
+                  width: '120'
+                },
+                {
+                  prop: 'city',
+                  label: '市区',
+                  width: '120'
+                },
+                {
+                  prop: 'address',
+                  label: '详细地址'
+                },
+                {
+                  prop: 'zip',
+                  label: '邮编',
+                  width: '120'
+                }
+              ]
+            },
+          ]
+        }
+      ],
+      dataSource: [
+        { date: '2016-05-03', name: 'Yu Lou', province: '浙江省', city: '杭州市', address: 'Fu Ding No. 1 Lake Park', zip: 200333 },
+        { date: '2016-05-02', name: 'Yu Lou', province: '浙江省', city: '杭州市', address: 'Fu Ding No. 1 Lake Park', zip: 200333 },
+        { date: '2016-05-04', name: 'Yu Lou', province: '浙江省', city: '杭州市', address: 'Fu Ding No. 1 Lake Park', zip: 200333 },
+        { date: '2016-05-01', name: 'Yu Lou', province: '浙江省', city: '杭州市', address: 'Fu Ding No. 1 Lake Park', zip: 200333 },
+        { date: '2016-05-08', name: 'Yu Lou', province: '浙江省', city: '杭州市', address: 'Fu Ding No. 1 Lake Park', zip: 200333 },
+        { date: '2016-05-08', name: 'Yu Lou', province: '浙江省', city: '杭州市', address: 'Fu Ding No. 1 Lake Park', zip: 200333 },
+        { date: '2016-05-08', name: 'Yu Lou', province: '浙江省', city: '杭州市', address: 'Fu Ding No. 1 Lake Park', zip: 200333 }
+      ]
+    }
+  },
+}
+&lt;/script&gt;
+</code></pre>
+<h2 id="table-props">Table Props</h2>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+<th>类型</th>
+<th>可选值</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>columns</td>
+<td>表格列的配置描述，详见 <a href="#column">column</a> 配置</td>
+<td>array</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>data</td>
+<td>显示的数据</td>
+<td>array</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>loading</td>
+<td>是否加载中</td>
+<td>boolean</td>
+<td>-</td>
+<td>false</td>
+</tr>
+<tr>
+<td>...</td>
+<td>其他 <a href="https://element.eleme.cn/#/zh-CN/component/table#table-attributes">el-table</a> 组件支持的属性</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="column">Column</h3>
+<p>列描述数据对象。columns 支持 <a href="https://element.eleme.cn/#/zh-CN/component/table#table-column-attributes">el-table-column</a> 已有的 props 配置，但是我们也提供了一些方便和自定义的 api，加快书写:</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+<th>类型</th>
+<th>可选值</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>render</td>
+<td>自定义渲染列，使用 Vue 的 Render 函数。传入两个参数，第一个是 h，第二个为对象，包含 row、column 和 index，分别指当前行数据，当前列数据，当前行索引，详见示例</td>
+<td>function</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>renderHeader</td>
+<td>自定义列头显示内容，使用 Vue 的 Render 函数。传入两个参数，第一个是 h，第二个为对象，包含 column 和 index，分别指当前行数据，当前列数据，当前行索引，详见示例</td>
+<td>function</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>slot</td>
+<td>与 slot-scope 结合使用，自定义渲染列</td>
+<td>string</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>slotHeader</td>
+<td>与 slot-scope 结合使用，自定义列头</td>
+<td>string</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>valueType</td>
+<td>当前列值的类型，详见 <a href="#valuetype">valueType</a> 配置</td>
+<td>string</td>
+<td>text / date / dateTime</td>
+<td>text</td>
+</tr>
+<tr>
+<td>enum</td>
+<td>当前列值的枚举</td>
+<td>object</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>render、slot、valueType、enum 同时配置时，会有渲染优先级。render 渲染级别最高。一般情况下：render &gt; slot &gt; valueType / enum。配置自定义 header 时同理。</p>
+</blockquote>
+<h3 id="valuetype">ValueType</h3>
+<p>封装了一些常用的值类型来减少重复的 render 操作，配置一个 valueType 即可展示格式化响应的数据。</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>text</td>
+<td>普通的文本类型</td>
+</tr>
+<tr>
+<td>date</td>
+<td>当数据是日期类型的返回时，会自动将格式转换为 '2020-10-20'</td>
+</tr>
+<tr>
+<td>dateTime</td>
+<td>当数据是日期类型的返回时，会自动将格式转换为 '2020-10-20 19:30:00'</td>
+</tr>
+<tr>
+<td>...</td>
+<td>陆续添加中</td>
+</tr>
+</tbody>
+</table>
+<h3 id="table-events">Table Events</h3>
+<table>
+<thead>
+<tr>
+<th>事件名称</th>
+<th>说明</th>
+<th>回调参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>...</td>
+<td><a href="https://element.eleme.cn/#/zh-CN/component/table#table-events">el-table</a> 组件支持的事件</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="table-methods">Table Methods</h3>
+<p>支持 <a href="https://element.eleme.cn/#/zh-CN/component/table#table-methods">el-table</a> 所有的 methods.</p>
+
+        </div>
+
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://jiangrubin.github.io/tag/UzM9m2bP0/">
+            <span class="flex-auto">vue</span>
+          </a>
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://jiangrubin.github.io/tag/pGvoCX5tk/">
+            <span class="flex-auto">js</span>
+          </a>
+        
+
+
+        <div class="flex justify-between py-8">
+          
+
+          
+            <div class="next-post">
+              <a href="https://jiangrubin.github.io/post/markdown-loader/">
+                <h3 class="post-title">
+                  编写一个 markdown-loader
+                  <i class="remixicon-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '58415ac62e821b4b6bbd',
+    clientSecret: '69a93aa48149a7a74c6517efbbb32c57bc07799f',
+    repo: 'jiangrubin.github.io',
+    owner: 'jiangrubin',
+    admin: ['jiangrubin'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script>
+
+Prism.highlightAll()
+
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>

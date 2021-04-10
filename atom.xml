@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jiangrubin.github.io</id>
     <title>Rubin&apos;s Blog</title>
-    <updated>2021-02-13T13:04:04.030Z</updated>
+    <updated>2021-04-10T03:49:24.791Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jiangrubin.github.io"/>
     <link rel="self" href="https://jiangrubin.github.io/atom.xml"/>
@@ -10,6 +10,631 @@
     <logo>https://jiangrubin.github.io/images/avatar.png</logo>
     <icon>https://jiangrubin.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Rubin&apos;s Blog</rights>
+    <entry>
+        <title type="html"><![CDATA[Element Table 组件封装]]></title>
+        <id>https://jiangrubin.github.io/post/element-table-zu-jian-feng-zhuang/</id>
+        <link href="https://jiangrubin.github.io/post/element-table-zu-jian-feng-zhuang/">
+        </link>
+        <updated>2021-04-10T02:48:09.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="前言">前言</h2>
+<p>使用配置描述数据来替代 vue 模板的组件写法，基础能力完全与 <a href="https://element.eleme.cn/#/zh-CN/component/table">el-table</a> 组件保持一致。</p>
+<h2 id="代码实现">代码实现</h2>
+<pre><code class="language-js">&lt;script&gt;
+import { formatDate } from 'element-ui/lib/utils/date-util';
+
+function isObject (obj) {
+  return Object.prototype.toString.call(obj) === '[object Object]';
+};
+
+function isNil (val) {
+  return val === undefined || val === null;
+};
+
+function getEnumValue (value, _enum) {
+  const valueEnum = _enum || undefined;
+  return valueEnum &amp;&amp; valueEnum[value] ? valueEnum[value] : value;
+};
+
+export default {
+  name: 'ElProTable',
+
+  props: {
+    data: {
+      type: Array,
+      default: () =&gt; ([])
+    },
+    columns: {
+      type: Array,
+      default: () =&gt; ([])
+    },
+    loading: Boolean
+  },
+
+  mounted () {
+    this.mountTableMethods();
+  },
+
+  methods: {
+    // 在 this 上挂载 table 组件实例方法
+    mountTableMethods() {
+      const ElTableMethodKeys = ['clearSelection', 'toggleRowSelection', 'toggleAllSelection', 'toggleRowExpansion', 'setCurrentRow', 'clearSort', 'clearFilter', 'doLayout', 'sort'];
+      Object.entries(this.$refs.table).forEach(([key, item]) =&gt; {
+        if (ElTableMethodKeys.includes(key)) {
+          this[key] = item;
+        }
+      });
+    },
+
+    generateValue ({ prop, valueType, enum: _enum }) {
+      if (!prop) return null;
+      return (scoped) =&gt; {
+        const row = scoped.row || {};
+        let value = row[prop];
+        switch (valueType) {
+          case 'date':
+            value = formatDate(value);
+            break;
+          case 'dateTime':
+            value = formatDate(value, 'yyyy-MM-dd HH:mm:ss');
+            break;
+          case 'text':
+          default: value = getEnumValue(value, _enum);
+        };
+        return value;
+      };
+    },
+
+    renderColumns (h, columns) {
+      const $scopedSlots = this.$scopedSlots;
+      return columns.map((item, i) =&gt; {
+        if (!isObject(item)) return null;
+        const key = !isNil(item.prop) ? item.prop : i;
+        const { render, renderHeader, slot, slotHeader, columns: _columns, ...props } = item;
+        const scopedSlots = {
+          default: render ? (scoped) =&gt; render(h, scoped) : $scopedSlots[slot] || this.generateValue(item),
+          header: renderHeader ? (scoped) =&gt; renderHeader(h, scoped) : $scopedSlots[slotHeader] || null
+        };
+        // 通过递归处理多级表头的情况
+        return &lt;el-table-column key={ key } { ...{ props } } scopedSlots={ scopedSlots }&gt;
+          { Array.isArray(_columns) ? this.renderColumns(h, _columns) : null }
+        &lt;/el-table-column&gt;;
+      });
+    }
+  },
+
+  render (h) {
+    return (
+      &lt;div class=&quot;el-pro-table&quot;&gt;
+        &lt;el-table
+          ref=&quot;table&quot;
+          { ...{ props: this.$attrs } }
+          { ...{ on: this.$listeners } }
+          data={ this.data }
+          v-loading={ this.loading }
+        &gt;
+          { this.renderColumns(h, this.columns) }
+        &lt;/el-table&gt;
+      &lt;/div&gt;
+    );
+  }
+};
+&lt;/script&gt;
+</code></pre>
+<h2 id="基本使用">基本使用</h2>
+<figure data-type="image" tabindex="1"><img src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host@master/31992c4ad447.png" alt="" loading="lazy"></figure>
+<pre><code class="language-js">&lt;template&gt;
+  &lt;el-pro-table :data=&quot;dataSource&quot; :columns=&quot;columns&quot; /&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  data () {
+    return {
+      columns: [
+        {
+          prop: 'name',
+          label: 'Name'
+        },
+        {
+          prop: 'age',
+          label: 'Age'
+        },
+        {
+          prop: 'address',
+          label: 'Address'
+        }
+      ],
+      dataSource: [
+        { name: 'Yu Lou', age: 32, address: 'New York No. 1 Lake Park' },
+        { name: 'Jim Green', age: 42, address: 'London No. 1 Lake Park' },
+        { name: 'Joe Black', age: 32, address: 'Sidney No. 1 Lake Park' },
+      ]
+    }
+  }
+}
+&lt;/script&gt;
+</code></pre>
+<h2 id="使用-valuetype">使用 valueType</h2>
+<p>封装了一些常用的值类型来减少重复的 render 操作，通过在 columns 数据项中配置一个 valueType 即可展示格式化的数据。</p>
+<figure data-type="image" tabindex="2"><img src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host@master/74950AD8-AFFA-4267-926F-ADAA1736977D.png" alt="" loading="lazy"></figure>
+<pre><code class="language-js">&lt;template&gt;
+  &lt;el-pro-table :data=&quot;dataSource&quot; :columns=&quot;columns&quot; /&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  data () {
+    return {
+      columns: [
+        {
+          prop: 'title',
+          label: 'Title'
+        },
+        {
+          prop: 'createTime',
+          label: 'Time',
+          valueType: 'dateTime'
+        },
+        {
+          prop: 'state',
+          label: 'State'
+        },
+      ],
+      dataSource: [
+        { title: 'title 1', createTime: 1616495706550, state: 'open' },
+        { title: 'title 2', createTime: 1616405700550, state: 'closed' },
+      ]
+    }
+  }
+}
+&lt;/script&gt;
+</code></pre>
+<h2 id="使用-enum">使用 enum</h2>
+<p>通过在 columns 数据项中配置 enum 对象，将状态值转为对应的描述。</p>
+<figure data-type="image" tabindex="3"><img src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host@master/28D3F346-49B6-4592-98D2-5DC6588E081D.png" alt="" loading="lazy"></figure>
+<pre><code class="language-js">&lt;template&gt;
+  &lt;el-pro-table :data=&quot;dataSource&quot; :columns=&quot;columns&quot; /&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  data () {
+    return {
+      columns: [
+        {
+          prop: 'title',
+          label: 'Title'
+        },
+        {
+          prop: 'state',
+          label: 'State',
+          enum: {
+            open: '未解决',
+            closed: '已解决'
+          }
+        },
+      ],
+      dataSource: [
+        { title: 'title 1', state: 'open' },
+        { title: 'title 2', state: 'closed' },
+      ]
+    }
+  }
+}
+&lt;/script&gt;
+</code></pre>
+<h2 id="自定义列">自定义列</h2>
+<figure data-type="image" tabindex="4"><img src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host@master/5FD717E8-A446-42E7-A9FB-71ADB6F1E7CD.png" alt="" loading="lazy"></figure>
+<h3 id="render-写法">render 写法</h3>
+<p>通过给 columns 数据的项，设置一个函数 render，可以自定义渲染当前列，包括渲染自定义组件，它基于 Vue 的 Render 函数。</p>
+<p>render 函数传入两个参数，第一个是 h，第二个是对象，包含 row、column 和 $index，分别指当前行数据，当前列数据，当前是第几行。</p>
+<pre><code class="language-js">&lt;template&gt;
+  &lt;el-pro-table :data=&quot;dataSource&quot; :columns=&quot;columns&quot; /&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  data () {
+    return {
+      columns: [
+        {
+          prop: 'name',
+          label: 'Name'
+        },
+        {
+          prop: 'age',
+          label: 'Age'
+        },
+        {
+          prop: 'address',
+          label: 'Address'
+        },
+        {
+          label: 'Action',
+          render (h, { row }) {
+            return (
+              &lt;div&gt;
+                &lt;el-button type=&quot;text&quot;&gt;Invite { row.name }&lt;/el-button&gt;
+                &lt;el-button type=&quot;text&quot;&gt;Delete&lt;/el-button&gt;
+              &lt;/div&gt;
+            )
+          }
+        }
+      ],
+      dataSource: [
+        { name: 'Yu Lou', age: 32, address: 'New York No. 1 Lake Park' },
+        { name: 'Jim Green', age: 42, address: 'London No. 1 Lake Park' },
+        { name: 'Joe Black', age: 32, address: 'Sidney No. 1 Lake Park' },
+      ]
+    }
+  }
+}
+&lt;/script&gt;
+</code></pre>
+<h3 id="slot-scope-写法">slot-scope 写法</h3>
+<p>在 columns 的某列声明 slot 后，就可以在 Table 的 slot 中使用 slot-scope。</p>
+<p>slot-scope 的参数有 3 个：当前行数据 row，当前列数据 column，当前行序号 $index。</p>
+<pre><code class="language-js">&lt;template&gt;
+  &lt;el-pro-table :data=&quot;dataSource&quot; :columns=&quot;columns&quot;&gt;
+    &lt;template slot-scope=&quot;{ row }&quot; slot=&quot;action&quot;&gt;
+      &lt;el-button type=&quot;text&quot;&gt;Invite {{ row.name }}&lt;/el-button&gt;
+      &lt;el-button type=&quot;text&quot;&gt;Delete&lt;/el-button&gt;
+    &lt;/template&gt;
+  &lt;/el-pro-table&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  data () {
+    return {
+      columns: [
+        {
+          prop: 'name',
+          label: 'Name'
+        },
+        {
+          prop: 'age',
+          label: 'Age'
+        },
+        {
+          prop: 'address',
+          label: 'Address'
+        },
+        {
+          label: 'Action',
+          slot: 'action'
+        }
+      ],
+      dataSource: [
+        { name: 'Yu Lou', age: 32, address: 'New York No. 1 Lake Park' },
+        { name: 'Jim Green', age: 42, address: 'London No. 1 Lake Park' },
+        { name: 'Joe Black', age: 32, address: 'Sidney No. 1 Lake Park' },
+      ]
+    }
+  }
+}
+&lt;/script&gt;
+</code></pre>
+<h2 id="自定义表头">自定义表头</h2>
+<figure data-type="image" tabindex="5"><img src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host@master/24847B3C-8FCC-4080-958C-7CAD1291A155.png" alt="" loading="lazy"></figure>
+<h3 id="render-写法-2">render 写法</h3>
+<p>通过给 columns 数据的项，设置一个函数 renderHeader，可以自定义渲染当前列表头，包括渲染自定义组件，它基于 Vue 的 Render 函数。</p>
+<p>renderHeader 函数传入两个参数，第一个是 h，第二个是对象，包含 column 和 $index，分别指当前列数据，当前是第几行。</p>
+<pre><code class="language-js">&lt;template&gt;
+  &lt;el-pro-table :data=&quot;tableData&quot; :columns=&quot;columns&quot; /&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  data () {
+    return {
+      search: '',
+      columns: [
+        {
+          prop: 'date',
+          label: 'Date'
+        },
+        {
+          prop: 'name',
+          label: 'Name'
+        },
+        {
+          align: 'right',
+          renderHeader: (h, scoped) =&gt; {
+            return &lt;el-input value={ this.search } on-input={ this.onInput } size=&quot;small&quot; placeholder=&quot;Search&quot; /&gt;
+          },
+          render (h) {
+            return &lt;el-button size=&quot;small&quot;&gt;Edit&lt;/el-button&gt;
+          }
+        }
+      ],
+      dataSource: [
+        { date: '2016-05-03', name: 'Yu Lou' },
+        { date: '2016-05-02', name: 'Jim Green' },
+        { date: '2016-05-04', name: 'Joe Black' }
+      ]
+    }
+  },
+  computed: {
+    tableData () {
+      const { dataSource, search } = this
+      return dataSource.filter(data =&gt; !search || data.name.toLowerCase().includes(search.toLowerCase()))
+    }
+  },
+  methods: {
+    onInput (value) {
+      this.search = value
+    }
+  }
+}
+&lt;/script&gt;
+</code></pre>
+<h3 id="slot-scope-写法-2">slot-scope 写法</h3>
+<p>在 columns 的某列声明 slotHeader 后，就可以在 Table 的 slot 中使用 slot-scope。</p>
+<p>slot-scope 的参数有 3 个：当前行数据 row，当前列数据 column，当前行序号 $index。</p>
+<pre><code class="language-js">&lt;template&gt;
+  &lt;el-pro-table :data=&quot;tableData&quot; :columns=&quot;columns&quot;&gt;
+    &lt;template slot-scope=&quot;scope&quot; slot=&quot;search&quot;&gt;
+      &lt;el-input v-model=&quot;search&quot; size=&quot;small&quot; placeholder=&quot;Search&quot; /&gt;
+    &lt;/template&gt;
+    &lt;template slot-scope=&quot;scope&quot; slot=&quot;action&quot;&gt;
+      &lt;el-button size=&quot;small&quot;&gt;Edit&lt;/el-button&gt;
+    &lt;/template&gt;
+  &lt;/el-pro-table&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  data () {
+    return {
+      search: '',
+      columns: [
+        {
+          prop: 'date',
+          label: 'Date'
+        },
+        {
+          prop: 'name',
+          label: 'Name'
+        },
+        {
+          align: 'right',
+          slotHeader: 'search',
+          slot: 'action'
+        }
+      ],
+      dataSource: [
+        { date: '2016-05-03', name: 'Yu Lou' },
+        { date: '2016-05-02', name: 'Jim Green' },
+        { date: '2016-05-04', name: 'Joe Black' }
+      ]
+    }
+  },
+  computed: {
+    tableData () {
+      const { dataSource, search } = this
+      return dataSource.filter(data =&gt; !search || data.name.toLowerCase().includes(search.toLowerCase()))
+    }
+  }
+}
+&lt;/script&gt;
+</code></pre>
+<h2 id="多级表头">多级表头</h2>
+<figure data-type="image" tabindex="6"><img src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host@master/D62384C3-9944-468A-9072-5AA14FC5854B.png" alt="" loading="lazy"></figure>
+<pre><code class="language-js">&lt;template&gt;
+  &lt;el-pro-table :data=&quot;dataSource&quot; :columns=&quot;columns&quot; /&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  data () {
+    return {
+      columns: [
+        {
+          prop: 'date',
+          label: '日期',
+          width: '150'
+        },
+        {
+          label: '配送信息',
+          columns: [
+            {
+              prop: 'name',
+              label: '姓名',
+              width: '120'
+            },
+            {
+              label: '地址',
+              columns: [
+                {
+                  prop: 'province',
+                  label: '省份',
+                  width: '120'
+                },
+                {
+                  prop: 'city',
+                  label: '市区',
+                  width: '120'
+                },
+                {
+                  prop: 'address',
+                  label: '详细地址'
+                },
+                {
+                  prop: 'zip',
+                  label: '邮编',
+                  width: '120'
+                }
+              ]
+            },
+          ]
+        }
+      ],
+      dataSource: [
+        { date: '2016-05-03', name: 'Yu Lou', province: '浙江省', city: '杭州市', address: 'Fu Ding No. 1 Lake Park', zip: 200333 },
+        { date: '2016-05-02', name: 'Yu Lou', province: '浙江省', city: '杭州市', address: 'Fu Ding No. 1 Lake Park', zip: 200333 },
+        { date: '2016-05-04', name: 'Yu Lou', province: '浙江省', city: '杭州市', address: 'Fu Ding No. 1 Lake Park', zip: 200333 },
+        { date: '2016-05-01', name: 'Yu Lou', province: '浙江省', city: '杭州市', address: 'Fu Ding No. 1 Lake Park', zip: 200333 },
+        { date: '2016-05-08', name: 'Yu Lou', province: '浙江省', city: '杭州市', address: 'Fu Ding No. 1 Lake Park', zip: 200333 },
+        { date: '2016-05-08', name: 'Yu Lou', province: '浙江省', city: '杭州市', address: 'Fu Ding No. 1 Lake Park', zip: 200333 },
+        { date: '2016-05-08', name: 'Yu Lou', province: '浙江省', city: '杭州市', address: 'Fu Ding No. 1 Lake Park', zip: 200333 }
+      ]
+    }
+  },
+}
+&lt;/script&gt;
+</code></pre>
+<h2 id="table-props">Table Props</h2>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+<th>类型</th>
+<th>可选值</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>columns</td>
+<td>表格列的配置描述，详见 <a href="#column">column</a> 配置</td>
+<td>array</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>data</td>
+<td>显示的数据</td>
+<td>array</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>loading</td>
+<td>是否加载中</td>
+<td>boolean</td>
+<td>-</td>
+<td>false</td>
+</tr>
+<tr>
+<td>...</td>
+<td>其他 <a href="https://element.eleme.cn/#/zh-CN/component/table#table-attributes">el-table</a> 组件支持的属性</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="column">Column</h3>
+<p>列描述数据对象。columns 支持 <a href="https://element.eleme.cn/#/zh-CN/component/table#table-column-attributes">el-table-column</a> 已有的 props 配置，但是我们也提供了一些方便和自定义的 api，加快书写:</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+<th>类型</th>
+<th>可选值</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>render</td>
+<td>自定义渲染列，使用 Vue 的 Render 函数。传入两个参数，第一个是 h，第二个为对象，包含 row、column 和 index，分别指当前行数据，当前列数据，当前行索引，详见示例</td>
+<td>function</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>renderHeader</td>
+<td>自定义列头显示内容，使用 Vue 的 Render 函数。传入两个参数，第一个是 h，第二个为对象，包含 column 和 index，分别指当前行数据，当前列数据，当前行索引，详见示例</td>
+<td>function</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>slot</td>
+<td>与 slot-scope 结合使用，自定义渲染列</td>
+<td>string</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>slotHeader</td>
+<td>与 slot-scope 结合使用，自定义列头</td>
+<td>string</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>valueType</td>
+<td>当前列值的类型，详见 <a href="#valuetype">valueType</a> 配置</td>
+<td>string</td>
+<td>text / date / dateTime</td>
+<td>text</td>
+</tr>
+<tr>
+<td>enum</td>
+<td>当前列值的枚举</td>
+<td>object</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>render、slot、valueType、enum 同时配置时，会有渲染优先级。render 渲染级别最高。一般情况下：render &gt; slot &gt; valueType / enum。配置自定义 header 时同理。</p>
+</blockquote>
+<h3 id="valuetype">ValueType</h3>
+<p>封装了一些常用的值类型来减少重复的 render 操作，配置一个 valueType 即可展示格式化响应的数据。</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>text</td>
+<td>普通的文本类型</td>
+</tr>
+<tr>
+<td>date</td>
+<td>当数据是日期类型的返回时，会自动将格式转换为 '2020-10-20'</td>
+</tr>
+<tr>
+<td>dateTime</td>
+<td>当数据是日期类型的返回时，会自动将格式转换为 '2020-10-20 19:30:00'</td>
+</tr>
+<tr>
+<td>...</td>
+<td>陆续添加中</td>
+</tr>
+</tbody>
+</table>
+<h3 id="table-events">Table Events</h3>
+<table>
+<thead>
+<tr>
+<th>事件名称</th>
+<th>说明</th>
+<th>回调参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>...</td>
+<td><a href="https://element.eleme.cn/#/zh-CN/component/table#table-events">el-table</a> 组件支持的事件</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="table-methods">Table Methods</h3>
+<p>支持 <a href="https://element.eleme.cn/#/zh-CN/component/table#table-methods">el-table</a> 所有的 methods.</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[编写一个 markdown-loader]]></title>
         <id>https://jiangrubin.github.io/post/markdown-loader/</id>
@@ -1244,51 +1869,6 @@ function getAnchor (id) {
 <p>简单代码实现  <code>document.querySelector('html').scrollIntoView()</code></p>
 <h2 id="结语">结语</h2>
 <p>本文只是简单介绍了使用方法，想要详细了解的话，可以参考张鑫旭的这篇文章：<a target="_blank" href="https://www.zhangxinxu.com/wordpress/2018/10/scroll-behavior-scrollintoview-%E5%B9%B3%E6%BB%91%E6%BB%9A%E5%8A%A8/">CSS scroll-behavior 和 JS scrollIntoView 让页面滚动平滑</a></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Mac 下 nvm 的安装和使用]]></title>
-        <id>https://jiangrubin.github.io/post/mac-xia-nvm-de-an-zhuang-he-shi-yong/</id>
-        <link href="https://jiangrubin.github.io/post/mac-xia-nvm-de-an-zhuang-he-shi-yong/">
-        </link>
-        <updated>2019-12-18T02:48:28.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="前言">前言</h2>
-<p>在开发中可能同时进行多个项目，而不同的项目所使用的 node 版本又不一样，会导致对现有项目的一些依赖造成环境不兼容等问题。或者要用最新的 node 版本进行学习。所以就需要使用 <a href="https://github.com/nvm-sh/nvm">nvm</a> 来解决这个问题，对多个 node 版本进行管理和切换。</p>
-<h2 id="安装">安装</h2>
-<p>首先打开终端，进入当前用户的home目录中</p>
-<pre><code class="language-shell">cd ~
-</code></pre>
-<p>使用 <code>ls -a</code> 查看有没有 <code>.bash_profile</code> 这个文件</p>
-<pre><code class="language-shell">ls -a
-</code></pre>
-<p>没有则新建一个</p>
-<pre><code class="language-shell">touch ~/.bash_profile
-</code></pre>
-<p>通过官方的说明在终端中运行下面命令中的一种进行安装</p>
-<pre><code class="language-shell">curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
-</code></pre>
-<pre><code class="language-shell">wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
-</code></pre>
-<p>或者使用 <a href="https://brew.sh/">Homebrew</a> 安装 nvm，Homebrew 是 Mac OS 平台下的软件包管理工具。</p>
-<p>Homebrew 安装完后，执行命令</p>
-<pre><code class="language-shell">brew install nvm 
-</code></pre>
-<h2 id="验证安装成功">验证安装成功</h2>
-<p>重启终端，执行 <code>nvm -v</code> 命令</p>
-<figure data-type="image" tabindex="1"><img src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host/1576726689482.jpeg" alt="" loading="lazy"></figure>
-<h2 id="常用的-nvm-命令">常用的 nvm 命令</h2>
-<p><code>nvm ls-remote</code> 列出所有可安装的版本</p>
-<p><code>nvm install &lt;version&gt;</code> 安装指定的版本，如 nvm install v8.12.0</p>
-<p><code>nvm uninstall &lt;version&gt;</code> 卸载指定的版本</p>
-<p><code>nvm ls</code> 列出所有已经安装的版本</p>
-<p><code>nvm use &lt;version&gt;</code> 切换使用指定的版本</p>
-<p><code>nvm current</code> 显示当前使用的版本</p>
-<p><code>nvm alias default &lt;version&gt;</code> 设置默认node版本</p>
-<h2 id="简单使用">简单使用</h2>
-<p>在终端执行 <code>node -v</code> 、 <code>nvm ls</code>，查看当前使用的 node 版本。例如我的环境中指向 <code>system</code> 也就是 <code>v12.11.1</code>。</p>
-<figure data-type="image" tabindex="2"><img src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host/1584193730067.jpeg" alt="" loading="lazy"></figure>
-<p>执行 <code>nvm use vx.x.x</code>，即可对当前开发环境中 node 版本进行切换。</p>
-<figure data-type="image" tabindex="3"><img src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host/1584194043884.jpeg" alt="" loading="lazy"></figure>
 ]]></content>
     </entry>
 </feed>
