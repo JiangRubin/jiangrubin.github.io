@@ -6634,6 +6634,7 @@ body {
 .sidebar-content {
   height: 100vh;
   overflow-y: auto;
+  overscroll-behavior: contain;
 }
 @media (max-width: 1024px) {
   .sidebar-content {
