@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>关于 - Rubin&#39;s Blog</title>
+<title>发布一个 react 组件到 npm - Rubin&#39;s Blog</title>
 <meta name="description" content="温故而知新" />
 <link rel="shortcut icon" href="https://jiangrubin.github.io/favicon.ico?v=1622267919428">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css">
@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
 
 <link rel="stylesheet" href="https://jiangrubin.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="关于 - Rubin&#39;s Blog - Atom Feed" href="https://jiangrubin.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="发布一个 react 组件到 npm - Rubin&#39;s Blog - Atom Feed" href="https://jiangrubin.github.io/atom.xml">
 
 
 
@@ -47,10 +47,8 @@
             <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li><a href="#%E5%85%B3%E4%BA%8E%E6%9C%AC%E7%AB%99">🏠 关于本站</a></li>
-<li><a href="#%E5%8D%9A%E4%B8%BB%E6%98%AF%E8%B0%81">👨‍💻 博主是谁</a></li>
-<li><a href="#%E5%85%B4%E8%B6%A3%E7%88%B1%E5%A5%BD">⛹ 兴趣爱好</a></li>
-<li><a href="#%E8%81%94%E7%B3%BB%E6%96%B9%E5%BC%8F">📬 联系方式</a></li>
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91">项目开发</a></li>
 </ul>
 </li>
 </ul>
@@ -99,35 +97,189 @@
 <div class="mask" onclick="closeMenu()">
 </div>
       <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
-        <h1 class="text-3xl font-semibold lg:mt-16">关于</h1>
+        <h1 class="text-3xl font-semibold lg:mt-16">发布一个 react 组件到 npm</h1>
         <div class="text-sm text-gray-700 lg:my-8">
-          2018-12-11 / 1 min read
+          2021-05-27 / 5 min read
         </div>
         
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host@master/cong-0-kai-shi-fa-bu-yi-ge-react-zu-jian-dao-npm.png" alt="">
+        
         <div class="post-content yue">
-          <blockquote>
-<p>欢迎来到我的小站呀，很高兴遇见你！🤝</p>
-</blockquote>
-<h2 id="关于本站">🏠 关于本站</h2>
-<p>记录自己平常学习和工作中使用的东西。</p>
-<h2 id="博主是谁">👨‍💻 博主是谁</h2>
-<p>一个前端</p>
-<h2 id="兴趣爱好">⛹ 兴趣爱好</h2>
-<p>游戏、跑步、健身</p>
-<h2 id="联系方式">📬 联系方式</h2>
+          <h2 id="前言">前言</h2>
+<p>通过编写和发布一个 react 组件，对整个过程中所用到的技术，有所学习和掌握。</p>
+<h2 id="项目开发">项目开发</h2>
+<p>创建项目文件夹，使用 <code>npm init -y</code> 进行初始化，并安装相关的依赖包 。</p>
+<pre><code class="language-shell">npm i react react-dom -D
+</code></pre>
+<p>采用 webpack 做构建，必然需要安装 webpack-cli 和 webpack-dev-server 作为本地开发服务器。</p>
+<pre><code class="language-shell">npm i webpack webpack-cli webpack-dev-server -D
+</code></pre>
+<p>安装 babel 将 js 代码向低版本转换，以及通过 babel-loader 编译 jsx。</p>
+<pre><code class="language-shell">npm i @babel/cli @babel/core @babel/preset-env @babel/preset-react babel-loader -D
+</code></pre>
+<p>再安装一个 webpack 插件 html-webpack-plugin，以便在浏览器中查看。</p>
+<pre><code class="language-shell">npm i html-webpack-plugin -D
+</code></pre>
+<p>安装完依赖的 package.json 如下：</p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;jiangrubin-react-component&quot;,
+  &quot;author&quot;: &quot;jiangrubin&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;description&quot;: &quot;&quot;,
+  &quot;main&quot;: &quot;lib/index.js&quot;,
+  &quot;scripts&quot;: {},
+  &quot;keywords&quot;: [],
+  &quot;license&quot;: &quot;ISC&quot;,
+  &quot;devDependencies&quot;: {
+    &quot;@babel/cli&quot;: &quot;^7.14.3&quot;,
+    &quot;@babel/core&quot;: &quot;^7.14.3&quot;,
+    &quot;@babel/preset-env&quot;: &quot;^7.14.2&quot;,
+    &quot;@babel/preset-react&quot;: &quot;^7.13.13&quot;,
+    &quot;babel-loader&quot;: &quot;^8.2.2&quot;,
+    &quot;gh-pages&quot;: &quot;^3.2.0&quot;,
+    &quot;html-webpack-plugin&quot;: &quot;^5.3.1&quot;,
+    &quot;react&quot;: &quot;^17.0.2&quot;,
+    &quot;react-dom&quot;: &quot;^17.0.2&quot;,
+    &quot;webpack&quot;: &quot;^5.38.1&quot;,
+    &quot;webpack-cli&quot;: &quot;^4.7.0&quot;,
+    &quot;webpack-dev-server&quot;: &quot;^3.11.2&quot;
+  }
+}
+</code></pre>
+<p>然后我们再创建如下的目录结构：</p>
+<pre><code>├── examples // 示例代码
+│   ├── index.html // 示例 html
+│   └── app.js // 添加到 react-dom 的文件
+├── src
+│   ├── HelloWorld.jsx
+│   └── index.js
+├── .gitignore
+├── babel.config.js
+├── package.json 
+└── webpack.config.js
+</code></pre>
+<p>创建一个简单的组件：</p>
+<pre><code class="language-js">// src/HelloWorld.jsx
+import React from 'react'
+
+const HelloWorld = () =&gt; &lt;div&gt;Hello World&lt;/div&gt;
+
+export default HelloWorld
+</code></pre>
+<pre><code class="language-js">// src/index.jsx
+import HelloWorld from './HelloWorld'
+
+export {
+  HelloWorld
+}
+</code></pre>
+<p>编写示例代码：</p>
+<pre><code class="language-html">&lt;!-- examples/index.html --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1.0&quot;&gt;
+    &lt;title&gt;react component&lt;/title&gt;
+  &lt;/head&gt;
+
+  &lt;body&gt;
+    &lt;div id=&quot;app&quot;&gt;&lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<pre><code class="language-js">// examples/app.js
+import React from 'react'
+import { render } from 'react-dom'
+import { HelloWorld } from '../src/index'
+
+const App = () =&gt; &lt;HelloWorld /&gt;
+
+render(&lt;App /&gt;, document.getElementById('app'))
+</code></pre>
+<p>接下来在 webpack.config.js 对 webpack 进行配置：</p>
+<pre><code class="language-js">const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+module.exports = {
+  mode: 'development',
+  entry: './examples/app.js',
+  output: {
+    path: path.join(__dirname, './dist'),
+    filename: 'index.js'
+  },
+  devServer: {
+    port: 3001
+  },
+  resolve: {
+    extensions: ['.js', '.jsx']
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        use: 'babel-loader',
+        exclude: /node_modules/
+      }
+    ]
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, './examples/index.html'),
+      filename: 'index.html'
+    })
+  ],
+}
+</code></pre>
+<p>webpack 的配置文件主要做了如下事情：</p>
 <ul>
-<li>电子邮箱：<a href="mailto:736275880@qq.com">736275880@qq.com</a></li>
-<li>其他：<a href="https://github.com/jiangrubin" target="_blank">github</a>、<a href="https://www.zhihu.com/people/jiang-ru-bin-95" target="_blank">知乎</a></li>
+<li>使用 examples/app.js 作为项目入口，处理资源文件的依赖关系</li>
+<li>通过 babel-loader 来编译处理 js 和 jsx 文件</li>
+<li>通过 html-webpack-plugin 自动注入编译打包好的脚本文件</li>
+<li>启动端口为 3001 的开发服务</li>
 </ul>
+<p>然后再配置一下 babel，babel 主要做两件事，将 jsx 编译成 es5，然后再加一个通用的 env，所以 babel.config.js 配置如下：</p>
+<pre><code class="language-js">module.exports = {
+  presets: [&quot;@babel/preset-env&quot;, &quot;@babel/preset-react&quot;]
+}
+</code></pre>
+<p>在 npm scripts 中添加运行脚本命令：</p>
+<pre><code class="language-js">&quot;scripts&quot;: {
+    &quot;start&quot;: &quot;webpack serve&quot;
+}
+</code></pre>
+<p>然后执行 npm start，访问 localhost:3001 就可以了。</p>
 
         </div>
 
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://jiangrubin.github.io/tag/CiumhZSFO/">
+            <span class="flex-auto">webpack</span>
+          </a>
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://jiangrubin.github.io/tag/9u5AQlh3y/">
+            <span class="flex-auto">react</span>
+          </a>
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://jiangrubin.github.io/tag/pGvoCX5tk/">
+            <span class="flex-auto">js</span>
+          </a>
         
 
 
         <div class="flex justify-between py-8">
           
 
+          
+            <div class="next-post">
+              <a href="https://jiangrubin.github.io/post/element-table-zu-jian-feng-zhuang/">
+                <h3 class="post-title">
+                  Element Table 组件封装
+                  <i class="remixicon-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
           
         </div>
 

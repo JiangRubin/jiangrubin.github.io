@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jiangrubin.github.io</id>
     <title>Rubin&apos;s Blog</title>
-    <updated>2021-05-23T12:39:17.215Z</updated>
+    <updated>2021-05-29T05:58:41.606Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jiangrubin.github.io"/>
     <link rel="self" href="https://jiangrubin.github.io/atom.xml"/>
@@ -10,6 +10,159 @@
     <logo>https://jiangrubin.github.io/images/avatar.png</logo>
     <icon>https://jiangrubin.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Rubin&apos;s Blog</rights>
+    <entry>
+        <title type="html"><![CDATA[发布一个 react 组件到 npm]]></title>
+        <id>https://jiangrubin.github.io/post/fa-bu-yi-ge-react-zu-jian-dao-npm/</id>
+        <link href="https://jiangrubin.github.io/post/fa-bu-yi-ge-react-zu-jian-dao-npm/">
+        </link>
+        <updated>2021-05-27T13:39:30.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="前言">前言</h2>
+<p>通过编写和发布一个 react 组件，对整个过程中所用到的技术，有所学习和掌握。</p>
+<h2 id="项目开发">项目开发</h2>
+<p>创建项目文件夹，使用 <code>npm init -y</code> 进行初始化，并安装相关的依赖包 。</p>
+<pre><code class="language-shell">npm i react react-dom -D
+</code></pre>
+<p>采用 webpack 做构建，必然需要安装 webpack-cli 和 webpack-dev-server 作为本地开发服务器。</p>
+<pre><code class="language-shell">npm i webpack webpack-cli webpack-dev-server -D
+</code></pre>
+<p>安装 babel 将 js 代码向低版本转换，以及通过 babel-loader 编译 jsx。</p>
+<pre><code class="language-shell">npm i @babel/cli @babel/core @babel/preset-env @babel/preset-react babel-loader -D
+</code></pre>
+<p>再安装一个 webpack 插件 html-webpack-plugin，以便在浏览器中查看。</p>
+<pre><code class="language-shell">npm i html-webpack-plugin -D
+</code></pre>
+<p>安装完依赖的 package.json 如下：</p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;jiangrubin-react-component&quot;,
+  &quot;author&quot;: &quot;jiangrubin&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;description&quot;: &quot;&quot;,
+  &quot;main&quot;: &quot;lib/index.js&quot;,
+  &quot;scripts&quot;: {},
+  &quot;keywords&quot;: [],
+  &quot;license&quot;: &quot;ISC&quot;,
+  &quot;devDependencies&quot;: {
+    &quot;@babel/cli&quot;: &quot;^7.14.3&quot;,
+    &quot;@babel/core&quot;: &quot;^7.14.3&quot;,
+    &quot;@babel/preset-env&quot;: &quot;^7.14.2&quot;,
+    &quot;@babel/preset-react&quot;: &quot;^7.13.13&quot;,
+    &quot;babel-loader&quot;: &quot;^8.2.2&quot;,
+    &quot;gh-pages&quot;: &quot;^3.2.0&quot;,
+    &quot;html-webpack-plugin&quot;: &quot;^5.3.1&quot;,
+    &quot;react&quot;: &quot;^17.0.2&quot;,
+    &quot;react-dom&quot;: &quot;^17.0.2&quot;,
+    &quot;webpack&quot;: &quot;^5.38.1&quot;,
+    &quot;webpack-cli&quot;: &quot;^4.7.0&quot;,
+    &quot;webpack-dev-server&quot;: &quot;^3.11.2&quot;
+  }
+}
+</code></pre>
+<p>然后我们再创建如下的目录结构：</p>
+<pre><code>├── examples // 示例代码
+│   ├── index.html // 示例 html
+│   └── app.js // 添加到 react-dom 的文件
+├── src
+│   ├── HelloWorld.jsx
+│   └── index.js
+├── .gitignore
+├── babel.config.js
+├── package.json 
+└── webpack.config.js
+</code></pre>
+<p>创建一个简单的组件：</p>
+<pre><code class="language-js">// src/HelloWorld.jsx
+import React from 'react'
+
+const HelloWorld = () =&gt; &lt;div&gt;Hello World&lt;/div&gt;
+
+export default HelloWorld
+</code></pre>
+<pre><code class="language-js">// src/index.jsx
+import HelloWorld from './HelloWorld'
+
+export {
+  HelloWorld
+}
+</code></pre>
+<p>编写示例代码：</p>
+<pre><code class="language-html">&lt;!-- examples/index.html --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1.0&quot;&gt;
+    &lt;title&gt;react component&lt;/title&gt;
+  &lt;/head&gt;
+
+  &lt;body&gt;
+    &lt;div id=&quot;app&quot;&gt;&lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<pre><code class="language-js">// examples/app.js
+import React from 'react'
+import { render } from 'react-dom'
+import { HelloWorld } from '../src/index'
+
+const App = () =&gt; &lt;HelloWorld /&gt;
+
+render(&lt;App /&gt;, document.getElementById('app'))
+</code></pre>
+<p>接下来在 webpack.config.js 对 webpack 进行配置：</p>
+<pre><code class="language-js">const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+module.exports = {
+  mode: 'development',
+  entry: './examples/app.js',
+  output: {
+    path: path.join(__dirname, './dist'),
+    filename: 'index.js'
+  },
+  devServer: {
+    port: 3001
+  },
+  resolve: {
+    extensions: ['.js', '.jsx']
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        use: 'babel-loader',
+        exclude: /node_modules/
+      }
+    ]
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, './examples/index.html'),
+      filename: 'index.html'
+    })
+  ],
+}
+</code></pre>
+<p>webpack 的配置文件主要做了如下事情：</p>
+<ul>
+<li>使用 examples/app.js 作为项目入口，处理资源文件的依赖关系</li>
+<li>通过 babel-loader 来编译处理 js 和 jsx 文件</li>
+<li>通过 html-webpack-plugin 自动注入编译打包好的脚本文件</li>
+<li>启动端口为 3001 的开发服务</li>
+</ul>
+<p>然后再配置一下 babel，babel 主要做两件事，将 jsx 编译成 es5，然后再加一个通用的 env，所以 babel.config.js 配置如下：</p>
+<pre><code class="language-js">module.exports = {
+  presets: [&quot;@babel/preset-env&quot;, &quot;@babel/preset-react&quot;]
+}
+</code></pre>
+<p>在 npm scripts 中添加运行脚本命令：</p>
+<pre><code class="language-js">&quot;scripts&quot;: {
+    &quot;start&quot;: &quot;webpack serve&quot;
+}
+</code></pre>
+<p>然后执行 npm start，访问 localhost:3001 就可以了。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Element Table 组件封装]]></title>
         <id>https://jiangrubin.github.io/post/element-table-zu-jian-feng-zhuang/</id>
@@ -893,6 +1046,146 @@ function cartesianProduct (array) {
   }, [[]])
 }
 </code></pre>
+<h2 id="悬浮按钮">悬浮按钮</h2>
+<p>悬浮按钮（Floating Action Button，简称 FAB）是 APP 应用中常见的 UI 元件。它轻盈、优雅、便捷又高效，是 Google 设计语言中一颗璀璨的明珠。悬浮按钮往往都会独立出现在界面之上，提升整体的导航，拓展页面的功能，使应用的操作更加便捷。</p>
+<p>直接上代码：</p>
+<pre><code class="language-html">&lt;movable-area class=&quot;floating-button movable-area&quot; style=&quot;z-index: {{ zIndex }};&quot;&gt;
+  &lt;movable-view
+    direction=&quot;all&quot;
+    out-of-bounds
+    class=&quot;movable-view&quot;
+    x=&quot;{{ x }}&quot;
+    y=&quot;{{ y }}&quot;
+  &gt;
+    &lt;view class=&quot;options {{ active ? 'show' : '' }}&quot;&gt;
+      &lt;block wx:for=&quot;{{ options }}&quot; wx:key=&quot;value&quot;&gt;
+        &lt;view
+          class=&quot;option&quot;
+          catch:tap=&quot;select&quot;
+          data-option=&quot;{{ item }}&quot;
+          style=&quot;bottom: {{ active ? (index + 1) * 60 : 0 }}px;&quot;
+        &gt;
+          &lt;van-icon name=&quot;plus&quot; size=&quot;14&quot; /&gt;
+          &lt;text&gt;{{ item.label }}&lt;/text&gt;
+        &lt;/view&gt;
+      &lt;/block&gt;
+    &lt;/view&gt;
+
+    &lt;view class=&quot;trigger&quot; catch:tap=&quot;trigger&quot;&gt;
+      &lt;block wx:if=&quot;{{ active }}&quot;&gt;
+        &lt;van-icon wx:if=&quot;{{ !closeText }}&quot; name=&quot;cross&quot; size=&quot;14&quot; /&gt;
+        &lt;text wx:else class=&quot;text&quot;&gt;{{ closeText }}&lt;/text&gt;
+      &lt;/block&gt;
+      &lt;block wx:else&gt;
+        &lt;van-icon name=&quot;plus&quot; size=&quot;14&quot; /&gt;
+        &lt;text wx:if=&quot;{{ openText }}&quot;&gt;{{ openText }}&lt;/text&gt;
+      &lt;/block&gt;
+    &lt;/view&gt;
+  &lt;/movable-view&gt;
+&lt;/movable-area&gt;
+</code></pre>
+<pre><code class="language-css">.movable-area {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  pointer-events: none;
+}
+
+.movable-view {
+  position: relative;
+  pointer-events: auto;
+  width: 50px;
+  height: 50px;
+}
+
+.trigger, .option {
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  background: linear-gradient(133deg, #4593ff 25%, #1677FE 88%);
+  box-shadow: 0 0 10px 0 rgba(5, 66, 150, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 12px;
+  user-select: none;
+}
+
+.trigger {
+  position: relative;
+  z-index: 2;
+}
+
+.option {
+  position: absolute;
+  bottom: 0;
+  box-shadow: none;
+  will-change: bottom, transform, box-shadow;
+  transition: all 0.3s ease-in-out;
+  transform: scale(0.75);
+}
+
+.options.show .option {
+  transform: scale(1);
+  box-shadow: 0 0 10px 0 rgba(5, 66, 150, 0.5);
+}
+
+.text {
+  font-size: 14px;
+}
+</code></pre>
+<pre><code class="language-js">const { windowWidth, windowHeight } = wx.getSystemInfoSync()
+
+Component({
+  properties: {
+    options: {
+      type: Array,
+      value: []
+    },
+    openText: {
+      type: String,
+      value: ''
+    },
+    closeText: {
+      type: String,
+      value: ''
+    },
+    x: {
+      type: Number,
+      value: windowWidth - 50 - 15
+    },
+    y: {
+      type: Number,
+      value: windowHeight - 50 - 15
+    },
+    // 50 按钮宽/高 15 边距间隔
+    zIndex: {
+      type: Number,
+      value: 999
+    }
+  },
+
+  data: {
+    active: false
+  },
+
+  methods: {
+    trigger () {
+      this.setData({ active: !this.data.active })
+    },
+    select (e) {
+      const { option } = e.currentTarget.dataset
+      this.triggerEvent('select', option.value)
+      this.setData({ active: false })
+    }
+  }
+})
+</code></pre>
+<p>最终效果如下图：</p>
+<figure data-type="image" tabindex="2"><img src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host@master/floating-button.gif" alt="" loading="lazy"></figure>
 <h2 id="总结">总结</h2>
 <p>这些都是最近项目中记录下来的，欢迎大家交流，以后开发中碰到了其他问题也会持续更新的。</p>
 ]]></content>
@@ -1819,57 +2112,6 @@ jobs:
 <p><a href="http://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html" target="_blank">Commit message 和 Change log 编写指南</a></p>
 </li>
 </ul>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[scrollIntoView 实现页面锚点]]></title>
-        <id>https://jiangrubin.github.io/post/scrollintoview-shi-xian-ye-mian-mao-dian/</id>
-        <link href="https://jiangrubin.github.io/post/scrollintoview-shi-xian-ye-mian-mao-dian/">
-        </link>
-        <updated>2020-01-30T03:12:12.000Z</updated>
-        <summary type="html"><![CDATA[<p>锚点即指 html 中的链接，在页面中适当的添加锚点可以大大提高阅读或查找效率</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>锚点即指 html 中的链接，在页面中适当的添加锚点可以大大提高阅读或查找效率</p>
-<!-- more -->
-<h2 id="前言">前言</h2>
-<p>锚点是网站中常用的功能。前端简单实现锚点的方法，使用 a 标签把 href 属性写成要跳转到的元素 id，比如以下代码：</p>
-<pre><code class="language-html">&lt;a href=&quot;#anchor&quot;&gt;&lt;/a&gt;
-
-&lt;div id=&quot;anchor&quot;&gt;&lt;/div&gt;
-</code></pre>
-<p>点击 a 标签页面就会跳转到指定 id 元素的位置。并改变链接地址比如：<code>http://www.xxxx.com#anchor</code>。</p>
-<p>虽然不会有什么问题，直接跳转过去立马完成产品的需求，但是当网页中存在多个锚点时，就会出现点击浏览器后退按钮并不会返回之前浏览的网页，而是返回上一个带有锚点的链接。</p>
-<blockquote>
-<p>举个例子，当前网站链接是 <code>http://www.xxxx.com#anchor2</code>， 当用户想返回之前的页面，点击后退按钮后，链接变成了 <code>http://www.xxxx.com#anchor1</code>。但还是在同一个页面中，会使用户感到迷惑，降低用户体验。</p>
-</blockquote>
-<h2 id="解决问题">解决问题</h2>
-<p><code>scrollIntoView()</code> 方法让当前的元素滚动到浏览器窗口的可视区域内，详见 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Element/scrollIntoView">MDN</a> 对此方法介绍。</p>
-<p>简单代码实现：</p>
-<pre><code class="language-html">&lt;!-- HTML --&gt;
-&lt;div onclick='getAnchor('anchor_1')'&gt;定位到锚点一&lt;/div&gt;
-&lt;div onclick='getAnchor('anchor_2')'&gt;定位到锚点二&lt;/div&gt;
-
-&lt;div id='anchor_1'&gt;锚点位置一&lt;/div&gt;
-&lt;div id='anchor_2'&gt;锚点位置二&lt;/div&gt;
-</code></pre>
-<pre><code class="language-js">&lt;!-- JS --&gt;
-function getAnchor (id) {
-    // 跳转到锚点
-    document.getElementById(id).scrollIntoView()
-}
-</code></pre>
-<p>如果需要让页面平滑滚动到指定位置，则需要增加参数 <code>behavior</code> 设置其值为 <code>smooth</code></p>
-<pre><code class="language-js">document.documentElement.scrollIntoView({
-    behavior: &quot;smooth&quot;,
-    block: &quot;start&quot;,
-    inline: &quot;nearest&quot;
-});
-</code></pre>
-<h2 id="其他使用场景">其他使用场景</h2>
-<p><strong>回到顶部</strong> 也是网页中常用功能。</p>
-<p>简单代码实现  <code>document.querySelector('html').scrollIntoView()</code></p>
-<h2 id="结语">结语</h2>
-<p>本文只是简单介绍了使用方法，想要详细了解的话，可以参考张鑫旭的这篇文章：<a target="_blank" href="https://www.zhangxinxu.com/wordpress/2018/10/scroll-behavior-scrollintoview-%E5%B9%B3%E6%BB%91%E6%BB%9A%E5%8A%A8/">CSS scroll-behavior 和 JS scrollIntoView 让页面滚动平滑</a></p>
 ]]></content>
     </entry>
 </feed>
