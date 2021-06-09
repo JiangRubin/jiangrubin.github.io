@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jiangrubin.github.io</id>
     <title>Rubin&apos;s Blog</title>
-    <updated>2021-06-09T06:16:04.099Z</updated>
+    <updated>2021-06-09T06:23:23.602Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jiangrubin.github.io"/>
     <link rel="self" href="https://jiangrubin.github.io/atom.xml"/>
@@ -895,143 +895,7 @@ function cartesianProduct (array) {
 </code></pre>
 <h2 id="悬浮按钮">悬浮按钮</h2>
 <p>悬浮按钮（Floating Action Button，简称 FAB）是 APP 应用中常见的 UI 元件。它轻盈、优雅、便捷又高效，是 Google 设计语言中一颗璀璨的明珠。悬浮按钮往往都会独立出现在界面之上，提升整体的导航，拓展页面的功能，使应用的操作更加便捷。</p>
-<p>直接上代码：</p>
-<pre><code class="language-html">&lt;movable-area class=&quot;floating-button movable-area&quot; style=&quot;z-index: {{ zIndex }};&quot;&gt;
-  &lt;movable-view
-    direction=&quot;all&quot;
-    out-of-bounds
-    class=&quot;movable-view&quot;
-    x=&quot;{{ x }}&quot;
-    y=&quot;{{ y }}&quot;
-  &gt;
-    &lt;view class=&quot;options {{ active ? 'show' : '' }}&quot;&gt;
-      &lt;block wx:for=&quot;{{ options }}&quot; wx:key=&quot;value&quot;&gt;
-        &lt;view
-          class=&quot;option&quot;
-          catch:tap=&quot;select&quot;
-          data-option=&quot;{{ item }}&quot;
-          style=&quot;bottom: {{ active ? (index + 1) * 60 : 0 }}px;&quot;
-        &gt;
-          &lt;van-icon name=&quot;plus&quot; size=&quot;14&quot; /&gt;
-          &lt;text&gt;{{ item.label }}&lt;/text&gt;
-        &lt;/view&gt;
-      &lt;/block&gt;
-    &lt;/view&gt;
-
-    &lt;view class=&quot;trigger&quot; catch:tap=&quot;trigger&quot;&gt;
-      &lt;block wx:if=&quot;{{ active }}&quot;&gt;
-        &lt;van-icon wx:if=&quot;{{ !closeText }}&quot; name=&quot;cross&quot; size=&quot;14&quot; /&gt;
-        &lt;text wx:else class=&quot;text&quot;&gt;{{ closeText }}&lt;/text&gt;
-      &lt;/block&gt;
-      &lt;block wx:else&gt;
-        &lt;van-icon name=&quot;plus&quot; size=&quot;14&quot; /&gt;
-        &lt;text wx:if=&quot;{{ openText }}&quot;&gt;{{ openText }}&lt;/text&gt;
-      &lt;/block&gt;
-    &lt;/view&gt;
-  &lt;/movable-view&gt;
-&lt;/movable-area&gt;
-</code></pre>
-<pre><code class="language-css">.movable-area {
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  pointer-events: none;
-}
-
-.movable-view {
-  position: relative;
-  pointer-events: auto;
-  width: 50px;
-  height: 50px;
-}
-
-.trigger, .option {
-  width: 50px;
-  height: 50px;
-  border-radius: 100%;
-  background: linear-gradient(133deg, #4593ff 25%, #1677FE 88%);
-  box-shadow: 0 0 10px 0 rgba(5, 66, 150, 0.5);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-size: 12px;
-  user-select: none;
-}
-
-.trigger {
-  position: relative;
-  z-index: 2;
-}
-
-.option {
-  position: absolute;
-  bottom: 0;
-  box-shadow: none;
-  will-change: bottom, transform, box-shadow;
-  transition: all 0.3s ease-in-out;
-  transform: scale(0.75);
-}
-
-.options.show .option {
-  transform: scale(1);
-  box-shadow: 0 0 10px 0 rgba(5, 66, 150, 0.5);
-}
-
-.text {
-  font-size: 14px;
-}
-</code></pre>
-<pre><code class="language-js">const { windowWidth, windowHeight } = wx.getSystemInfoSync()
-
-Component({
-  properties: {
-    options: {
-      type: Array,
-      value: []
-    },
-    openText: {
-      type: String,
-      value: ''
-    },
-    closeText: {
-      type: String,
-      value: ''
-    },
-    x: {
-      type: Number,
-      value: windowWidth - 50 - 15
-    },
-    y: {
-      type: Number,
-      value: windowHeight - 50 - 15
-    },
-    // 50 按钮宽/高 15 边距间隔
-    zIndex: {
-      type: Number,
-      value: 999
-    }
-  },
-
-  data: {
-    active: false
-  },
-
-  methods: {
-    trigger () {
-      this.setData({ active: !this.data.active })
-    },
-    select (e) {
-      const { option } = e.currentTarget.dataset
-      this.triggerEvent('select', option.value)
-      this.setData({ active: false })
-    }
-  }
-})
-</code></pre>
-<p>最终效果如下图：</p>
+<p>效果如下图，完整代码见此<a href="https://github.com/jiangrubin/weapp-floating-button">仓库</a>。</p>
 <figure data-type="image" tabindex="2"><img src="https://cdn.jsdelivr.net/gh/jiangrubin/image-host@master/floating-button.gif" alt="" loading="lazy"></figure>
 <h2 id="总结">总结</h2>
 <p>这些都是最近项目中记录下来的，欢迎大家交流，以后开发中碰到了其他问题也会持续更新的。</p>
